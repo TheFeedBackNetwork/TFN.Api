@@ -4,4 +4,11 @@
     <TargetFramework>net462</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TFN.Api.Authorization\TFN.Api.Authorization.csproj" />
+    <ProjectReference Include="..\TFN.Domain.Interfaces\TFN.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\TFN.Infrastructure\TFN.Infrastructure.csproj" />
+    <ProjectReference Include="..\TFN.Mvc\TFN.Mvc.csproj" />
+  </ItemGroup>
+
 </Project>

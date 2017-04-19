@@ -4,4 +4,9 @@
     <TargetFramework>net462</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TFN.Domain.Architecture\TFN.Domain.Architecture.csproj" />
+    <ProjectReference Include="..\TFN.Domain.Models\TFN.Domain.Models.csproj" />
+  </ItemGroup>
+
 </Project>
