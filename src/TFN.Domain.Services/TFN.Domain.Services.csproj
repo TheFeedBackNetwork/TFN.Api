@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="IdentityServer4" Version="1.5.0" />
+    <PackageReference Include="MailKit" Version="1.14.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TFN.Domain.Interfaces\TFN.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\TFN.Domain.Models\TFN.Domain.Models.csproj" />
   </ItemGroup>
