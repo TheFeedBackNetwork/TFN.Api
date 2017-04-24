@@ -14,10 +14,6 @@
     <PackageReference Include="IdentityServer4" Version="1.5.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TFN.Domain.Architecture\TFN.Domain.Architecture.csproj" />
-  </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
@@ -25,6 +21,10 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TFN.Domain.Architecture\TFN.Domain.Architecture.csproj" />
   </ItemGroup>
   
 </Project>
