@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
+    <AssemblyName>TFN.Domain.Interfaces</AssemblyName>
+    <PackageId>TFN.Domain.Interfaces</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +13,15 @@
   <ItemGroup>
     <ProjectReference Include="..\TFN.Domain.Architecture\TFN.Domain.Architecture.csproj" />
     <ProjectReference Include="..\TFN.Domain.Models\TFN.Domain.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>
