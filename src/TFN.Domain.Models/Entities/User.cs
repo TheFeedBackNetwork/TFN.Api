@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using IdentityModel;
 using TFN.Domain.Architecture.Models;
 using TFN.Domain.Models.ValueObjects;
 using TFN.Domain.Models.Extensions;
@@ -52,6 +55,32 @@ namespace TFN.Domain.Models.Entities
         public static User Hydrate(Guid id, string username, string profilePictureUrl, string email, string name, Biography biography, DateTime created, bool isActive)
         {
             return new User(id, username,profilePictureUrl, email, name, biography, created, isActive);
+        }
+
+        public IReadOnlyList<Claim> GetClaims()
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtClaimTypes.Subject, Id.ToString()),
+                new Claim(JwtClaimTypes.PreferredUserName, Username),
+                new Claim(JwtClaimTypes.Email, Email),
+                new Claim(JwtClaimTypes.EmailVerified, Email),
+                new Claim(JwtClaimTypes.IdentityProvider, "idsvr"),
+                //new Claim(JwtClaimTypes.Name, user.Username) wanna get rid of shit
+
+            };
+
+            if (!string.IsNullOrWhiteSpace(Name))
+            {
+                claims.Add(new Claim(JwtClaimTypes.Name, Name));
+            }
+
+            if (!string.IsNullOrWhiteSpace(ProfilePictureUrl))
+            {
+                claims.Add(new Claim(JwtClaimTypes.Picture, ProfilePictureUrl));
+            }
+
+            return claims;
         }
     }
 }

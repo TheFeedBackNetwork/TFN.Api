@@ -14,17 +14,10 @@
     <ProjectReference Include="..\TFN.Domain.Interfaces\TFN.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\TFN.Domain.Models\TFN.Domain.Models.csproj" />
     <ProjectReference Include="..\TFN.Domain.Services\TFN.Domain.Services.csproj" />
+    <ProjectReference Include="..\TFN.Infrastructure.Audio\TFN.Infrastructure.Audio.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\ApplicationClientAggregate\InMemory\" />
-    <Folder Include="Repositories\CommentAggregate\InMemory\" />
-    <Folder Include="Repositories\CreditAggregate\InMemory\" />
-    <Folder Include="Repositories\PostAggregate\InMemory\" />
-    <Folder Include="Repositories\ProductApiResourceAggregate\InMemory\" />
-    <Folder Include="Repositories\TrackAggregate\InMemory\" />
-    <Folder Include="Repositories\TransientUserAggregate\InMemory\" />
-    <Folder Include="Repositories\UserAccountAggregate\InMemory\" />
     <Folder Include="Repositories\UserIdentityResourceAggregate\InMemory\" />
   </ItemGroup>
 
