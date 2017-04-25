@@ -16,4 +16,12 @@
     <ProjectReference Include="..\TFN.Domain.Services\TFN.Domain.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Modules\Logging\AppendBlob\" />
+    <Folder Include="Modules\Logging\Email\" />
+    <Folder Include="Repositories\ApplicationClientAggregate\" />
+    <Folder Include="Repositories\CommentAggregate\" />
+    <Folder Include="Repositories\CreditAggregate\" />
+  </ItemGroup>
+
 </Project>

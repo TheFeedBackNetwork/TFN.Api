@@ -23,14 +23,14 @@ namespace TFN.Domain.Services
                 throw new ArgumentNullException(nameof(transientUser));
             }
 
-            await TransientUserRepository.Add(transientUser);
+            await TransientUserRepository.AddAsync(transientUser);
             await AccountEmailService.SendVerificationEmailAsync(transientUser.Email,transientUser.Username, transientUser.EmailVerificationKey);
 
         }
 
         public async Task DeleteAsync(TransientUser transientUser)
         {
-            await TransientUserRepository.Delete(transientUser.Id);
+            await TransientUserRepository.DeleteAsync(transientUser.Id);
         }
 
         public async Task<bool> EmailVerificationKeyExistsAsync(string emailVerificationKey)

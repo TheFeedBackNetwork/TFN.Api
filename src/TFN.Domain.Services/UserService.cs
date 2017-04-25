@@ -44,12 +44,12 @@ namespace TFN.Domain.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            await UserRepository.Delete(id);
+            await UserRepository.DeleteAsync(id);
         }
 
         public async Task<User> GetAsync(Guid id)
         {
-            var user = await UserRepository.Find(id);
+            var user = await UserRepository.GetAsync(id);
 
             return user;
         }
@@ -84,7 +84,7 @@ namespace TFN.Domain.Services
                 throw new ArgumentNullException($"{nameof(entity)}");
             }
 
-            await UserRepository.Update(entity);
+            await UserRepository.UpdateAsync(entity);
         }
         
 

@@ -24,13 +24,13 @@ namespace TFN.Domain.Services
             }
 
             var newCredits = credits.ChangeTotalCredits(amount);
-            await CreditRepository.Update(newCredits);
+            await CreditRepository.UpdateAsync(newCredits);
         }
 
         public async Task ReduceCreditsAsync(Credits credits, int amount)
         {
             var newCredits = credits.ChangeTotalCredits(-amount);
-            await CreditRepository.Update(newCredits);
+            await CreditRepository.UpdateAsync(newCredits);
         }
 
         public async Task<IReadOnlyList<Credits>> GetLeaderBoardAsync(short offset, short limit)
@@ -40,7 +40,7 @@ namespace TFN.Domain.Services
 
         public async Task<Credits> GetAsync(Guid id)
         {
-            return await CreditRepository.Find(id);
+            return await CreditRepository.GetAsync(id);
         }
 
         public async Task<Credits> GetByUserIdAsync(Guid userId)
@@ -55,7 +55,7 @@ namespace TFN.Domain.Services
 
         public async Task AddAsync(Credits credits)
         {
-            await CreditRepository.Add(credits);
+            await CreditRepository.AddAsync(credits);
         }
 
         public async Task<IReadOnlyList<Credits>> SearchUsers(string searchToken, int offset, int limit)

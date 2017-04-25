@@ -1,0 +1,34 @@
+{
+  "id": "7e3239b3-bf3c-a861-861b-324b0ee07508",
+  "name": "TFN: Development",
+  "values": [
+    {
+      "enabled": true,
+      "key": "TFNStsUrl",
+      "value": "https://tfn-dev-webapp.azurewebsites.net/identity",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "TFNApiUrl",
+      "value": "https://tfn-dev-webapp.azurewebsites.net/api",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "TFNPostmanClient",
+      "value": "tfn_postman",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "TFNFrontendClient",
+      "value": "tfn_frontend",
+      "type": "text"
+    }
+  ],
+  "timestamp": 1487345279837,
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2017-02-17T15:28:16.109Z",
+  "_postman_exported_using": "Postman/4.10.2"
+}

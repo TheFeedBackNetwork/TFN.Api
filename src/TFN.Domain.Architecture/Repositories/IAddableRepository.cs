@@ -7,7 +7,7 @@ namespace TFN.Domain.Architecture.Repositories
        where TDomainEntity : DomainEntity<TKey>, IAggregateRoot
     {
 
-        Task Add(TDomainEntity domainEntity);
+        Task AddAsync(TDomainEntity domainEntity);
 
     }
 }
