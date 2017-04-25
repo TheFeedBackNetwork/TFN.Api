@@ -36,7 +36,7 @@ namespace TFN.Domain.Services.UserAccounts
                 throw new ArgumentNullException($"{nameof(password)}");
             }
 
-            var credit = new Credits(user.Id,user.Username);
+            var credit = new Models.Entities.Credits(user.Id,user.Username);
             await CreditService.AddAsync(credit);
             await UserRepository.AddAsync(user, password);
         }
@@ -174,14 +174,14 @@ namespace TFN.Domain.Services.UserAccounts
             return await UserRepository.GetByChangePasswordKey(changePasswordKey);
         }
 
-        public async Task<IReadOnlyList<Credits>> SearchUsers(string searchToken, int offset, int limit)
+        public async Task<IReadOnlyList<Models.Entities.Credits>> SearchUsers(string searchToken, int offset, int limit)
         {
             var credits = await CreditService.SearchUsers(searchToken, offset, limit);
 
             return credits;
         }
 
-        public async Task<Credits> GetCredits(string username)
+        public async Task<Models.Entities.Credits> GetCredits(string username)
         {
             var credits = await CreditService.GetByUsernameAsync(username);
 

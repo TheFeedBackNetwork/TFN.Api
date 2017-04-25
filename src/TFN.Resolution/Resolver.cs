@@ -34,8 +34,13 @@ using TFN.Mvc.Extensions;
 
 namespace TFN.Resolution
 {
-    public class Resolver
+    public static class Resolver
     {
+        public static void RegisterDbContext(IServiceCollection services, IConfiguration configuration)
+        {
+            
+        }
+
         public static void RegisterTypes(IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IResourceRepository, ResourceInMemoryRepository>();
@@ -79,6 +84,8 @@ namespace TFN.Resolution
             {
                 options.KeyBaseUrl = configuration["Messaging:KeyBaseUrl"];
             });
+
+            services.AddSingleton<IConfiguration>(configuration);
         }
 
 

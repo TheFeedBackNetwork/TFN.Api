@@ -1,0 +1,34 @@
+﻿@using TFN.Sts.UI.SignIn
+@model TFN.Sts.UI.SignIn.SignInViewModel
+
+<div class="signin">
+    <div class="container">
+        <form asp-route="SignIn">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <p class="lead">Sign in</p>
+            @Html.Partial("_ValidationSummary")
+
+            <div class="form-group">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" type="email" class="form-control" id="loginEmail" placeholder="Username or Email" autofocus>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" type="password" class="form-control" id="loginPassword" placeholder="Password" autocomplete="off" required>
+            </div>
+            <div class="col-md-3" style="padding-left: 0px">
+                <button type="submit" class="btn btn-primary">Sign in</button>    
+            </div>
+            
+            <div class="col-md-9">
+                <row>
+                    <span>Don't have an account? <a asp-route="Register" id="sign-in-a" class="semi-bold">Register</a></span>
+                </row>
+                    <br/>
+                <row>
+                    <span>Forgot your password? <a asp-route="ForgotPassword" id="forgot-password-a" class="semi-bold">Forgot Password</a></span>
+                </row>              
+            </div>
+        </form>
+    </div>
+</div>
