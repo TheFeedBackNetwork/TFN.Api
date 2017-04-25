@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace TFN.Infrastructure.Repositories.Base.Repositories.Record
+namespace TFN.Infrastructure.Architecture.Repositories.Record
 {
     public static class RecordContextExtensions
     {

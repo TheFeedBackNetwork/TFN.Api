@@ -1,9 +1,9 @@
 ﻿using System;
+using FluentAssertions;
 using TFN.Domain.Services.Utilities;
 using Xunit;
-using FluentAssertions;
 
-namespace TFN.UnitTest.Utilities
+namespace TFN.UnitTests.Utilities
 {
     public class CryptographyTests
     {

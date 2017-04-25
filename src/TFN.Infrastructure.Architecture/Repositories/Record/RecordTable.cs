@@ -1,4 +1,4 @@
-﻿namespace TFN.Infrastructure.Repositories.Base.Repositories.Record
+﻿namespace TFN.Infrastructure.Architecture.Repositories.Record
 {
     public class RecordTable
     {

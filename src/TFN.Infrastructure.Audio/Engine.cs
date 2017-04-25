@@ -1,16 +1,15 @@
-﻿namespace TFN.MediaLibrary
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Text.RegularExpressions;
+using TFN.Infrastructure.Audio.Model;
+using TFN.Infrastructure.Audio.Options;
+using TFN.Infrastructure.Audio.Properties;
+using TFN.Infrastructure.Audio.Util;
+
+namespace TFN.Infrastructure.Audio
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Text.RegularExpressions;
-
-    using Model;
-    using Options;
-    using Properties;
-    using Util;
-
     /// -------------------------------------------------------------------------------------------------
     /// <summary>   An engine. This class cannot be inherited. </summary>
     public class Engine : EngineBase

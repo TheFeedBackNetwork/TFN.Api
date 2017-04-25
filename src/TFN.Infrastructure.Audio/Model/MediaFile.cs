@@ -1,4 +1,4 @@
-﻿namespace TFN.MediaLibrary.Model
+﻿namespace TFN.Infrastructure.Audio.Model
 {
     public class MediaFile
     {

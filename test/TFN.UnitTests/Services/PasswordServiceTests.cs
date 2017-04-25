@@ -3,7 +3,7 @@ using TFN.Domain.Interfaces.Services;
 using TFN.Domain.Services;
 using Xunit;
 
-namespace TFN.UnitTest.Services
+namespace TFN.UnitTests.Services
 {
     public class PasswordServiceTests
     {

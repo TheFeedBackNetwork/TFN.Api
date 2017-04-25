@@ -1,12 +1,11 @@
-﻿using NodaTime;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using FluentAssertions;
 using TFN.Domain.Models.Entities;
 using TFN.Domain.Models.Enums;
 using Xunit;
-using FluentAssertions;
 
-namespace TFN.UnitTest.Aggregates
+namespace TFN.UnitTests.Domain.Model
 {
     public class PostTests
     {
@@ -17,13 +16,13 @@ namespace TFN.UnitTest.Aggregates
         private static IReadOnlyList<string> TagsDefault { get { return new List<string> { "foo", "bar" }; } }
         private static Genre GenreDefault { get { return Genre.Ambient; } }
         private static Guid UserIdDefault { get { return new Guid("799dca00-ef0f-4f8e-9bd3-5a4cff9ee07e"); } }
-        private static IReadOnlyList<Comment> CommentsDefault => new List<Comment> {Comment.Hydrate(new Guid("60a7686c-b775-4508-b273-5e6d2cb09080"), new Guid("799dca00-ef0f-4f8e-9bd3-5a4cff9ee07e"),PostIdDefault,CommentUserNameDefault,"foo bar baz",true,Instant.FromUtc(2016,5,5,5,5), Instant.FromUtc(2016, 5, 5, 5, 5)) };
+        private static IReadOnlyList<Comment> CommentsDefault => new List<Comment> {Comment.Hydrate(new Guid("60a7686c-b775-4508-b273-5e6d2cb09080"), new Guid("799dca00-ef0f-4f8e-9bd3-5a4cff9ee07e"),PostIdDefault,CommentUserNameDefault,"foo bar baz",true,new DateTime(2016,5,5,5,5, 5), new DateTime(2016, 5, 5, 5, 5,5)) };
         private static string TextDefault { get { return "This bar is my foo."; } }
         private static bool IsActiveDefault { get { return true; } }
-        private static Instant CreatedDefault { get { return Instant.FromUtc(2016,4,4,4,4); } }
-        private static Instant ModifiedDefault { get { return Instant.FromUtc(2016, 4, 4, 4, 5); } }
+        private static DateTime CreatedDefault { get { return new DateTime(2016, 4, 4, 5, 4, 4); } }
+        private static DateTime ModifiedDefault { get { return new DateTime(2016, 4, 4, 5, 5, 5); } }
 
-        public Post make_Post(Guid id, Guid userId,string username, string trackUrl, string text, int likes, Genre genre, IReadOnlyList<string> tags,IReadOnlyList<Comment> comments,bool isActive,Instant created, Instant modified)
+        public Post make_Post(Guid id, Guid userId,string username, string trackUrl, string text, int likes, Genre genre, IReadOnlyList<string> tags,IReadOnlyList<Comment> comments,bool isActive,DateTime created, DateTime modified)
         {
             return Post.Hydrate(id, userId,username, trackUrl, text, genre, tags,isActive, created, modified);
         }
@@ -43,7 +42,7 @@ namespace TFN.UnitTest.Aggregates
             return Post.Hydrate(PostIdDefault, UserIdDefault, PostUserNameDefault, TrackUrlDefault, TextDefault, GenreDefault, TagsDefault, IsActiveDefault, CreatedDefault, ModifiedDefault);
         }
 
-        public Post make_Post(Instant created)
+        public Post make_Post(DateTime created)
         {
             return Post.Hydrate(PostIdDefault, UserIdDefault, PostUserNameDefault, TrackUrlDefault, TextDefault, GenreDefault, TagsDefault, IsActiveDefault, created, ModifiedDefault);
         }
@@ -53,9 +52,11 @@ namespace TFN.UnitTest.Aggregates
         [InlineData(1)]
         public void Constructor_InvalidCreated_ArgumentExceptionThrown(int extraSeconds)
         {
-            var instant = SystemClock.Instance.Now.Plus(Duration.FromSeconds(extraSeconds));
+            var time = DateTime.UtcNow.AddMinutes(extraSeconds);
 
-            this.Invoking(x => x.make_Post(instant))
+            //var instant = SystemClock.Instance.Now.Plus(Duration.FromSeconds(extraSeconds));
+
+            this.Invoking(x => x.make_Post(time))
                 .ShouldThrow<ArgumentException>();
         }
 

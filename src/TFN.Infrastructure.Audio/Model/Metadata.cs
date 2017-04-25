@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TFN.MediaLibrary.Model
+namespace TFN.Infrastructure.Audio.Model
 {
     public class Metadata
     {

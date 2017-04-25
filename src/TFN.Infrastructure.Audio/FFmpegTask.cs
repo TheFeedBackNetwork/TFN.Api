@@ -1,4 +1,4 @@
-namespace TFN.MediaLibrary
+namespace TFN.Infrastructure.Audio
 {
     /// -------------------------------------------------------------------------------------------------
     /// <summary>   Values that represent fmpeg tasks. </summary>

@@ -17,11 +17,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\Logging\AppendBlob\" />
-    <Folder Include="Modules\Logging\Email\" />
-    <Folder Include="Repositories\ApplicationClientAggregate\" />
-    <Folder Include="Repositories\CommentAggregate\" />
-    <Folder Include="Repositories\CreditAggregate\" />
+    <Folder Include="Repositories\ApplicationClientAggregate\InMemory\" />
+    <Folder Include="Repositories\CommentAggregate\InMemory\" />
+    <Folder Include="Repositories\CreditAggregate\InMemory\" />
+    <Folder Include="Repositories\PostAggregate\InMemory\" />
+    <Folder Include="Repositories\ProductApiResourceAggregate\InMemory\" />
+    <Folder Include="Repositories\TrackAggregate\InMemory\" />
+    <Folder Include="Repositories\TransientUserAggregate\InMemory\" />
+    <Folder Include="Repositories\UserAccountAggregate\InMemory\" />
+    <Folder Include="Repositories\UserIdentityResourceAggregate\InMemory\" />
   </ItemGroup>
 
 </Project>

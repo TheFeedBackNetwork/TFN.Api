@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace TFN.MediaLibrary.Util
+namespace TFN.Infrastructure.Audio.Util
 {
     public class Document
     {

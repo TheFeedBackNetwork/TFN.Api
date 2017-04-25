@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="4.19.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
     <PackageReference Include="xunit" Version="2.2.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
@@ -15,6 +16,10 @@
     <ProjectReference Include="..\..\src\TFN.Domain.Models\TFN.Domain.Models.csproj" />
     <ProjectReference Include="..\..\src\TFN.Domain.Services\TFN.Domain.Services.csproj" />
     <ProjectReference Include="..\..\src\TFN.Infrastructure\TFN.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using TFN.Infrastructure.Architecture.Records.Attributes;
 
-namespace TFN.Infrastructure.Repositories.Base.Repositories.Record
+namespace TFN.Infrastructure.Architecture.Repositories.Record
 {
     public class RecordContext
     {

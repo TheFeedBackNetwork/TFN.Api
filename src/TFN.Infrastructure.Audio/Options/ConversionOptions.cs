@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TFN.MediaLibrary.Options
+namespace TFN.Infrastructure.Audio.Options
 {
     public class ConversionOptions
     {

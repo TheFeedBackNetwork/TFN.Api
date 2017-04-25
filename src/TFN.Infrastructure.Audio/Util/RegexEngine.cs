@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using TFN.MediaLibrary.Model;
+using TFN.Infrastructure.Audio.Model;
 
-namespace TFN.MediaLibrary.Util
+namespace TFN.Infrastructure.Audio.Util
 {
     /// <summary>
     ///     Contains all Regex tasks

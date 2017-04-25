@@ -1,6 +1,6 @@
 using System;
 
-namespace TFN.MediaLibrary
+namespace TFN.Infrastructure.Audio
 {
     public class ConvertProgressEventArgs : EventArgs
     {

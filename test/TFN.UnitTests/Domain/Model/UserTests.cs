@@ -1,11 +1,10 @@
-﻿using NodaTime;
-using System;
+﻿using System;
+using FluentAssertions;
 using TFN.Domain.Models.Entities;
 using TFN.Domain.Models.ValueObjects;
 using Xunit;
-using FluentAssertions;
 
-namespace TFN.UnitTest.Aggregates
+namespace TFN.UnitTests.Domain.Model
 {
     public class UserTests
     {
@@ -16,10 +15,10 @@ namespace TFN.UnitTest.Aggregates
         private static string GivenNameDefault { get { return "foo"; } }
         private static string FamilyNameDefault { get { return "bar"; } }
         public static Biography BiographyDefault { get { return Biography.From("FooBar", "www.instagram.com/foo", "www.soundcloud.com/bar","www.twitter.com/baz","www.youtube.com/bo","www.facebook.com/bing","yourmomshouse"); } }
-        public static Instant CreatedDefault { get { return Instant.FromUtc(2016, 4, 4, 4, 0); } }
+        private static DateTime CreatedDefault { get { return new DateTime(2016, 4, 4, 5, 4, 4); } }
         public static bool IsActiveDefault { get { return true;} }
 
-        public User make_User(Guid id, string username, string profilePictureUrl, string email, string givenName, string familyName, Biography biography, Instant created)
+        public User make_User(Guid id, string username, string profilePictureUrl, string email, string givenName, string familyName, Biography biography, DateTime created)
         {
             return User.Hydrate(id, username, profilePictureUrl, email, givenName, biography, created, IsActiveDefault);
         }

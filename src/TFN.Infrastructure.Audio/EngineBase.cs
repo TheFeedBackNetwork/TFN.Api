@@ -1,15 +1,14 @@
-﻿namespace TFN.MediaLibrary
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
+using System.Reflection;
+using System.Threading;
+using TFN.Infrastructure.Audio.Properties;
+using TFN.Infrastructure.Audio.Util;
+
+namespace TFN.Infrastructure.Audio
 {
-    using System;
-    using System.Diagnostics;
-    using System.IO;
-    using System.IO.Compression;
-    using System.Reflection;
-    using System.Threading;
-
-    using Properties;
-    using Util;
-
     public class EngineBase : IDisposable
     {
         private bool isDisposed;

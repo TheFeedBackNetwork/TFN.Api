@@ -1,4 +1,4 @@
-﻿namespace TFN.MediaLibrary.Options
+﻿namespace TFN.Infrastructure.Audio.Options
 {
     public enum Target
     {

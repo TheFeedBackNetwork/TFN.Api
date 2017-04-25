@@ -8,11 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TFN.MediaLibrary.Properties {
-    using System;
-    using System.Reflection;
-    
-    
+using System.Reflection;
+
+namespace TFN.Infrastructure.Audio.Properties {
     /// <summary>
     ///    A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

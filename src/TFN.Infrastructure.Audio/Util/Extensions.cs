@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
-namespace TFN.MediaLibrary.Util
+namespace TFN.Infrastructure.Audio.Util
 {
     public class ExtensionAttribute : Attribute
     {

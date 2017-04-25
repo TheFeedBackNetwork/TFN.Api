@@ -1,8 +1,8 @@
-using TFN.MediaLibrary.Model;
-using TFN.MediaLibrary.Options;
-using TFN.MediaLibrary.Util;
+using TFN.Infrastructure.Audio.Model;
+using TFN.Infrastructure.Audio.Options;
+using TFN.Infrastructure.Audio.Util;
 
-namespace TFN.MediaLibrary
+namespace TFN.Infrastructure.Audio
 {
     /// -------------------------------------------------------------------------------------------------
     /// <summary>   Configures the engine to perform the correct task. </summary>

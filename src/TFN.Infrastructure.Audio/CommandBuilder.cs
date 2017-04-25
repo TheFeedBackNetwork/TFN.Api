@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
-using TFN.MediaLibrary.Model;
-using TFN.MediaLibrary.Options;
-using TFN.MediaLibrary.Util;
+using TFN.Infrastructure.Audio.Model;
+using TFN.Infrastructure.Audio.Options;
+using TFN.Infrastructure.Audio.Util;
 
-namespace TFN.MediaLibrary
+namespace TFN.Infrastructure.Audio
 {
     internal class CommandBuilder
     {

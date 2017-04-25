@@ -2,7 +2,7 @@
 using TFN.Domain.Models.Extensions;
 using Xunit;
 
-namespace TFN.UnitTest.Extensions
+namespace TFN.UnitTests.Domain.Extensions
 {
     public class StringExtensionsTests
     {

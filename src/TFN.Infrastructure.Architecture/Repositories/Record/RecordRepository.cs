@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using TFN.Domain.Architecture.Models;
 using Microsoft.WindowsAzure.Storage.Table;
+using TFN.Domain.Architecture.Models;
 using TFN.Infrastructure.Architecture.Mapping;
 using TFN.Infrastructure.Architecture.Records;
 
-namespace TFN.Infrastructure.Repositories.Base.Repositories.Record
+namespace TFN.Infrastructure.Architecture.Repositories.Record
 {
     public class RecordRepository<TDomainEvent, TRecord, TKey>
         where TDomainEvent : DomainEvent<TKey>
