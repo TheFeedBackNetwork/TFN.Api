@@ -234,6 +234,7 @@ namespace TFN.Api.Controllers
             var genre = Genre.Other;
             var parsed = Enum.TryParse(post.Genre.ToString(), out genre);
 
+
             if (!parsed)
             {
                 return BadRequest();
