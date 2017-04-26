@@ -35,7 +35,7 @@ namespace TFN.Api.Controllers
         }
 
         [HttpGet(Name = "GetAllPosts")]
-        //[Authorize("posts.read")]
+        [Authorize("posts.read")]
         public async Task<IActionResult> GetAllAsync(
             [FromQuery]ExcludeQueryModel exclude,
             [ModelBinder(BinderType = typeof(OffsetQueryModelBinder))]int offset = 0,
