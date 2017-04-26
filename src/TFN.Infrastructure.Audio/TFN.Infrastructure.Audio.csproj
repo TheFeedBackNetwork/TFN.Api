@@ -4,4 +4,10 @@
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Update="Resources\ffmpeg.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
