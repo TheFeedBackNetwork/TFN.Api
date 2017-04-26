@@ -10,7 +10,7 @@ using TFN.Mvc.HttpResults;
 
 namespace TFN.Api.Controllers
 {
-    [Route("api/credits")]
+    [Route("credits")]
     public class CreditsController : AppController
     {
         public ICreditService CreditService { get; private set; }

@@ -21,7 +21,7 @@ using TFN.Mvc.HttpResults;
 namespace TFN.Api.Controllers
 {
     
-    [Route("api/posts")]
+    [Route("posts")]
     public class PostController : AppController
     {
         public IPostService PostService { get; private set; }

@@ -9,8 +9,8 @@ using TFN.Domain.Interfaces.Services;
 
 namespace TFN.Api.Controllers
 {
-    //actually a good candidate for websockets...
-    [Route("api/users")]
+
+    [Route("users")]
     public class UsersController : AppController
     {
         public IUserService UserService { get; private set; }

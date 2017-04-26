@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TFN.Api.Controllers
 {
-    [Route("api/ip")]
+    [Route("ip")]
     public class InternetProtocolAddressController : AppController
     {
         [HttpGet(Name = "GetIPForCaller")]

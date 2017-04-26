@@ -21,7 +21,7 @@ using TFN.Mvc.HttpResults;
 
 namespace TFN.Api.Controllers
 {
-    [Route("api/tracks")]
+    [Route("tracks")]
     public class TracksController : AppController
     {
         public IHostingEnvironment Environment { get; private set; }

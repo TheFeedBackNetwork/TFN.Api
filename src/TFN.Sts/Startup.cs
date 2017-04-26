@@ -25,7 +25,7 @@ namespace TFN.Sts
     public class Startup
     {
         public IConfiguration Configuration { get; private set; }
-        private IHostingEnvironment HostingEnvironment { get; set; }
+        public IHostingEnvironment HostingEnvironment { get; set; }
         private X509Certificate2 PrimarySigningCredentials { get; set; }
         private X509Certificate2 SecondarySigningCredentials { get; set; }
 
@@ -75,7 +75,6 @@ namespace TFN.Sts
         {
             Resolver.RegisterDbContext(services, Configuration);
             Resolver.RegisterTypes(services, Configuration);
-            Resolver.RegisterAuthorizationPolicies(services);
 
             if (HostingEnvironment.IsLocal())
             {
