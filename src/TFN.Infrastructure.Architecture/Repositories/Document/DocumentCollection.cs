@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace TFN.Infrastructure.Architecture.Repositories.Document
 {
     public class DocumentCollection<TDocument> : IDocumentCollection<TDocument>
+        where TDocument : class
     {
         public DocumentClient DocumentClient { get; private set; }
         public Uri CollectionUri { get; private set; }
         public string DatabaseName { get; private set; }
         public string CollectionName { get; private set; }
-        public DocumentCollection(DocumentClient documentClient, string databaseName, string collectionName)
+        public ILogger Logger { get; private set; }
+        public DocumentCollection(DocumentClient documentClient, ILogger logger, string databaseName, string collectionName)
         {
+            Logger = logger;
             DocumentClient = documentClient;
             CollectionName = collectionName;
             DatabaseName = databaseName;
@@ -60,58 +66,82 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
 
         public async Task<TDocument> Find(string id)
         {
-         
+
             //I hardly comment however I think the generic arity needs to be changed for this so that
             //TDocument can be figured out during  compile time... for now this will do. It cheats 
             //the documentdb query but does not cheat the repository since the type at runtime is known.
 
-            var query = await DocumentClient
-                .ReadDocumentAsync<dynamic>(GetDocumentLink(id));
-            
-            //var document = (TDocument) query.Document;
+            try
+            {
+                var query = await DocumentClient.ReadDocumentAsync<dynamic>(GetDocumentLink(id));
+                var document = query.Document;
 
-            return default(TDocument);
-            //return document;
+                return document as TDocument;
+            }
+            catch (Exception)
+            {
+                return default(TDocument);
+            }
 
         }
 
-        public Task<TDocument> Find(Func<TDocument, bool> predicate)
+        public async Task<TDocument> Find(Expression<Func<TDocument, bool>> predicate)
+        {
+            try
+            {
+                var query = DocumentClient.CreateDocumentQuery<TDocument>(CollectionUri)
+                    .Where(predicate)
+                    .Take(1)
+                    .Select(x => x)
+                    .AsDocumentQuery();
+
+                var execution = await query.ExecuteNextAsync<TDocument>();
+
+                var result = execution.FirstOrDefault();
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                Logger.LogCritical(e.ToString());
+                return default(TDocument);
+            }
+        }
+
+        public async Task<IEnumerable<TDocument>> FindAll()
+        {
+            var query = DocumentClient.CreateDocumentQuery<TDocument>(CollectionUri).AsDocumentQuery();
+            var list = new List<TDocument>();
+
+            while (query.HasMoreResults)
+            {
+                list.AddRange(await query.ExecuteNextAsync<TDocument>());
+            }
+
+            return list;
+        }
+
+        public async Task<IEnumerable<TDocument>> FindAll(Expression<Func<TDocument, bool>> predicate)
         {
 
             var query = DocumentClient
                 .CreateDocumentQuery<TDocument>(CollectionUri)
                 .Where(predicate)
                 .Select(x => x)
-                .SingleOrDefault();
+                .AsDocumentQuery();
 
 
-            return Task.FromResult(query);
+            var list = new List<TDocument>();
+
+            while (query.HasMoreResults)
+            {
+                list.AddRange(await query.ExecuteNextAsync<TDocument>());
+            }
+
+            return list;
         }
 
-        public Task<IEnumerable<TDocument>> FindAll()
-        {
-            var query = DocumentClient
-                .CreateDocumentQuery<TDocument>(CollectionUri)
-                .Select(x => x);
 
-            IEnumerable<TDocument> result = query.ToList();
-
-            return Task.FromResult(result);
-        }
-
-        public Task<IEnumerable<TDocument>> FindAll(Func<TDocument, bool> predicate)
-        {
-
-            var query = DocumentClient
-                .CreateDocumentQuery<TDocument>(CollectionUri)
-                .Where(predicate)
-                .Select(x => x);
-
-
-            return Task.FromResult(query);
-        }
-
-        
 
         public async Task Add(TDocument document)
         {

@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TFN.Infrastructure.Architecture.Documents.Attributes;
 
@@ -13,9 +14,11 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
     {
         public DocumentClient DocumentClient { get; private set; }
         public string DatabaseName { get; private set; }
-        public DocumentContext(IOptions<DocumentDbSettings> settings)
+        public ILogger Logger { get; private set; }
+        public DocumentContext(IOptions<DocumentDbSettings> settings, ILogger<DocumentContext> logger)
         {
             DatabaseName = settings.Value.DatabaseName;
+            Logger = logger;
             DocumentClient = new DocumentClient(settings.Value.DatabaseUri, settings.Value.DatabaseKey, new ConnectionPolicy
             {
                 MaxConnectionLimit = 100,
@@ -47,6 +50,7 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
         }
 
         public IDocumentCollection<TDocument> Collection<TDocument>()
+            where TDocument : class
         {
             if (!typeof(TDocument).GetTypeInfo().IsSealed)
             {
@@ -64,7 +68,7 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             {
                 throw new InvalidOperationException($"Type '{typeof(TDocument).Name}' does not have a [CollectionOptions] attribute.");
             }
-            return new DocumentCollection<TDocument>(DocumentClient, DatabaseName, options.CollectionName);
+            return new DocumentCollection<TDocument>(DocumentClient, Logger, DatabaseName, options.CollectionName);
         }
     }
 }
