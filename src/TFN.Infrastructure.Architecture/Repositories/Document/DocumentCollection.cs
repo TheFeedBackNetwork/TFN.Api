@@ -7,6 +7,8 @@ using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Extensions.Logging;
+using TFN.Infrastructure.Interfaces.Components;
+
 
 namespace TFN.Infrastructure.Architecture.Repositories.Document
 {
@@ -18,12 +20,15 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
         public string DatabaseName { get; private set; }
         public string CollectionName { get; private set; }
         public ILogger Logger { get; private set; }
-        public DocumentCollection(DocumentClient documentClient, ILogger logger, string databaseName, string collectionName)
+        public IQueryCursorComponent QueryCursorComponent { get; private set; }
+        public DocumentCollection(DocumentClient documentClient, ILogger logger,IQueryCursorComponent queryCursorComponent,  string databaseName, string collectionName)
         {
             Logger = logger;
             DocumentClient = documentClient;
             CollectionName = collectionName;
             DatabaseName = databaseName;
+            QueryCursorComponent = queryCursorComponent;
+
             CollectionUri = GetCollectionLink();
             
             CreateCollectionIfNotExist().Wait();
@@ -117,11 +122,15 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             };
 
             var query = DocumentClient.CreateDocumentQuery<TDocument>(CollectionUri, options).AsDocumentQuery();
+
             var list = new List<TDocument>();
 
-            while (query.HasMoreResults)
+            if (query.HasMoreResults)
             {
-                list.AddRange(await query.ExecuteNextAsync<TDocument>());
+                var result = await query.ExecuteNextAsync<TDocument>();
+                var nextCursor = result.ResponseContinuation;
+                QueryCursorComponent.SetCursor(nextCursor);
+                list.AddRange(result);
             }
 
             return list;
@@ -147,13 +156,10 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             if (query.HasMoreResults)
             {
                 var result = await query.ExecuteNextAsync<TDocument>();
+                var nextCursor = result.ResponseContinuation;
+                QueryCursorComponent.SetCursor(nextCursor);
                 list.AddRange(result);
             }
-
-            /*while (query.HasMoreResults)
-            {
-                list.AddRange(await query.ExecuteNextAsync<TDocument>());
-            }*/
 
             return list;
         }

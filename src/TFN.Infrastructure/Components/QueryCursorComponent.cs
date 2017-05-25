@@ -12,7 +12,7 @@ namespace TFN.Infrastructure.Components
         }
         public string GetCursor()
         {
-            return Cursor;;
+            return Cursor;
         }
 
         public bool HasCursor()
@@ -20,19 +20,9 @@ namespace TFN.Infrastructure.Components
             return !String.IsNullOrEmpty(Cursor);
         }
 
-        public void SinkCursor(string cursor)
-        {
-            throw new NotImplementedException();
-        }
-
         public void SetCursor(string cursor)
         {
             Cursor = cursor;
-        }
-
-        public string SourceCursor(Guid id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -31,5 +31,19 @@ namespace TFN.Infrastructure.Architecture.Repositories.Record
             await table.ExecuteAsync(request);
 
         }
+
+        /*public virtual async Task Source(string id)
+        {
+            var table = await Context.RecordTable<TRecord>();
+
+            var query = new TableQuery<TRecord>().Where(
+                TableQuery.CombineFilters(
+                    TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, id),
+                    TableOperators.And,
+                    TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id))
+                );
+
+            var record = table.ExecuteQuery(query);
+        }*/
     }
 }
