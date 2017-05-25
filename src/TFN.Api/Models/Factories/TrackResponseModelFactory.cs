@@ -1,7 +1,15 @@
-﻿namespace TFN.Api.Models.Factories
+﻿using System;
+using TFN.Api.Models.Interfaces;
+using TFN.Api.Models.ResponseModels;
+using TFN.Domain.Models.Entities;
+
+namespace TFN.Api.Models.Factories
 {
-    public class TrackResponseModelFactory
+    public class TrackResponseModelFactory : ITrackResponseModelFactory
     {
-        
+        public TrackResponseModel From(Track track, string apiUrl)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TFN.Api.Extensions;
+using TFN.Api.Models.Interfaces;
 using TFN.Api.Models.ModelBinders;
 using TFN.Api.Models.ResponseModels;
 using TFN.Domain.Interfaces.Services;
@@ -14,9 +15,11 @@ namespace TFN.Api.Controllers
     public class UsersController : AppController
     {
         public IUserService UserService { get; private set; }
-        public UsersController(IUserService userService)
+        public ICreditsResponseModelFactory CreditsResponseModelFactory { get; private set; }
+        public UsersController(IUserService userService, ICreditsResponseModelFactory creditsResponseModelFactory)
         {
             UserService = userService;
+            CreditsResponseModelFactory = creditsResponseModelFactory;
         }
 
         [HttpGet(Name = "SearchUsers")]
@@ -29,7 +32,7 @@ namespace TFN.Api.Controllers
             
             var users = await UserService.SearchUsers(username, offset, limit);
 
-            var model = users.Select(x => CreditsResponseModel.From(x, HttpContext.GetAbsoluteUri()));
+            var model = users.Select(x => CreditsResponseModelFactory.From(x, HttpContext.GetAbsoluteUri()));
 
             return Json(model);
         }

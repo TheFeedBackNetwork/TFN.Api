@@ -12,6 +12,7 @@ using TFN.Api.Models.ModelBinders;
 using TFN.Api.Models.QueryModels;
 using TFN.Api.Models.ResponseModels;
 using TFN.Api.Extensions;
+using TFN.Api.Models.Interfaces;
 using TFN.Domain.Interfaces.Services;
 using TFN.Domain.Models.Entities;
 using TFN.Domain.Models.Enums;
@@ -25,11 +26,14 @@ namespace TFN.Api.Controllers
     public class PostController : AppController
     {
         public IPostService PostService { get; private set; }
-        public IAuthorizationService AuthorizationService { get; private set; }
         public ICreditService CreditService { get; private set; }
-        public PostController(IPostService postService, IAuthorizationService authorizationService, ICreditService creditService)
+        public IPostResponseModelFactory PostResponseModelFactory { get; private set; }
+        public IAuthorizationService AuthorizationService { get; private set; }
+        
+        public PostController(IPostService postService, IAuthorizationService authorizationService, ICreditService creditService, IPostResponseModelFactory postResponseModelFactory)
         {
             PostService = postService;
+            PostResponseModelFactory = postResponseModelFactory;
             AuthorizationService = authorizationService;
             CreditService = creditService;
         }
@@ -59,7 +63,7 @@ namespace TFN.Api.Controllers
                 var summary = summaries.SingleOrDefault(x => x.PostId == post.Id);
                 var credits = await CreditService.GetByUserIdAsync(post.UserId);
                 var authZ = ResourceAuthorizationResponseModel.From(post, HttpContext, Caller);
-                model.Add(PostResponseModel.From(post,summary,credits,authZ,AbsoluteUri));
+                model.Add(PostResponseModelFactory.From(post,summary,credits,authZ,AbsoluteUri));
             }
 
             if (exclude != null)
@@ -85,7 +89,7 @@ namespace TFN.Api.Controllers
             var summary = await PostService.GetPostLikeSummaryAsync(postId, 5, Username);
             var credits = await CreditService.GetByUserIdAsync(post.UserId);
             var authZ = ResourceAuthorizationResponseModel.From(post, HttpContext, Caller);
-            var model = PostResponseModel.From(post, summary, credits,authZ, AbsoluteUri);
+            var model = PostResponseModelFactory.From(post, summary, credits,authZ, AbsoluteUri);
 
 
             if (exclude != null)

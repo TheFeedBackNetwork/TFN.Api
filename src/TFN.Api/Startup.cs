@@ -117,7 +117,6 @@ namespace TFN.Api
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-
             app.UseCors("CorsPolicy");
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
