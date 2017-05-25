@@ -4,8 +4,8 @@ using TFN.Domain.Models.Entities;
 
 namespace TFN.Api.Models.Interfaces
 {
-    public interface IUsersResponseModelFactory
+    public interface ICommentResponseModelFactory
     {
-        Task<UserResponseModel> From(User user, string apiUrl);
+        Task<CommentResponseModel> From(Comment comment,  string apiUrl);
     }
 }

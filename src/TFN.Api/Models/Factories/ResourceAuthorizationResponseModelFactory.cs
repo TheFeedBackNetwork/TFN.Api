@@ -9,14 +9,14 @@ namespace TFN.Api.Models.Factories
 {
     public class ResourceAuthorizationResponseModelFactory : IResourceAuthorizationResponseModelFactory
     {
-        public ResourceAuthorizationResponseModel From(Post post, HttpContext caller, PrincipleType principleType)
+        public ResourceAuthorizationResponseModel From(Post post, HttpContext caller)
         {
-            throw new NotImplementedException();
+            return ResourceAuthorizationResponseModel.From(post,caller);
         }
 
-        public ResourceAuthorizationResponseModel From(Comment comment, HttpContext caller, PrincipleType principleType)
+        public ResourceAuthorizationResponseModel From(Comment comment, HttpContext caller)
         {
-            throw new NotImplementedException();
+            return ResourceAuthorizationResponseModel.From(comment,caller);
         }
     }
 }

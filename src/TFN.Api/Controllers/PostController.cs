@@ -28,12 +28,14 @@ namespace TFN.Api.Controllers
         public IPostService PostService { get; private set; }
         public ICreditService CreditService { get; private set; }
         public IPostResponseModelFactory PostResponseModelFactory { get; private set; }
+        public ICommentSummaryResponseModelFactory CommentSummaryResponseModelFactory { get; private set; }
         public IAuthorizationService AuthorizationService { get; private set; }
         
-        public PostController(IPostService postService, IAuthorizationService authorizationService, ICreditService creditService, IPostResponseModelFactory postResponseModelFactory)
+        public PostController(IPostService postService, IAuthorizationService authorizationService, ICreditService creditService, IPostResponseModelFactory postResponseModelFactory, ICommentSummaryResponseModelFactory commentSummaryResponseModelFactory) 
         {
             PostService = postService;
             PostResponseModelFactory = postResponseModelFactory;
+            CommentSummaryResponseModelFactory = commentSummaryResponseModelFactory;
             AuthorizationService = authorizationService;
             CreditService = creditService;
         }
@@ -60,10 +62,7 @@ namespace TFN.Api.Controllers
             var model = new List<PostResponseModel>();
             foreach (var post in posts)
             {
-                var summary = summaries.SingleOrDefault(x => x.PostId == post.Id);
-                var credits = await CreditService.GetByUserIdAsync(post.UserId);
-                var authZ = ResourceAuthorizationResponseModel.From(post, HttpContext, Caller);
-                model.Add(PostResponseModelFactory.From(post,summary,credits,authZ,AbsoluteUri));
+                model.Add(await PostResponseModelFactory.From(post,AbsoluteUri));
             }
 
             if (exclude != null)
@@ -85,11 +84,8 @@ namespace TFN.Api.Controllers
             {
                 return NotFound();
             }
-
-            var summary = await PostService.GetPostLikeSummaryAsync(postId, 5, Username);
-            var credits = await CreditService.GetByUserIdAsync(post.UserId);
-            var authZ = ResourceAuthorizationResponseModel.From(post, HttpContext, Caller);
-            var model = PostResponseModelFactory.From(post, summary, credits,authZ, AbsoluteUri);
+            
+            var model = PostResponseModelFactory.From(post, AbsoluteUri);
 
 
             if (exclude != null)
@@ -139,7 +135,7 @@ namespace TFN.Api.Controllers
 
             var summary = await PostService.GetCommentScoreSummaryAsync(commentId, 5, Username);
             var credits = await CreditService.GetByUserIdAsync(comment.UserId);
-            var authZ = ResourceAuthorizationResponseModel.From(comment, HttpContext, Caller);
+            var authZ = ResourceAuthorizationResponseModel.From(comment, HttpContext);
             var model = CommentResponseModel.From(comment,summary,credits,authZ,AbsoluteUri);
 
 
@@ -178,7 +174,7 @@ namespace TFN.Api.Controllers
             {
                 var summary = summaries.SingleOrDefault(x => x.CommentId == comment.Id);
                 var credits = await CreditService.GetByUserIdAsync(comment.UserId);
-                var authZ = ResourceAuthorizationResponseModel.From(comment, HttpContext, Caller);
+                var authZ = ResourceAuthorizationResponseModel.From(comment, HttpContext);
                 model.Add(CommentResponseModel.From(comment,summary,credits,authZ,AbsoluteUri));
             }
 
@@ -210,7 +206,8 @@ namespace TFN.Api.Controllers
                 return NotFound();
             }
             var credits = await CreditService.GetByUserIdAsync(comment.UserId);
-            var model = CommentSummaryResponseModel.From(commentSummary,credits, AbsoluteUri, postId);
+            
+            var model = CommentSummaryResponseModelFactory.From(commentSummary, credits, postId, AbsoluteUri);
 
             return Json(model);
         }
@@ -270,7 +267,7 @@ namespace TFN.Api.Controllers
             var summary = await PostService.GetPostLikeSummaryAsync(entity.Id, 5, Username);
             await CreditService.ReduceCreditsAsync(credits, 5);
             credits = await CreditService.GetByUserIdAsync(entity.UserId);
-            var authZ = ResourceAuthorizationResponseModel.From(entity, HttpContext, Caller);
+            var authZ = ResourceAuthorizationResponseModel.From(entity, HttpContext);
             var model = PostResponseModel.From(entity,summary,credits,authZ, AbsoluteUri);
 
             
@@ -305,7 +302,7 @@ namespace TFN.Api.Controllers
             var summary = await PostService.GetCommentScoreSummaryAsync(entity.Id, 5, Username);
 
             var credits = await CreditService.GetByUserIdAsync(entity.UserId);
-            var authZ = ResourceAuthorizationResponseModel.From(entity, HttpContext, Caller);
+            var authZ = ResourceAuthorizationResponseModel.From(entity, HttpContext);
             var model = CommentResponseModel.From(entity, summary,credits, authZ ,AbsoluteUri);
 
             return CreatedAtAction("GetComment", new {postId = model.PostId, commentId = model.Id}, model);

@@ -16,10 +16,12 @@ namespace TFN.Api.Controllers
     {
         public IUserService UserService { get; private set; }
         public ICreditsResponseModelFactory CreditsResponseModelFactory { get; private set; }
-        public UsersController(IUserService userService, ICreditsResponseModelFactory creditsResponseModelFactory)
+        public IUsersResponseModelFactory UsersResponseModelFactory { get; private set; }
+        public UsersController(IUserService userService, ICreditsResponseModelFactory creditsResponseModelFactory, IUsersResponseModelFactory usersResponseModelFactory)
         {
             UserService = userService;
             CreditsResponseModelFactory = creditsResponseModelFactory;
+            UsersResponseModelFactory = usersResponseModelFactory;
         }
 
         [HttpGet(Name = "SearchUsers")]
@@ -42,14 +44,13 @@ namespace TFN.Api.Controllers
         public async Task<IActionResult> SearchMe()
         {
             var user = await UserService.GetByUsernameAsync(HttpContext.GetUsername());
-            var credit = await UserService.GetCredits(HttpContext.GetUsername());
 
-            if (user == null || credit == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            var model = UserResponseModel.From(user, credit, AbsoluteUri);
+            var model = await UsersResponseModelFactory.From(user, AbsoluteUri);
             
             return Json(model);
         }

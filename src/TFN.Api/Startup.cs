@@ -15,6 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using TFN.Api.Filters.ActionFilters;
+using TFN.Api.Models.Factories;
+using TFN.Api.Models.Interfaces;
 using TFN.Infrastructure.Modules.Logging;
 using TFN.Mvc.Extensions;
 using TFN.Resolution;
@@ -38,15 +40,14 @@ namespace TFN.Api
             {
                 builder.AddUserSecrets("tfn-local");
 
-                loggerFactory.AddConsole(LogLevel.Trace);
-                loggerFactory.AddDebug(LogLevel.Trace);
+                loggerFactory
+                    .AddConsole()
+                    .AddDebug();
             }
 
             if (!env.IsLocal())
             {
-                loggerFactory.AddAppendBlob(
-                    Configuration["Logging:StorageAccountConnectionString"],
-                    LogLevel.Information);
+                loggerFactory.AddAzureWebAppDiagnostics();
 
                 loggerFactory.AddEmail(
                     Configuration["Logging:Email:SupportEmail"],
@@ -61,6 +62,9 @@ namespace TFN.Api
 
             Configuration = builder.Build();
             HostingEnvironment = env;
+
+            var logger = loggerFactory.CreateLogger<Startup>();
+            logger.LogInformation("TFN.Api application is starting.");
         }
 
         
@@ -69,6 +73,15 @@ namespace TFN.Api
             Resolver.RegisterDbContext(services, Configuration);
             Resolver.RegisterTypes(services, Configuration);
             Resolver.RegisterAuthorizationPolicies(services);
+
+            services.AddTransient<ICommentResponseModelFactory, CommentResponseModelFactory>();
+            services.AddTransient<ICommentSummaryResponseModelFactory, CommentSummaryResponseModelFactory>();
+            services.AddTransient<ICreditsResponseModelFactory, CreditsResponseModelFactory>();
+            services.AddTransient<IPostResponseModelFactory, PostResponseModelFactory>();
+            services.AddTransient<IPostSummaryResponseModelFactory, PostSummaryResponseModelFactory>();
+            services.AddTransient<IResourceAuthorizationResponseModelFactory, ResourceAuthorizationResponseModelFactory>();
+            services.AddTransient<ITrackResponseModelFactory, TrackResponseModelFactory>();
+            services.AddTransient<IUsersResponseModelFactory, UsersResponseModelFactory>();
 
             services.AddMvc()
                 .AddMvcOptions(options =>

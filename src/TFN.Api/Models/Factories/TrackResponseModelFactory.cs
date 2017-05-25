@@ -9,7 +9,7 @@ namespace TFN.Api.Models.Factories
     {
         public TrackResponseModel From(Track track, string apiUrl)
         {
-            throw new NotImplementedException();
+            return TrackResponseModel.From(track,apiUrl);
         }
     }
 }
