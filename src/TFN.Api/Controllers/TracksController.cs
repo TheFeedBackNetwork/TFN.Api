@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+using TFN.Api.Models.Interfaces;
 using TFN.Api.Models.ResponseModels;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Interfaces.Services;
@@ -30,6 +31,7 @@ namespace TFN.Api.Controllers
         public ITrackStorageService TrackStorageService { get; private set; }
         public ITrackProcessingService TrackProcessingService { get; private set; }
         public ITrackRepository TrackRepository { get; private set; }
+        public ITrackResponseModelFactory TrackResponseModelFactory { get; private set; }
         public ILogger Logger { get; private set; }
         // Get the default form options so that we can use them to set the default limits for
         // request body data
@@ -37,7 +39,7 @@ namespace TFN.Api.Controllers
 
         public TracksController(IHostingEnvironment environment, IAuthorizationService authorizationService, ITrackProcessingService trackProcessingService,
             ITrackStorageService trackStorageService, ILogger<TracksController> logger, IConfiguration configuration,
-            ITrackRepository trackRepository)
+            ITrackRepository trackRepository, ITrackResponseModelFactory trackResponseModelFactory)
         {
             Environment = environment;
             AuthorizationService = authorizationService;
@@ -45,6 +47,7 @@ namespace TFN.Api.Controllers
             TrackStorageService = trackStorageService;
             TrackProcessingService = trackProcessingService;
             TrackRepository = trackRepository;
+            TrackResponseModelFactory = trackResponseModelFactory;
             Logger = logger;
 
         }
@@ -158,7 +161,7 @@ namespace TFN.Api.Controllers
 
                         await TrackRepository.AddAsync(track);
 
-                        var model = TrackResponseModel.From(track, AbsoluteUri);
+                        var model = TrackResponseModelFactory.From(track, AbsoluteUri);
 
                         return CreatedAtAction("GetTrack", new {trackId = model.Id}, model);
                     }
