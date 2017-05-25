@@ -20,13 +20,15 @@ namespace TFN.Api.Models.ResponseModels
             CanEdit = canEdit;
             CanRead = canRead;
         }
-        public static ResourceAuthorizationResponseModel From(Post post, HttpContext caller, PrincipleType principleType)
+        public static ResourceAuthorizationResponseModel From(Post post, HttpContext caller)
         {
-            if (principleType.Equals(PrincipleType.Anonymous))
+            var principle = caller.GetCaller();
+
+            if (principle.Equals(PrincipleType.Anonymous))
             {
                 return new ResourceAuthorizationResponseModel(true,false,false,false);
             }
-            if (principleType.Equals(PrincipleType.User))
+            if (principle.Equals(PrincipleType.User))
             {
                 if (caller.GetUserId() == post.UserId)
                 {
@@ -37,13 +39,15 @@ namespace TFN.Api.Models.ResponseModels
             return new ResourceAuthorizationResponseModel(false, false, false, false);
         }
 
-        public static ResourceAuthorizationResponseModel From(Comment comment, HttpContext caller, PrincipleType principleType)
+        public static ResourceAuthorizationResponseModel From(Comment comment, HttpContext caller)
         {
-            if (principleType.Equals(Mvc.Models.Enum.PrincipleType.Anonymous))
+            var principle = caller.GetCaller();
+
+            if (principle.Equals(Mvc.Models.Enum.PrincipleType.Anonymous))
             {
                 return new ResourceAuthorizationResponseModel(true, false, false, false);
             }
-            if (principleType.Equals(PrincipleType.User))
+            if (principle.Equals(PrincipleType.User))
             {
                 if (caller.GetUserId() == comment.UserId)
                 {

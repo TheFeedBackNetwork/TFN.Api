@@ -26,7 +26,7 @@ namespace TFN.Api.Models.ResponseModels
             UserWhoCommented = userWhoCommented;
         }
 
-        public static CommentSummaryResponseModel From(CommentSummary commentSummary,Credits credits, string apiUrl, Guid postId)
+        public static CommentSummaryResponseModel From(CommentSummary commentSummary,Credits credits, Guid postId, string apiUrl)
         {
             IReadOnlyList<ScoreResponseModel> scores =
                 commentSummary.Scores.Select(x => ScoreResponseModel.From(x, apiUrl, postId)).ToList();

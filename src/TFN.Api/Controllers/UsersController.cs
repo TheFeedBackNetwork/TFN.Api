@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TFN.Api.Extensions;
+using TFN.Api.Models.Interfaces;
 using TFN.Api.Models.ModelBinders;
 using TFN.Api.Models.ResponseModels;
 using TFN.Domain.Interfaces.Services;
@@ -14,9 +15,13 @@ namespace TFN.Api.Controllers
     public class UsersController : AppController
     {
         public IUserService UserService { get; private set; }
-        public UsersController(IUserService userService)
+        public ICreditsResponseModelFactory CreditsResponseModelFactory { get; private set; }
+        public IUsersResponseModelFactory UsersResponseModelFactory { get; private set; }
+        public UsersController(IUserService userService, ICreditsResponseModelFactory creditsResponseModelFactory, IUsersResponseModelFactory usersResponseModelFactory)
         {
             UserService = userService;
+            CreditsResponseModelFactory = creditsResponseModelFactory;
+            UsersResponseModelFactory = usersResponseModelFactory;
         }
 
         [HttpGet(Name = "SearchUsers")]
@@ -29,7 +34,7 @@ namespace TFN.Api.Controllers
             
             var users = await UserService.SearchUsers(username, offset, limit);
 
-            var model = users.Select(x => CreditsResponseModel.From(x, HttpContext.GetAbsoluteUri()));
+            var model = users.Select(x => CreditsResponseModelFactory.From(x, HttpContext.GetAbsoluteUri()));
 
             return Json(model);
         }
@@ -39,14 +44,13 @@ namespace TFN.Api.Controllers
         public async Task<IActionResult> SearchMe()
         {
             var user = await UserService.GetByUsernameAsync(HttpContext.GetUsername());
-            var credit = await UserService.GetCredits(HttpContext.GetUsername());
 
-            if (user == null || credit == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            var model = UserResponseModel.From(user, credit, AbsoluteUri);
+            var model = await UsersResponseModelFactory.From(user, AbsoluteUri);
             
             return Json(model);
         }

@@ -12,6 +12,7 @@ using TFN.Api.Models.ModelBinders;
 using TFN.Api.Models.QueryModels;
 using TFN.Api.Models.ResponseModels;
 using TFN.Api.Extensions;
+using TFN.Api.Models.Interfaces;
 using TFN.Domain.Interfaces.Services;
 using TFN.Domain.Models.Entities;
 using TFN.Domain.Models.Enums;
@@ -25,11 +26,20 @@ namespace TFN.Api.Controllers
     public class PostController : AppController
     {
         public IPostService PostService { get; private set; }
-        public IAuthorizationService AuthorizationService { get; private set; }
         public ICreditService CreditService { get; private set; }
-        public PostController(IPostService postService, IAuthorizationService authorizationService, ICreditService creditService)
+        public IPostResponseModelFactory PostResponseModelFactory { get; private set; }
+        public IPostSummaryResponseModelFactory PostSummaryResponseModelFactory { get; private set; }
+        public ICommentResponseModelFactory CommentResponseModelFactory { get; private set; }
+        public ICommentSummaryResponseModelFactory CommentSummaryResponseModelFactory { get; private set; }
+        public IAuthorizationService AuthorizationService { get; private set; }
+        
+        public PostController(IPostService postService, IAuthorizationService authorizationService, ICreditService creditService, IPostResponseModelFactory postResponseModelFactory, IPostSummaryResponseModelFactory postSummaryResponseModelFactory, ICommentResponseModelFactory commentResponseModelFactory, ICommentSummaryResponseModelFactory commentSummaryResponseModelFactory) 
         {
             PostService = postService;
+            PostResponseModelFactory = postResponseModelFactory;
+            PostSummaryResponseModelFactory = postSummaryResponseModelFactory;
+            CommentResponseModelFactory = commentResponseModelFactory;
+            CommentSummaryResponseModelFactory = commentSummaryResponseModelFactory;
             AuthorizationService = authorizationService;
             CreditService = creditService;
         }
@@ -41,25 +51,12 @@ namespace TFN.Api.Controllers
             [ModelBinder(BinderType = typeof(OffsetQueryModelBinder))]int offset = 0,
             [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]int limit = 7)
         {
-            var c = Thread.CurrentThread.CurrentCulture;
-
             var posts = await PostService.GetAllPostsAsync(offset, limit);
-
-            var summaries = new List<PostSummary>();
-
-            foreach (var post in posts)
-            {
-                var summary =  await PostService.GetPostLikeSummaryAsync(post.Id, 5, Username);
-                summaries.Add(summary);
-            }
-
+            
             var model = new List<PostResponseModel>();
             foreach (var post in posts)
             {
-                var summary = summaries.SingleOrDefault(x => x.PostId == post.Id);
-                var credits = await CreditService.GetByUserIdAsync(post.UserId);
-                var authZ = ResourceAuthorizationResponseModel.From(post, HttpContext, Caller);
-                model.Add(PostResponseModel.From(post,summary,credits,authZ,AbsoluteUri));
+                model.Add(await PostResponseModelFactory.From(post,AbsoluteUri));
             }
 
             if (exclude != null)
@@ -81,11 +78,8 @@ namespace TFN.Api.Controllers
             {
                 return NotFound();
             }
-
-            var summary = await PostService.GetPostLikeSummaryAsync(postId, 5, Username);
-            var credits = await CreditService.GetByUserIdAsync(post.UserId);
-            var authZ = ResourceAuthorizationResponseModel.From(post, HttpContext, Caller);
-            var model = PostResponseModel.From(post, summary, credits,authZ, AbsoluteUri);
+            
+            var model = await PostResponseModelFactory.From(post, AbsoluteUri);
 
 
             if (exclude != null)
@@ -114,7 +108,8 @@ namespace TFN.Api.Controllers
             }
 
             var credits = await CreditService.GetByUserIdAsync(post.UserId);
-            var model = PostSummaryResponseModel.From(postSummary, credits, AbsoluteUri);
+
+            var model = PostSummaryResponseModelFactory.From(postSummary, credits, AbsoluteUri);
 
             return Json(model);
         }
@@ -133,12 +128,8 @@ namespace TFN.Api.Controllers
                 return NotFound();
             }
 
-            var summary = await PostService.GetCommentScoreSummaryAsync(commentId, 5, Username);
-            var credits = await CreditService.GetByUserIdAsync(comment.UserId);
-            var authZ = ResourceAuthorizationResponseModel.From(comment, HttpContext, Caller);
-            var model = CommentResponseModel.From(comment,summary,credits,authZ,AbsoluteUri);
-
-
+            var model = await CommentResponseModelFactory.From(comment, AbsoluteUri);
+            
             if (exclude != null)
             {
                 return this.Json(model, exclude.Attributes);
@@ -172,10 +163,7 @@ namespace TFN.Api.Controllers
             var model = new List<CommentResponseModel>();
             foreach (var comment in comments)
             {
-                var summary = summaries.SingleOrDefault(x => x.CommentId == comment.Id);
-                var credits = await CreditService.GetByUserIdAsync(comment.UserId);
-                var authZ = ResourceAuthorizationResponseModel.From(comment, HttpContext, Caller);
-                model.Add(CommentResponseModel.From(comment,summary,credits,authZ,AbsoluteUri));
+                model.Add(await CommentResponseModelFactory.From(comment,AbsoluteUri));
             }
 
 
@@ -206,7 +194,8 @@ namespace TFN.Api.Controllers
                 return NotFound();
             }
             var credits = await CreditService.GetByUserIdAsync(comment.UserId);
-            var model = CommentSummaryResponseModel.From(commentSummary,credits, AbsoluteUri, postId);
+            
+            var model = CommentSummaryResponseModelFactory.From(commentSummary, credits, postId, AbsoluteUri);
 
             return Json(model);
         }
@@ -263,14 +252,10 @@ namespace TFN.Api.Controllers
             }
 
             await PostService.AddAsync(entity);
-            var summary = await PostService.GetPostLikeSummaryAsync(entity.Id, 5, Username);
             await CreditService.ReduceCreditsAsync(credits, 5);
-            credits = await CreditService.GetByUserIdAsync(entity.UserId);
-            var authZ = ResourceAuthorizationResponseModel.From(entity, HttpContext, Caller);
-            var model = PostResponseModel.From(entity,summary,credits,authZ, AbsoluteUri);
 
+            var model = await PostResponseModelFactory.From(entity, AbsoluteUri);
             
-
             return CreatedAtAction("GetPost", new {postId = model.Id}, model);
         }
 
@@ -297,12 +282,8 @@ namespace TFN.Api.Controllers
             }
 
             await PostService.AddAsync(entity);
-
-            var summary = await PostService.GetCommentScoreSummaryAsync(entity.Id, 5, Username);
-
-            var credits = await CreditService.GetByUserIdAsync(entity.UserId);
-            var authZ = ResourceAuthorizationResponseModel.From(entity, HttpContext, Caller);
-            var model = CommentResponseModel.From(entity, summary,credits, authZ ,AbsoluteUri);
+            
+            var model = await CommentResponseModelFactory.From(entity, AbsoluteUri);
 
             return CreatedAtAction("GetComment", new {postId = model.PostId, commentId = model.Id}, model);
         }

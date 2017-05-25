@@ -7,6 +7,7 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TFN.Infrastructure.Architecture.Documents.Attributes;
+using TFN.Infrastructure.Interfaces.Components;
 
 namespace TFN.Infrastructure.Architecture.Repositories.Document
 {
@@ -14,10 +15,12 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
     {
         public DocumentClient DocumentClient { get; private set; }
         public string DatabaseName { get; private set; }
+        public IQueryCursorComponent QueryCursorComponent { get; private set; }
         public ILogger Logger { get; private set; }
-        public DocumentContext(IOptions<DocumentDbSettings> settings, ILogger<DocumentContext> logger)
+        public DocumentContext(IQueryCursorComponent queryCursorComponent, IOptions<DocumentDbSettings> settings, ILogger<DocumentContext> logger)
         {
             DatabaseName = settings.Value.DatabaseName;
+            QueryCursorComponent = queryCursorComponent;
             Logger = logger;
             DocumentClient = new DocumentClient(settings.Value.DatabaseUri, settings.Value.DatabaseKey, new ConnectionPolicy
             {
@@ -68,7 +71,7 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             {
                 throw new InvalidOperationException($"Type '{typeof(TDocument).Name}' does not have a [CollectionOptions] attribute.");
             }
-            return new DocumentCollection<TDocument>(DocumentClient, Logger, DatabaseName, options.CollectionName);
+            return new DocumentCollection<TDocument>(DocumentClient, Logger, QueryCursorComponent, DatabaseName, options.CollectionName);
         }
     }
 }

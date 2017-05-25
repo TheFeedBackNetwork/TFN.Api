@@ -7,6 +7,8 @@ using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Extensions.Logging;
+using TFN.Infrastructure.Interfaces.Components;
+
 
 namespace TFN.Infrastructure.Architecture.Repositories.Document
 {
@@ -18,12 +20,15 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
         public string DatabaseName { get; private set; }
         public string CollectionName { get; private set; }
         public ILogger Logger { get; private set; }
-        public DocumentCollection(DocumentClient documentClient, ILogger logger, string databaseName, string collectionName)
+        public IQueryCursorComponent QueryCursorComponent { get; private set; }
+        public DocumentCollection(DocumentClient documentClient, ILogger logger,IQueryCursorComponent queryCursorComponent,  string databaseName, string collectionName)
         {
             Logger = logger;
             DocumentClient = documentClient;
             CollectionName = collectionName;
             DatabaseName = databaseName;
+            QueryCursorComponent = queryCursorComponent;
+
             CollectionUri = GetCollectionLink();
             
             CreateCollectionIfNotExist().Wait();
@@ -108,34 +113,52 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             }
         }
 
-        public async Task<IEnumerable<TDocument>> FindAll()
+        public async Task<IEnumerable<TDocument>> FindAll(int maxItems, string continutationToken = null)
         {
-            var query = DocumentClient.CreateDocumentQuery<TDocument>(CollectionUri).AsDocumentQuery();
+            var options = new FeedOptions
+            {
+                MaxItemCount = maxItems,
+                RequestContinuation = continutationToken
+            };
+
+            var query = DocumentClient.CreateDocumentQuery<TDocument>(CollectionUri, options).AsDocumentQuery();
+
             var list = new List<TDocument>();
 
-            while (query.HasMoreResults)
+            if (query.HasMoreResults)
             {
-                list.AddRange(await query.ExecuteNextAsync<TDocument>());
+                var result = await query.ExecuteNextAsync<TDocument>();
+                var nextCursor = result.ResponseContinuation;
+                QueryCursorComponent.SetCursor(nextCursor);
+                list.AddRange(result);
             }
 
             return list;
         }
 
-        public async Task<IEnumerable<TDocument>> FindAll(Expression<Func<TDocument, bool>> predicate)
+        public async Task<IEnumerable<TDocument>> FindAll(Expression<Func<TDocument, bool>> predicate, int maxItems, string continutationToken = null)
         {
+            var options = new FeedOptions
+            {
+                MaxItemCount = maxItems,
+                RequestContinuation = continutationToken
+            };
 
             var query = DocumentClient
-                .CreateDocumentQuery<TDocument>(CollectionUri)
+                .CreateDocumentQuery<TDocument>(CollectionUri,options)
                 .Where(predicate)
                 .Select(x => x)
                 .AsDocumentQuery();
-
-
+            
+            
             var list = new List<TDocument>();
 
-            while (query.HasMoreResults)
+            if (query.HasMoreResults)
             {
-                list.AddRange(await query.ExecuteNextAsync<TDocument>());
+                var result = await query.ExecuteNextAsync<TDocument>();
+                var nextCursor = result.ResponseContinuation;
+                QueryCursorComponent.SetCursor(nextCursor);
+                list.AddRange(result);
             }
 
             return list;

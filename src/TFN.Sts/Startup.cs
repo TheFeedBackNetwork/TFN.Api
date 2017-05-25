@@ -41,15 +41,14 @@ namespace TFN.Sts
             {
                 builder.AddUserSecrets("tfn-local");
 
-                loggerFactory.AddConsole(LogLevel.Trace);
-                loggerFactory.AddDebug(LogLevel.Trace);
+                loggerFactory
+                    .AddConsole()
+                    .AddDebug();
             }
 
             if (!env.IsLocal())
             {
-                loggerFactory.AddAppendBlob(
-                    Configuration["Logging:StorageAccountConnectionString"],
-                    LogLevel.Information);
+                loggerFactory.AddAzureWebAppDiagnostics();
 
                 loggerFactory.AddEmail(
                     Configuration["Logging:Email:SupportEmail"],
@@ -66,7 +65,7 @@ namespace TFN.Sts
             HostingEnvironment = env;
 
             var logger = loggerFactory.CreateLogger<Startup>();
-            logger.LogInformation("The Feedback Network Sts application configuration is starting.");
+            logger.LogInformation("TFN.Sts application configuration is starting.");
         }
 
 

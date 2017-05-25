@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TFN.Api.Authorization.Handlers;
-using TFN.Domain.Interfaces.Components;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Interfaces.Services;
 using TFN.Domain.Services;
@@ -21,6 +20,7 @@ using TFN.Domain.Services.TransientUsers;
 using TFN.Domain.Services.UserAccounts;
 using TFN.Infrastructure.Components;
 using TFN.Infrastructure.Components.Storage;
+using TFN.Infrastructure.Interfaces.Components;
 using TFN.Infrastructure.Repositories.ApplicationClientAggregate.InMemory;
 using TFN.Infrastructure.Repositories.CommentAggregate.InMemory;
 using TFN.Infrastructure.Repositories.CreditAggregate.InMemory;
@@ -31,6 +31,8 @@ using TFN.Infrastructure.Repositories.UserAccountAggregate.InMemory;
 using TFN.Infrastructure.Modules.Email;
 using TFN.Infrastructure.Repositories.ResourceAggregate.InMemory;
 using TFN.Mvc.Extensions;
+using IBlobStorageComponent = TFN.Domain.Interfaces.Components.IBlobStorageComponent;
+using IS3StorageComponent = TFN.Domain.Interfaces.Components.IS3StorageComponent;
 
 namespace TFN.Resolution
 {
@@ -70,6 +72,7 @@ namespace TFN.Resolution
             //components
             services.AddTransient<IS3StorageComponent, S3StorageComponent>();
             services.AddTransient<IBlobStorageComponent, BlobStorageComponent>();
+            services.AddScoped<IQueryCursorComponent, QueryCursorComponent>();
 
             //email
             services.AddEmailService<EmailService>(options =>

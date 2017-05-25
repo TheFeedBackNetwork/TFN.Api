@@ -40,6 +40,7 @@ namespace TFN.Api.Models.ResponseModels
         internal static CommentResponseModel From(Comment comment,CommentSummary summary,Credits credits,ResourceAuthorizationResponseModel authZ, string apiUrl)
         {
             string postApiurl = new Uri($"{apiUrl}/api/posts/{comment.PostId}").AbsoluteUri;
+
             return new CommentResponseModel(
                 comment.Id,
                 comment.PostId,
@@ -48,7 +49,7 @@ namespace TFN.Api.Models.ResponseModels
                 comment.Username,
                 comment.Created,
                 comment.Modified,
-                CommentSummaryResponseModel.From(summary,credits,apiUrl,comment.PostId), 
+                CommentSummaryResponseModel.From(summary,credits, comment.PostId, apiUrl), 
                 authZ,
                 postApiurl
                 );
