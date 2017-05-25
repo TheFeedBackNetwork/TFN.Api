@@ -14,11 +14,12 @@ namespace TFN.Api.Models.Factories
         public IResourceAuthorizationResponseModelFactory ResourceAuthorizationResponseModelFactory { get; private set; }
         public IHttpContextAccessor HttpContextAccessor { get; private set; }
         public CommentResponseModelFactory(ICreditRepository creditRepository, ICommentRepository commentRepository,
-            IResourceAuthorizationResponseModelFactory resourceAuthorizationResponseModelFactory)
+            IResourceAuthorizationResponseModelFactory resourceAuthorizationResponseModelFactory, IHttpContextAccessor httpContextAccessor)
         {
             CreditRepository = creditRepository;
             CommentRepository = commentRepository;
             ResourceAuthorizationResponseModelFactory = resourceAuthorizationResponseModelFactory;
+            HttpContextAccessor = httpContextAccessor;
         }
         public async Task<CommentResponseModel> From(Comment comment, string apiUrl)
         {

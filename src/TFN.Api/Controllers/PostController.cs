@@ -38,6 +38,7 @@ namespace TFN.Api.Controllers
             PostService = postService;
             PostResponseModelFactory = postResponseModelFactory;
             PostSummaryResponseModelFactory = postSummaryResponseModelFactory;
+            CommentResponseModelFactory = commentResponseModelFactory;
             CommentSummaryResponseModelFactory = commentSummaryResponseModelFactory;
             AuthorizationService = authorizationService;
             CreditService = creditService;
@@ -251,6 +252,7 @@ namespace TFN.Api.Controllers
             }
 
             await PostService.AddAsync(entity);
+            await CreditService.ReduceCreditsAsync(credits, 5);
 
             var model = await PostResponseModelFactory.From(entity, AbsoluteUri);
             
