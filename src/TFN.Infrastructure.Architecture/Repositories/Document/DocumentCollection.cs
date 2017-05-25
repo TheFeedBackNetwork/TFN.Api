@@ -108,9 +108,15 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             }
         }
 
-        public async Task<IEnumerable<TDocument>> FindAll()
+        public async Task<IEnumerable<TDocument>> FindAll(int maxItems, string continutationToken = null)
         {
-            var query = DocumentClient.CreateDocumentQuery<TDocument>(CollectionUri).AsDocumentQuery();
+            var options = new FeedOptions
+            {
+                MaxItemCount = maxItems,
+                RequestContinuation = continutationToken
+            };
+
+            var query = DocumentClient.CreateDocumentQuery<TDocument>(CollectionUri, options).AsDocumentQuery();
             var list = new List<TDocument>();
 
             while (query.HasMoreResults)
@@ -121,22 +127,33 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             return list;
         }
 
-        public async Task<IEnumerable<TDocument>> FindAll(Expression<Func<TDocument, bool>> predicate)
+        public async Task<IEnumerable<TDocument>> FindAll(Expression<Func<TDocument, bool>> predicate, int maxItems, string continutationToken = null)
         {
+            var options = new FeedOptions
+            {
+                MaxItemCount = maxItems,
+                RequestContinuation = continutationToken
+            };
 
             var query = DocumentClient
-                .CreateDocumentQuery<TDocument>(CollectionUri)
+                .CreateDocumentQuery<TDocument>(CollectionUri,options)
                 .Where(predicate)
                 .Select(x => x)
                 .AsDocumentQuery();
-
-
+            
+            
             var list = new List<TDocument>();
 
-            while (query.HasMoreResults)
+            if (query.HasMoreResults)
+            {
+                var result = await query.ExecuteNextAsync<TDocument>();
+                list.AddRange(result);
+            }
+
+            /*while (query.HasMoreResults)
             {
                 list.AddRange(await query.ExecuteNextAsync<TDocument>());
-            }
+            }*/
 
             return list;
         }

@@ -11,7 +11,7 @@ namespace TFN.Infrastructure.Architecture.Records.Attributes
         {
             if (String.IsNullOrWhiteSpace(recordTableName))
             {
-                throw new ArgumentNullException(nameof(recordTableName), "Collection name cannot be null or empty");
+                throw new ArgumentNullException(nameof(recordTableName), "Record name cannot be null or empty");
             }
 
             RecordTableName = recordTableName;

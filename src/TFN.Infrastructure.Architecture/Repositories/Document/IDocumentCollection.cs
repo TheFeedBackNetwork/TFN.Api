@@ -13,8 +13,8 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
     {
         Task<TDocument> Find(string id);
         Task<TDocument> Find(Expression<Func<TDocument, bool>> predicate);
-        Task<IEnumerable<TDocument>> FindAll();
-        Task<IEnumerable<TDocument>> FindAll(Expression<Func<TDocument, bool>> predicate);
+        Task<IEnumerable<TDocument>> FindAll(int maxItems, string continuationToken);
+        Task<IEnumerable<TDocument>> FindAll(Expression<Func<TDocument, bool>> predicate, int maxItems, string continuationToke);
         Task Add(TDocument document);
         Task Update(TDocument document, string id);
         Task Delete(string id);
