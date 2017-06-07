@@ -7,10 +7,11 @@ namespace TFN.Domain.Models.Entities
     {
         public Guid UserId { get; private set; }
         public string Username { get; private set; }
+        public string NormalizedUsername { get; private set; }
         public int TotalCredits { get; private set; }
-        public int IsActive { get; private set; }
+        public bool IsActive { get; private set; }
 
-        private Credits(Guid id, Guid userId, string username, int totalCredits)
+        private Credits(Guid id, Guid userId, string username, int totalCredits, bool isActive)
             : base(id)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
@@ -29,18 +30,20 @@ namespace TFN.Domain.Models.Entities
             {
                 throw new ArgumentException($"The total credits [{nameof(totalCredits)}] can not be negative.");
             }
+
             UserId = userId;
             Username = username;
             TotalCredits = totalCredits;
+            IsActive = isActive;
         }
 
         public Credits(Guid userId, string userName)
-            : this(Guid.NewGuid(),userId,userName, 10)
+            : this(Guid.NewGuid(),userId,userName, 10, true)
         { }
 
-        public static Credits Hydrate(Guid id, Guid userId, string username, int totalCredits)
+        public static Credits Hydrate(Guid id, Guid userId, string username, int totalCredits, bool isActive)
         {
-            return new Credits(id,userId,username,totalCredits);
+            return new Credits(id,userId,username,totalCredits, isActive);
         }
 
         public Credits ChangeTotalCredits(int amount)

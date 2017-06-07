@@ -13,6 +13,7 @@ namespace TFN.Domain.Models.Entities
         private Like(Guid id, Guid postId, Guid userId, string username, DateTime created)
             : base(id)
         {
+
             PostId = postId;
             UserId = userId;
             Username = username;

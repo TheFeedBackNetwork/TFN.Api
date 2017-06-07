@@ -1,20 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
-using TFN.Infrastructure.Modules.Logging.AppendBlob;
 using TFN.Infrastructure.Modules.Logging.Email;
 
 namespace TFN.Infrastructure.Modules.Logging
 {
     public static class LoggerFactoryExtensions
     {
-        public static ILoggerFactory AddAppendBlob(
-            this ILoggerFactory factory,
-            string connectionString,
-            LogLevel minimumLevel)
-        {
-            factory.AddProvider(new AppendBlobLoggerProvider(connectionString, minimumLevel));
-            return factory;
-        }
-
         public static ILoggerFactory AddEmail(
             this ILoggerFactory factory,
             string recipient,

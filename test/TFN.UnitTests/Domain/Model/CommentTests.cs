@@ -12,7 +12,7 @@ namespace TFN.UnitTests.Domain.Model
         private static Guid PostIdDefault { get { return new Guid("2a2c9a98-1853-4405-b41e-ca589a7c243e"); } }
         private static IReadOnlyList<Score> ScoresDefault { get { return new List<Score> { Score.Hydrate(new Guid("0d7e16cb-372e-4819-add2-79b3095625dc"), new Guid("ff169f0f-b9e6-446d-a0e8-54db590d3836"), new Guid("3d17d22b-9b76-4b2a-aecd-5937f018cda6"),"FooBar", DateTime.UtcNow) , Score.Hydrate(new Guid("e614380f-547c-4422-acb7-5a8020a16553"), new Guid("ff169f0f-b9e6-446d-a0e8-54db590d3836"), new Guid("3d17d22b-9b76-4b2a-aecd-5937f01fcda6"), "FooBarBaz", DateTime.UtcNow) }; } }
         private static Guid UserIdDefault { get { return new Guid("3d17d22b-9b76-4b2a-aecd-5937f018cda6"); } }
-        private static string UserNameDefault { get { return "FooBar"; } }
+        private static string UsernameDefault { get { return "FooBar"; } }
         private static string TextDefault { get { return "This foo is my bar"; } }
         private static bool IsActiveDefault { get { return true; } }
         private static DateTime CreatedDefault { get { return new DateTime(2016, 4, 4, 5, 4, 4); } }
@@ -25,17 +25,17 @@ namespace TFN.UnitTests.Domain.Model
 
         public Comment make_Comment(string text)
         {
-            return make_Comment(CommentIdDefaault, UserIdDefault, PostIdDefault,UserNameDefault, text, ScoresDefault,IsActiveDefault, CreatedDefault, ModifiedDefault);
+            return make_Comment(CommentIdDefaault, UserIdDefault, PostIdDefault,UsernameDefault, text, ScoresDefault,IsActiveDefault, CreatedDefault, ModifiedDefault);
         }
 
         public Comment make_Comment(IReadOnlyList<Score> scores)
         {
-            return make_Comment(CommentIdDefaault, UserIdDefault, PostIdDefault, UserNameDefault, TextDefault, scores, IsActiveDefault, CreatedDefault, ModifiedDefault);
+            return make_Comment(CommentIdDefaault, UserIdDefault, PostIdDefault, UsernameDefault, TextDefault, scores, IsActiveDefault, CreatedDefault, ModifiedDefault);
         }
 
         public Comment make_Comment(DateTime created)
         {
-            return make_Comment(CommentIdDefaault, UserIdDefault, PostIdDefault, UserNameDefault, TextDefault, ScoresDefault, IsActiveDefault, created, ModifiedDefault);
+            return make_Comment(CommentIdDefaault, UserIdDefault, PostIdDefault, UsernameDefault, TextDefault, ScoresDefault, IsActiveDefault, created, ModifiedDefault);
         }
 
         [Theory]

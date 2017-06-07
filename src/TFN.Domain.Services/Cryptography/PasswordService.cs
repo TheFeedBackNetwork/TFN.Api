@@ -33,6 +33,12 @@ namespace TFN.Domain.Services.Cryptography
 
             var meetsLengthRequirements = password.Length >= MinPasswordLength &&
                                           password.Length <= MaxPasswordLength;
+
+            if (password.Trim() != password)
+            {
+                return false;
+            }
+
             var hasLetter = false;
             var hasDecimalDigit = false;
 
