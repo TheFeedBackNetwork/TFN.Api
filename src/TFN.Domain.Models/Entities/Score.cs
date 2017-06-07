@@ -13,6 +13,19 @@ namespace TFN.Domain.Models.Entities
         private Score(Guid id,Guid commentId, Guid userId,string username, DateTime created)
             : base(id)
         {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
+            {
+                throw new ArgumentNullException($"The username [{nameof(username)}] is either null or empty.");
+            }
+            if (username.Length < 3)
+            {
+                throw new ArgumentException($"The username [{nameof(username)}] is too short.");
+            }
+            if (username.Length > 16)
+            {
+                throw new ArgumentException($"The username [{nameof(username)}] is too long.");
+            }
+
             CommentId = commentId;
             UserId = userId;
             Username = username;

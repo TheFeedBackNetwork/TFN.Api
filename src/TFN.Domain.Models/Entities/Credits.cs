@@ -11,7 +11,7 @@ namespace TFN.Domain.Models.Entities
         public int TotalCredits { get; private set; }
         public bool IsActive { get; private set; }
 
-        private Credits(Guid id, Guid userId, string username, int totalCredits, bool isActive)
+        private Credits(Guid id, Guid userId, string username,string normalizedUsername, int totalCredits, bool isActive)
             : base(id)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
@@ -31,19 +31,25 @@ namespace TFN.Domain.Models.Entities
                 throw new ArgumentException($"The total credits [{nameof(totalCredits)}] can not be negative.");
             }
 
+            if (username.ToUpperInvariant() != normalizedUsername)
+            {
+                throw new ArgumentException($"The username [{nameof(username)}] does not have a valid normalizied username.");
+            }
+
             UserId = userId;
             Username = username;
+            NormalizedUsername = normalizedUsername;
             TotalCredits = totalCredits;
             IsActive = isActive;
         }
 
         public Credits(Guid userId, string userName)
-            : this(Guid.NewGuid(),userId,userName, 10, true)
+            : this(Guid.NewGuid(),userId,userName, userName.ToUpperInvariant(), 10, true)
         { }
 
-        public static Credits Hydrate(Guid id, Guid userId, string username, int totalCredits, bool isActive)
+        public static Credits Hydrate(Guid id, Guid userId, string username, string normalizedUsername, int totalCredits, bool isActive)
         {
-            return new Credits(id,userId,username,totalCredits, isActive);
+            return new Credits(id,userId,username, normalizedUsername,totalCredits, isActive);
         }
 
         public Credits ChangeTotalCredits(int amount)
@@ -53,7 +59,7 @@ namespace TFN.Domain.Models.Entities
             {
                 throw new InvalidOperationException("Credits will result in a negative score");
             }
-            return Hydrate(Id,UserId,Username,newCredits, IsActive);
+            return Hydrate(Id,UserId,Username,NormalizedUsername,newCredits, IsActive);
         }
     }
 }

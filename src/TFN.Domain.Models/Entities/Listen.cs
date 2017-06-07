@@ -15,6 +15,26 @@ namespace TFN.Domain.Models.Entities
         private Listen(Guid id, Guid postId, Listener listener, string username, string ipAddress, DateTime created)
             : base(id)
         {
+            if (listener.Equals(Listener.User))
+            {
+                if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
+                {
+                    throw new ArgumentNullException($"The username [{nameof(username)}] is either null or empty.");
+                }
+                if (username.Length < 3)
+                {
+                    throw new ArgumentException($"The username [{nameof(username)}] is too short.");
+                }
+                if (username.Length > 16)
+                {
+                    throw new ArgumentException($"The username [{nameof(username)}] is too long.");
+                }
+            }
+            else
+            {
+                username = null;
+            }
+
             PostId = postId;
             Username = username;
             Listener = listener;

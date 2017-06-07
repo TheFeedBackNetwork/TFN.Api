@@ -9,6 +9,8 @@ namespace TFN.UnitTests.Domain.Model
 {
     public class PostTests
     {
+        const string Category = "Post";
+   
         private static Guid PostIdDefault = new Guid("86bcf89b-6847-4c5d-bcc5-87b69d775e3f");
         private static string PostUserNameDefault = "FooBar";
         private static string CommentUserNameDefault = "BarBaz";
@@ -50,11 +52,10 @@ namespace TFN.UnitTests.Domain.Model
         [Theory]
         [InlineData(10020)]
         [InlineData(1)]
+        [Trait("Category", Category)]
         public void Constructor_InvalidCreated_ArgumentExceptionThrown(int extraSeconds)
         {
             var time = DateTime.UtcNow.AddMinutes(extraSeconds);
-
-            //var instant = SystemClock.Instance.Now.Plus(Duration.FromSeconds(extraSeconds));
 
             this.Invoking(x => x.make_Post(time))
                 .ShouldThrow<ArgumentException>();
@@ -64,6 +65,7 @@ namespace TFN.UnitTests.Domain.Model
         [InlineData("")]
         [InlineData(null)]
         [InlineData("  ")]
+        [Trait("Category", Category)]
         public void Constructor_InvalidText_ArgumentNullExceptionThrown(string text)
         {
             this.Invoking(x => x.make_PostByText(text))
@@ -74,6 +76,7 @@ namespace TFN.UnitTests.Domain.Model
         [InlineData("foob")]
         [InlineData("foo")]
         [InlineData("a")]
+        [Trait("Category", Category)]
         public void Constructor_InvalidText_ArgumentExceptionThrown(string text)
         {
             this.Invoking(x => x.make_PostByText(text))
@@ -83,6 +86,7 @@ namespace TFN.UnitTests.Domain.Model
         [Theory]
         [InlineData(-1)]
         [InlineData(-5000)]
+        [Trait("Category", Category)]
         public void Constructor_InvalidLikes_ArgumentExceptionThrown(int likes)
         {
             this.Invoking(x => x.make_Post(likes))

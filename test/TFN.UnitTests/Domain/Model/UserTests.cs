@@ -8,6 +8,8 @@ namespace TFN.UnitTests.Domain.Model
 {
     public class UserTests
     {
+        const string Category = "Users";
+
         private static Guid UserIdDefault = new Guid("0d7e16cb-372e-4819-add2-79b3095625dc");
         private static string UsernameDefault = "foomusic";
         private static string NormalizedUsernameDefault = "FOOMUSIC";
@@ -28,6 +30,11 @@ namespace TFN.UnitTests.Domain.Model
         public User make_UserByUsername(string username)
         {
             return make_User(UserIdDefault, username, username?.ToUpperInvariant(), ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
+        }
+
+        public User make_UserByNormalizedUsername(string normalizedUsername)
+        {
+            return make_User(UserIdDefault, UsernameDefault, normalizedUsername, ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
         }
 
         public User make_UserByProfilePictureUrl(string profilePictureUrl)
@@ -54,6 +61,7 @@ namespace TFN.UnitTests.Domain.Model
         [InlineData(null)]
         [InlineData("")]
         [InlineData("    ")]
+        [Trait("Category", Category)]
         public void Constructor_InvalidUserName_ArgumentNullExceptionThrown(string username)
         {
 
@@ -64,6 +72,7 @@ namespace TFN.UnitTests.Domain.Model
         [Theory]
         [InlineData("foobarfoobarfoobar")]
         [InlineData("fo")]
+        [Trait("Category", Category)]
         public void Constructor_InvalidUserName_ArgumentExceptionThrown(string username)
         {
             this.Invoking(x => x.make_UserByUsername(username))
@@ -75,9 +84,21 @@ namespace TFN.UnitTests.Domain.Model
         [InlineData("bar@")]
         [InlineData("@bar.com")]
         [InlineData(" @ ")]
+        [Trait("Category", Category)]
         public void Constructor_InvalidEmail_ArgumentExceptionThrown(string email)
         {
             this.Invoking(x => x.make_UserByEmail(email))
+                .ShouldThrow<ArgumentException>();
+        }
+
+        [Theory]
+        [InlineData("flknIOFD")]
+        [InlineData("alkngfjlkan")]
+        [InlineData("sglksdngsd")]
+        [Trait("Category", Category)]
+        public void Constructor_InvalidNormalizedUsername_ArgumentExceptionThrown(string normalizedUsername)
+        {
+            this.Invoking(x => x.make_UserByNormalizedUsername(normalizedUsername))
                 .ShouldThrow<ArgumentException>();
         }
 
