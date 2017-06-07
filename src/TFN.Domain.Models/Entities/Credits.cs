@@ -53,7 +53,7 @@ namespace TFN.Domain.Models.Entities
             {
                 throw new InvalidOperationException("Credits will result in a negative score");
             }
-            return Hydrate(Id,UserId,Username,newCredits);
+            return Hydrate(Id,UserId,Username,newCredits, IsActive);
         }
     }
 }
