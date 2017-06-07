@@ -18,10 +18,7 @@ namespace TFN.UnitTests.Domain.Services
         [InlineData("foobar123")]
         [InlineData("f123123")]
         [InlineData("fffff1")]
-        [InlineData("      f1")]
         [InlineData("1     f")]
-        [InlineData("      f1")]
-        [InlineData("  f1  ")]
         [Trait("Category", Category)]
         public void IsPasswordValid_PasswordIsValid_ReturnsTrue(string password)
         {
@@ -32,6 +29,9 @@ namespace TFN.UnitTests.Domain.Services
         [InlineData("foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123foobar123")]
         [InlineData("111111")]
         [InlineData("aaaaaa")]
+        [InlineData("      f1")]
+        [InlineData("  f1  ")]
+        [InlineData("f1         ")]
         [Trait("Category", Category)]
         public void IsPasswordValid_PasswordIsInvalid_ReturnsFalse(string password)
         {

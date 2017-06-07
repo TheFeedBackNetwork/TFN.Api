@@ -13,6 +13,9 @@ namespace TFN.Infrastructure.Architecture.Documents
         [JsonProperty(PropertyName = "id", Order = -2)]
         public TKey Id { get; set; }
 
+        [JsonProperty(PropertyName = "type", Order = -1)]
+        public string Type { get; set; }
+
         [JsonProperty(PropertyName = "created", Order = 1)]
         public DateTime Created { get; set; }
 
@@ -23,10 +26,11 @@ namespace TFN.Infrastructure.Architecture.Documents
             
         }
 
-        public BaseDocument(TKey id, DateTime created, DateTime modified)
+        public BaseDocument(TKey id, string type, DateTime created, DateTime modified)
             : this()
         {
             Id = id;
+            Type = type;
             Created = created;
             Modified = modified;
         }

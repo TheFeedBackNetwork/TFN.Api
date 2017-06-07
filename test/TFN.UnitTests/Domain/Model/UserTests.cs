@@ -8,50 +8,60 @@ namespace TFN.UnitTests.Domain.Model
 {
     public class UserTests
     {
-        private static Guid UserIdDefault { get { return new Guid("0d7e16cb-372e-4819-add2-79b3095625dc"); } }
-        private static string UsernameDefault { get { return "foomusic"; } }
-        private static string ProfilePictureUrlDefault { get { return "tfn.foo.bar/picture/foo.png"; } }
-        private static string EmailDefault { get { return "foo@bar.com"; } }
-        private static string GivenNameDefault { get { return "foo"; } }
-        private static string FamilyNameDefault { get { return "bar"; } }
-        public static Biography BiographyDefault { get { return Biography.From("FooBar", "www.instagram.com/foo", "www.soundcloud.com/bar","www.twitter.com/baz","www.youtube.com/bo","www.facebook.com/bing","yourmomshouse"); } }
-        private static DateTime CreatedDefault { get { return new DateTime(2016, 4, 4, 5, 4, 4); } }
-        public static bool IsActiveDefault { get { return true;} }
+        const string Category = "Users";
 
-        public User make_User(Guid id, string username, string profilePictureUrl, string email, string givenName, string familyName, Biography biography, DateTime created)
+        private static Guid UserIdDefault = new Guid("0d7e16cb-372e-4819-add2-79b3095625dc");
+        private static string UsernameDefault = "foomusic";
+        private static string NormalizedUsernameDefault = "FOOMUSIC";
+        private static string ProfilePictureUrlDefault = "tfn.foo.bar/picture/foo.png";
+        private static string EmailDefault = "foo@bar.com";
+        private static string NormalizedEmailDefault  = "FOO@BAR.COM";
+        private static string GivenNameDefault = "foo";
+        private static string FamilyNameDefault = "bar";
+        public static Biography BiographyDefault = Biography.From("FooBar", "www.instagram.com/foo", "www.soundcloud.com/bar", "www.twitter.com/baz", "www.youtube.com/bo", "www.facebook.com/bing", "yourmomshouse");
+        private static DateTime CreatedDefault = new DateTime(2016, 4, 4, 5, 4, 4);
+        public static bool IsActiveDefault = true;
+
+        public User make_User(Guid id, string username, string normalizedUsername, string profilePictureUrl, string email,string normalizedEmail, string givenName, string familyName, Biography biography, DateTime created)
         {
-            return User.Hydrate(id, username, profilePictureUrl, email, givenName, biography, created, IsActiveDefault);
+            return User.Hydrate(id, username,normalizedUsername, profilePictureUrl, email, normalizedEmail, givenName, biography, created, IsActiveDefault);
         }
 
         public User make_UserByUsername(string username)
         {
-            return make_User(UserIdDefault, username, ProfilePictureUrlDefault, EmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
+            return make_User(UserIdDefault, username, username?.ToUpperInvariant(), ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
+        }
+
+        public User make_UserByNormalizedUsername(string normalizedUsername)
+        {
+            return make_User(UserIdDefault, UsernameDefault, normalizedUsername, ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
         }
 
         public User make_UserByProfilePictureUrl(string profilePictureUrl)
         {
-            return make_User(UserIdDefault, UsernameDefault, profilePictureUrl, EmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
+            return make_User(UserIdDefault, UsernameDefault, NormalizedUsernameDefault, profilePictureUrl, EmailDefault,NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
         }
 
         public User make_UserByEmail(string email)
         {
-            return make_User(UserIdDefault, UsernameDefault, ProfilePictureUrlDefault, email, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
+            return make_User(UserIdDefault, UsernameDefault, NormalizedUsernameDefault, ProfilePictureUrlDefault, email, NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
         }
 
         public User make_UserByGivenName(string givenName)
         {
-            return make_User(UserIdDefault, UsernameDefault, ProfilePictureUrlDefault, EmailDefault, givenName, FamilyNameDefault, BiographyDefault, CreatedDefault);
+            return make_User(UserIdDefault, UsernameDefault,NormalizedUsernameDefault, ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault , givenName, FamilyNameDefault, BiographyDefault, CreatedDefault);
         }
 
         public User make_UserByFamilyName(string familyName)
         {
-            return make_User(UserIdDefault, UsernameDefault, ProfilePictureUrlDefault, EmailDefault, GivenNameDefault, familyName, BiographyDefault, CreatedDefault);
+            return make_User(UserIdDefault, UsernameDefault, NormalizedUsernameDefault,  ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault, GivenNameDefault, familyName, BiographyDefault, CreatedDefault);
         }
 
         [Theory]
         [InlineData(null)]
         [InlineData("")]
         [InlineData("    ")]
+        [Trait("Category", Category)]
         public void Constructor_InvalidUserName_ArgumentNullExceptionThrown(string username)
         {
 
@@ -62,6 +72,7 @@ namespace TFN.UnitTests.Domain.Model
         [Theory]
         [InlineData("foobarfoobarfoobar")]
         [InlineData("fo")]
+        [Trait("Category", Category)]
         public void Constructor_InvalidUserName_ArgumentExceptionThrown(string username)
         {
             this.Invoking(x => x.make_UserByUsername(username))
@@ -73,9 +84,21 @@ namespace TFN.UnitTests.Domain.Model
         [InlineData("bar@")]
         [InlineData("@bar.com")]
         [InlineData(" @ ")]
+        [Trait("Category", Category)]
         public void Constructor_InvalidEmail_ArgumentExceptionThrown(string email)
         {
             this.Invoking(x => x.make_UserByEmail(email))
+                .ShouldThrow<ArgumentException>();
+        }
+
+        [Theory]
+        [InlineData("flknIOFD")]
+        [InlineData("alkngfjlkan")]
+        [InlineData("sglksdngsd")]
+        [Trait("Category", Category)]
+        public void Constructor_InvalidNormalizedUsername_ArgumentExceptionThrown(string normalizedUsername)
+        {
+            this.Invoking(x => x.make_UserByNormalizedUsername(normalizedUsername))
                 .ShouldThrow<ArgumentException>();
         }
 

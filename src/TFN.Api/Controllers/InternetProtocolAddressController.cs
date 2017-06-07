@@ -13,8 +13,7 @@ namespace TFN.Api.Controllers
         {
             var IP = HttpContext.Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
-            var model = new Dictionary<string,string>();
-            model["IP"] = IP;
+            var model = new Dictionary<string, string> {["IP"] = IP};
 
             return Json(model);
         }

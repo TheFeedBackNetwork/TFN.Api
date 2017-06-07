@@ -16,6 +16,16 @@ namespace TFN.Domain.Models.Entities
         public Track(Guid id, Guid userId, Uri location, IReadOnlyList<int> soundWave,TrackMetaData metaData, DateTime created)
             : base(id)
         {
+            if (soundWave.Count < 4000)
+            {
+                throw new ArgumentException($"The soundwave [{nameof(soundWave)}] must have 4000 or more data points.");
+            }
+
+            if (metaData == null)
+            {
+                throw new ArgumentNullException($"The track metadata [{metaData}] cannot be null.");
+            }
+
             UserId = userId;
             Location = location;
             SoundWave = soundWave;

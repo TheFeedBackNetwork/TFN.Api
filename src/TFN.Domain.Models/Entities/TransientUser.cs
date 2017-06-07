@@ -7,16 +7,18 @@ namespace TFN.Domain.Models.Entities
     public class TransientUser : DomainEntity<Guid>, IAggregateRoot
     {
         public string Username { get; private set; }
+        public string NormalizedUsername { get; private set; }
         public string Email { get; private set; }
+        public string NormalizedEmail { get; private set; }
         public string EmailVerificationKey { get; private set; }
 
         public TransientUser(string username, string email, string emailVerificationKey)
-            : this(Guid.NewGuid(), username, email, emailVerificationKey)
+            : this(Guid.NewGuid(), username, username.ToUpperInvariant(), email, email.ToUpperInvariant(), emailVerificationKey)
         {
             
         }
 
-        private TransientUser(Guid id, string username, string email, string emailVerificationKey)
+        private TransientUser(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string emailVerificationKey)
             : base(id)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
@@ -39,15 +41,25 @@ namespace TFN.Domain.Models.Entities
             {
                 throw new ArgumentNullException($"{nameof(emailVerificationKey)} may not be empty or whitespace.");
             }
+            if (email.ToUpperInvariant() != normalizedEmail)
+            {
+                throw new ArgumentException($"The email [{nameof(email)}] does not have a valid normalized email.");
+            }
+            if (username.ToUpperInvariant() != normalizedUsername)
+            {
+                throw new ArgumentException($"The username [{nameof(username)}] does not have a valid normalizied username.");
+            }
 
             Username = username;
+            NormalizedUsername = NormalizedUsername;
             Email = email;
+            NormalizedEmail = normalizedEmail;
             EmailVerificationKey = emailVerificationKey;
         }
 
-        public static TransientUser Hydrate(Guid id, string username, string email, string emailVerificationKey)
+        public static TransientUser Hydrate(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string emailVerificationKey)
         {
-            return new TransientUser(id,username,email, emailVerificationKey);
+            return new TransientUser(id,username,normalizedUsername,email, normalizedEmail, emailVerificationKey);
         }
     }
 }
