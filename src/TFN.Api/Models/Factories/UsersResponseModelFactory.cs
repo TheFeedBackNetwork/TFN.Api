@@ -16,7 +16,7 @@ namespace TFN.Api.Models.Factories
         {
             CreditRepository = creditRepository;
         }
-        public async  Task<UserResponseModel> From(User user, string apiUrl)
+        public async  Task<UserResponseModel> From(UserAccount user, string apiUrl)
         {
             var credits = await CreditRepository.GetByUsername(user.Username);
 

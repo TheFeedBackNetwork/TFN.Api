@@ -10,7 +10,9 @@ namespace TFN.Domain.Models.Entities
         public string NormalizedUsername { get; private set; }
         public string Email { get; private set; }
         public string NormalizedEmail { get; private set; }
-        public string EmailVerificationKey { get; private set; }
+        public string VerificationKey { get; private set; }
+        public DateTime Created { get; private set; }
+        public DateTime Modified { get; private set; }
 
         public TransientUser(string username, string email, string emailVerificationKey)
             : this(Guid.NewGuid(), username, username.ToUpperInvariant(), email, email.ToUpperInvariant(), emailVerificationKey)
@@ -18,7 +20,7 @@ namespace TFN.Domain.Models.Entities
             
         }
 
-        private TransientUser(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string emailVerificationKey)
+        private TransientUser(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string verificationKey)
             : base(id)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
@@ -37,9 +39,9 @@ namespace TFN.Domain.Models.Entities
             {
                 throw new ArgumentException($"The email [{nameof(email)}] is not a valid email.");
             }
-            if (string.IsNullOrWhiteSpace(emailVerificationKey))
+            if (string.IsNullOrWhiteSpace(verificationKey))
             {
-                throw new ArgumentNullException($"{nameof(emailVerificationKey)} may not be empty or whitespace.");
+                throw new ArgumentNullException($"{nameof(verificationKey)} may not be empty or whitespace.");
             }
             if (email.ToUpperInvariant() != normalizedEmail)
             {
@@ -54,7 +56,7 @@ namespace TFN.Domain.Models.Entities
             NormalizedUsername = NormalizedUsername;
             Email = email;
             NormalizedEmail = normalizedEmail;
-            EmailVerificationKey = emailVerificationKey;
+            VerificationKey = verificationKey;
         }
 
         public static TransientUser Hydrate(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string emailVerificationKey)

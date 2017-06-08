@@ -86,7 +86,7 @@ namespace TFN.Sts
                 certStore.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
                 var certCollection = certStore.Certificates.Find(
                     X509FindType.FindBySubjectName,
-                    Configuration["Certificate:Name"],
+                    Configuration["Certificate:FullName"],
                     false);
 
 

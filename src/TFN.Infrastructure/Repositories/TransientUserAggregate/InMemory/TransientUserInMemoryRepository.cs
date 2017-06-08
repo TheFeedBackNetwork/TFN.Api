@@ -32,7 +32,7 @@ namespace TFN.Infrastructure.Repositories.TransientUserAggregate.InMemory
 
         public Task<TransientUser> GetByEmailVerificationKeyAsync(string emailVerificationKey)
         {
-            return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.EmailVerificationKey == emailVerificationKey));
+            return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.VerificationKey == emailVerificationKey));
         }
 
         public Task Update(TransientUser entity)

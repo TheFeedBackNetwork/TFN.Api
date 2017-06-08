@@ -6,16 +6,16 @@ using TFN.Domain.Models.Entities;
 
 namespace TFN.Domain.Interfaces.Repositories
 {
-    public interface IUserRepository : IAddableRepository<User, Guid>, IDeleteableRepository<User, Guid>, IUpdateableRepository<User,Guid>
+    public interface IUserRepository : IAddableRepository<UserAccount, Guid>, IDeleteableRepository<UserAccount, Guid>, IUpdateableRepository<UserAccount,Guid>
     {
-        Task<User> GetByUsernameAsync(string username);
-        Task<User> GetByEmailAsync(string email);
-        Task<User> GetByChangePasswordKey(string changePasswordKey);
-        Task<User> GetByUsernameAsync(string username,string password);
-        Task<User> GetByEmailAsync(string email, string password);
-        Task Add(User entity, string password);
-        Task UpdateChangePasswordKeyAsync(User user, string changePasswordKey);
-        Task UpdateUserPasswordAsync(User user, string password);
+        Task<UserAccount> GetByUsernameAsync(string username);
+        Task<UserAccount> GetByEmailAsync(string email);
+        Task<UserAccount> GetByChangePasswordKey(string changePasswordKey);
+        Task<UserAccount> GetByUsernameAsync(string username,string password);
+        Task<UserAccount> GetByEmailAsync(string email, string password);
+        Task Add(UserAccount entity, string password);
+        Task UpdateChangePasswordKeyAsync(UserAccount user, string changePasswordKey);
+        Task UpdateUserPasswordAsync(UserAccount user, string password);
         Task<bool> ChangePasswordKeyExistsAsync(string changePasswordKey);
     }
 }
