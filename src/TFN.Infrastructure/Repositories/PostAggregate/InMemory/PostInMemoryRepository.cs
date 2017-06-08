@@ -10,7 +10,7 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.InMemory
 {
     public class PostInMemoryRepository : IPostRepository
     {
-        public Task AddAsync(Post entity)
+        public Task Add(Post entity)
         {
             InMemoryPosts.Posts.Add(entity);
 
@@ -29,20 +29,20 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.InMemory
             return Task.FromResult(posts);
         }
 
-        public Task<Post> GetAsync(Guid postId)
+        public Task<Post> Find(Guid postId)
         {
             return Task.FromResult(InMemoryPosts.Posts.SingleOrDefault(x => x.Id == postId && x.IsActive));
         }
 
-        public Task UpdateAsync(Post entity)
+        public Task Update(Post entity)
         {
-            DeleteAsync(entity.Id);
-            AddAsync(entity);
+            Delete(entity.Id);
+            Add(entity);
 
             return Task.CompletedTask;
         }
 
-        public Task DeleteAsync(Guid id)
+        public Task Delete(Guid id)
         {
             InMemoryPosts.Posts.RemoveAll(x => x.Id == id);
 

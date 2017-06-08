@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TFN.Api.Authorization.Models.Resource;
 using TFN.Api.Authorization.Operations;
+using TFN.Api.Controllers.Base;
 using TFN.Api.Models.InputModels;
 using TFN.Api.Models.ModelBinders;
 using TFN.Api.Models.QueryModels;

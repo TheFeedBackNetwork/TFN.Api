@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TFN.Api.Controllers.Base;
 using TFN.Api.Extensions;
 using TFN.Api.Models.Interfaces;
 using TFN.Api.Models.ModelBinders;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TFN.Api.Controllers.Base;
 
 namespace TFN.Api.Controllers
 {

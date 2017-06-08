@@ -13,21 +13,21 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
     {
         protected IAggregateMapper<TAggregate, TDocument, TKey> Mapper { get; }
         protected DocumentContext Context { get; }
+        protected IDocumentCollection<TDocument> Collection { get; }
         protected ILogger Logger { get; }
 
         protected DocumentRepository(IAggregateMapper<TAggregate,TDocument,TKey> mapper,DocumentContext context, ILogger logger)
         {
             Context = context;
+            Collection = context.Collection<TDocument>();
             Logger = logger;
             Mapper = mapper;
         }
 
         public virtual async Task<TAggregate> Find(TKey id)
         {
-            var document = await Context
-                .Collection<TDocument>()
-                .Find(id.ToString());
-
+            var document = await Collection.Find(id.ToString());
+            
             if (document == null)
             {
                 return null;
@@ -42,16 +42,12 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
         {
             var document = Mapper.CreateFrom(aggregate);
 
-            await Context
-                .Collection<TDocument>()
-                .Add(document);
+            await Collection.Add(document);
         }
 
         public virtual async Task Delete(TKey id)
         {
-            await Context
-                .Collection<TDocument>()
-                .Delete(id.ToString());
+            await Collection.Delete(id.ToString());
         }
 
         public virtual async Task Update(TAggregate aggregate)
@@ -60,9 +56,7 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
 
             document.Modified = DateTime.UtcNow;
 
-            await Context
-                .Collection<TDocument>()
-                .Update(document, document.Id.ToString());
+            await Collection.Update(document, document.Id.ToString());
         }
     }
 }

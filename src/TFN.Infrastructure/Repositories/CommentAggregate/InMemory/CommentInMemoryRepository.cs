@@ -10,7 +10,7 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
 {
     public class CommentInMemoryRepository : ICommentRepository
     {
-        public Task AddAsync(Comment entity)
+        public Task Add(Comment entity)
         {
             InMemoryComments.Comments.Add(entity);
 
@@ -27,7 +27,7 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
             return Task.CompletedTask;
         }
 
-        public Task DeleteAsync(Guid id)
+        public Task Delete(Guid id)
         {
             InMemoryComments.Comments.RemoveAll(x => x.Id == id);
 
@@ -57,7 +57,7 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
             return Task.FromResult(scores);
         }
 
-        public Task<Comment> GetAsync(Guid id)
+        public Task<Comment> Find(Guid id)
         {
             var comment = InMemoryComments.Comments.SingleOrDefault(x => x.Id == id);
 
@@ -93,7 +93,7 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
             return Task.FromResult(summary);
         }
 
-        public Task UpdateAsync(Comment entity)
+        public Task Update(Comment entity)
         {
             InMemoryComments.Comments.RemoveAll(x => x.Id == entity.Id);
             InMemoryComments.Comments.Add(entity);

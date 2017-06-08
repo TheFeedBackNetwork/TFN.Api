@@ -36,17 +36,17 @@ namespace TFN.Domain.Services.Posts
 
         public async Task<Post> GetPostAsync(Guid postId)
         {
-            return await PostRepository.GetAsync(postId);
+            return await PostRepository.Find(postId);
         }
 
         public async Task AddAsync(Post post)
         {
-            await PostRepository.AddAsync(post);
+            await PostRepository.Add(post);
         }
 
         public async Task UpdateAsync(Post entity)
         {
-            await PostRepository.UpdateAsync(entity);
+            await PostRepository.Update(entity);
         }
 
         public async Task<IReadOnlyList<Like>> GetAllLikesAsync(Guid postId, int offset, int limit)
@@ -66,7 +66,7 @@ namespace TFN.Domain.Services.Posts
         public async Task<Comment> GetCommentAsync(Guid postId, Guid commentId)
         {
             //TODO Check for existing post or not?
-            return await CommentRepository.GetAsync(commentId);
+            return await CommentRepository.Find(commentId);
         }
 
         public async Task<IReadOnlyList<Comment>> GetAllCommentsAsync(Guid postId)
@@ -86,12 +86,12 @@ namespace TFN.Domain.Services.Posts
 
         public async Task UpdateAsync(Comment entity)
         {
-            await CommentRepository.UpdateAsync(entity);
+            await CommentRepository.Update(entity);
         }
 
         public async Task AddAsync(Comment entity)
         {
-            await CommentRepository.AddAsync(entity);
+            await CommentRepository.Add(entity);
         }
 
         public async Task AddAsync(Score entity)
@@ -101,7 +101,7 @@ namespace TFN.Domain.Services.Posts
 
         public async Task DeletePostAsync(Guid postId)
         {
-            await PostRepository.DeleteAsync(postId);
+            await PostRepository.Delete(postId);
         }
 
         public async Task DeleteLikeAsync(Guid postId, Guid likeId)
@@ -111,7 +111,7 @@ namespace TFN.Domain.Services.Posts
 
         public async Task DeleteCommentAsync(Guid commentId)
         {
-            await CommentRepository.DeleteAsync(commentId);
+            await CommentRepository.Delete(commentId);
         }
 
         public async Task DeleteScoreAsync(Guid commentId, Guid scoreId)

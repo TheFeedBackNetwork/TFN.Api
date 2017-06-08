@@ -34,13 +34,13 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.InMemory
             PasswordService = passwordService;
 
         }
-        public Task AddAsync(User entity)
+        public Task Add(User entity)
         {
             InMemoryUsers.Users.Add(entity);
             return Task.FromResult(0);
         }
 
-        public Task AddAsync(User entity, string password)
+        public Task Add(User entity, string password)
         {
             var hashedPassword = PasswordService.HashPassword(password);
             Passwords.Add(entity.Id.ToString(), hashedPassword);
@@ -48,13 +48,13 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.InMemory
             return Task.FromResult(0);
         }
 
-        public Task DeleteAsync(Guid id)
+        public Task Delete(Guid id)
         {
             InMemoryUsers.Users.RemoveAll(x => x.Id == id);
             return Task.FromResult(0);
         }
 
-        public Task<User> GetAsync(Guid id)
+        public Task<User> Find(Guid id)
         {
             return Task.FromResult(InMemoryUsers.Users.SingleOrDefault(x => x.Id == id));
         }
@@ -102,10 +102,10 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.InMemory
             return null;
         }
 
-        public async Task UpdateAsync(User entity)
+        public async Task Update(User entity)
         {
-            await DeleteAsync(entity.Id);
-            await AddAsync(entity);
+            await Delete(entity.Id);
+            await Add(entity);
         }
 
         public Task<User> GetByEmailAsync(string email)

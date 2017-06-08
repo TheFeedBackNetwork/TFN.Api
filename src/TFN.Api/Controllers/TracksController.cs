@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+using TFN.Api.Controllers.Base;
 using TFN.Api.Models.Interfaces;
 using TFN.Api.Models.ResponseModels;
 using TFN.Domain.Interfaces.Repositories;
@@ -56,7 +57,7 @@ namespace TFN.Api.Controllers
         [Authorize("tracks.read")]
         public async Task<IActionResult> GetAsync(Guid trackId)
         {
-            var track = await TrackRepository.GetAsync(trackId);
+            var track = await TrackRepository.Find(trackId);
 
             if (track == null)
             {
@@ -159,7 +160,7 @@ namespace TFN.Api.Controllers
 
                         var track = new Track(resourceId,UserId,processedUri,waveFormData,trackMetaData, DateTime.UtcNow);
 
-                        await TrackRepository.AddAsync(track);
+                        await TrackRepository.Add(track);
 
                         var model = TrackResponseModelFactory.From(track, AbsoluteUri);
 

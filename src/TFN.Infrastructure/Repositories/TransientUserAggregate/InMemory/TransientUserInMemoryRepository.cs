@@ -8,19 +8,19 @@ namespace TFN.Infrastructure.Repositories.TransientUserAggregate.InMemory
 {
     public class TransientUserInMemoryRepository : ITransientUserRepository
     {
-        public Task AddAsync(TransientUser entity)
+        public Task Add(TransientUser entity)
         {
             InMemoryTransientUsers.TransientUsers.Add(entity);
             return Task.CompletedTask;
         }
 
-        public Task DeleteAsync(Guid id)
+        public Task Delete(Guid id)
         {
             InMemoryTransientUsers.TransientUsers.RemoveAll(x => x.Id == id);
             return Task.CompletedTask;
         }
 
-        public Task<TransientUser> GetAsync(Guid id)
+        public Task<TransientUser> Find(Guid id)
         {
             return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.Id == id));
         }
@@ -35,10 +35,10 @@ namespace TFN.Infrastructure.Repositories.TransientUserAggregate.InMemory
             return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.EmailVerificationKey == emailVerificationKey));
         }
 
-        public Task UpdateAsync(TransientUser entity)
+        public Task Update(TransientUser entity)
         {
-            DeleteAsync(entity.Id);
-            AddAsync(entity);
+            Delete(entity.Id);
+            Add(entity);
             return Task.CompletedTask;
         }
 

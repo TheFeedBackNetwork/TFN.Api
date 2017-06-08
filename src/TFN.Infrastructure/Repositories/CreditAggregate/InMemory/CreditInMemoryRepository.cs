@@ -9,18 +9,18 @@ namespace TFN.Infrastructure.Repositories.CreditAggregate.InMemory
 {
     public class CreditInMemoryRepository : ICreditRepository
     {
-        public Task AddAsync(Credits entity)
+        public Task Add(Credits entity)
         {
             InMemoryCredits.Credits.Add(entity);
             return Task.CompletedTask;
         }
 
-        public Task<Credits> GetAsync(Guid id)
+        public Task<Credits> Find(Guid id)
         {
             return Task.FromResult(InMemoryCredits.Credits.SingleOrDefault(x => x.Id == id));
         }
 
-        public Task UpdateAsync(Credits entity)
+        public Task Update(Credits entity)
         {
             InMemoryCredits.Credits.RemoveAll(x => x.Id == entity.Id);
             InMemoryCredits.Credits.Add(entity);

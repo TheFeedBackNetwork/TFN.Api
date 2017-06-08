@@ -14,12 +14,9 @@
     <ProjectReference Include="..\TFN.Domain.Interfaces\TFN.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\TFN.Domain.Models\TFN.Domain.Models.csproj" />
     <ProjectReference Include="..\TFN.Domain.Services\TFN.Domain.Services.csproj" />
+    <ProjectReference Include="..\TFN.Infrastructure.Architecture\TFN.Infrastructure.Architecture.csproj" />
     <ProjectReference Include="..\TFN.Infrastructure.Audio\TFN.Infrastructure.Audio.csproj" />
     <ProjectReference Include="..\TFN.Infrastructure.Interfaces\TFN.Infrastructure.Interfaces.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\UserIdentityResourceAggregate\InMemory\" />
   </ItemGroup>
 
 </Project>

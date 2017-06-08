@@ -4,7 +4,7 @@ using TFN.Api.Extensions;
 using TFN.Domain.Models.ValueObjects;
 using TFN.Mvc.Models.Enum;
 
-namespace TFN.Api.Controllers
+namespace TFN.Api.Controllers.Base
 {
     public class AppController : Controller
     {

@@ -113,12 +113,12 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             }
         }
 
-        public async Task<IEnumerable<TDocument>> FindAll(int maxItems, string continutationToken = null)
+        public async Task<IEnumerable<TDocument>> FindAll()
         {
             var options = new FeedOptions
             {
-                MaxItemCount = maxItems,
-                RequestContinuation = continutationToken
+                //MaxItemCount = maxItems,
+                //RequestContinuation = continutationToken
             };
 
             var query = DocumentClient.CreateDocumentQuery<TDocument>(CollectionUri, options).AsDocumentQuery();
@@ -136,12 +136,12 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             return list;
         }
 
-        public async Task<IEnumerable<TDocument>> FindAll(Expression<Func<TDocument, bool>> predicate, int maxItems, string continutationToken = null)
+        public async Task<IEnumerable<TDocument>> FindAll(Expression<Func<TDocument, bool>> predicate)
         {
             var options = new FeedOptions
             {
-                MaxItemCount = maxItems,
-                RequestContinuation = continutationToken
+                //MaxItemCount = maxItems,
+                //RequestContinuation = continutationToken
             };
 
             var query = DocumentClient

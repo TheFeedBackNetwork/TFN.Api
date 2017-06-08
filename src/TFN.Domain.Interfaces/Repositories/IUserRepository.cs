@@ -13,7 +13,7 @@ namespace TFN.Domain.Interfaces.Repositories
         Task<User> GetByChangePasswordKey(string changePasswordKey);
         Task<User> GetByUsernameAsync(string username,string password);
         Task<User> GetByEmailAsync(string email, string password);
-        Task AddAsync(User entity, string password);
+        Task Add(User entity, string password);
         Task UpdateChangePasswordKeyAsync(User user, string changePasswordKey);
         Task UpdateUserPasswordAsync(User user, string password);
         Task<bool> ChangePasswordKeyExistsAsync(string changePasswordKey);

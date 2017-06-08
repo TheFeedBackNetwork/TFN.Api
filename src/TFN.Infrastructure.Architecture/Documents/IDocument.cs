@@ -1,7 +1,9 @@
 ﻿namespace TFN.Infrastructure.Architecture.Documents
 {
-    public interface IDocument<out TKey>
+    public interface IDocument<TKey>
     {
-        TKey Id { get; }
+        TKey Id { get; set; }
+
+        string Type { get; set; }
     }
 }

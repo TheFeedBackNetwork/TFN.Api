@@ -26,7 +26,7 @@ namespace TFN.Domain.Services.IdentityServer.Services
                 throw new ArgumentException($"{nameof(context.Subject)} is invalid as a subject Id.");
             }
 
-            var user = await UserRepository.GetAsync(subjectId);
+            var user = await UserRepository.Find(subjectId);
 
             var claims = user.GetClaims().ToList();
 
@@ -44,7 +44,7 @@ namespace TFN.Domain.Services.IdentityServer.Services
                 throw new ArgumentException($"{nameof(context.Subject)} is invalid as a subject Id.");
             }
 
-            var user = await UserRepository.GetAsync(subjectId);
+            var user = await UserRepository.Find(subjectId);
 
             context.IsActive = (user != null) && user.IsActive;
         }

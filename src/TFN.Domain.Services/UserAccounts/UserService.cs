@@ -38,17 +38,17 @@ namespace TFN.Domain.Services.UserAccounts
 
             var credit = new Models.Entities.Credits(user.Id,user.Username);
             await CreditService.AddAsync(credit);
-            await UserRepository.AddAsync(user, password);
+            await UserRepository.Add(user, password);
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            await UserRepository.DeleteAsync(id);
+            await UserRepository.Delete(id);
         }
 
         public async Task<User> GetAsync(Guid id)
         {
-            var user = await UserRepository.GetAsync(id);
+            var user = await UserRepository.Find(id);
 
             return user;
         }
@@ -83,7 +83,7 @@ namespace TFN.Domain.Services.UserAccounts
                 throw new ArgumentNullException($"{nameof(entity)}");
             }
 
-            await UserRepository.UpdateAsync(entity);
+            await UserRepository.Update(entity);
         }
         
 
