@@ -10,8 +10,10 @@ namespace TFN.Domain.Models.Entities
         public string NormalizedUsername { get; private set; }
         public int TotalCredits { get; private set; }
         public bool IsActive { get; private set; }
+        public DateTime Created { get; private set; }
+        public DateTime Modified { get; private set; }
 
-        private Credits(Guid id, Guid userId, string username,string normalizedUsername, int totalCredits, bool isActive)
+        private Credits(Guid id, Guid userId, string username,string normalizedUsername, int totalCredits,DateTime created, DateTime modified, bool isActive)
             : base(id)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
@@ -44,12 +46,12 @@ namespace TFN.Domain.Models.Entities
         }
 
         public Credits(Guid userId, string userName)
-            : this(Guid.NewGuid(),userId,userName, userName.ToUpperInvariant(), 10, true)
+            : this(Guid.NewGuid(),userId,userName, userName.ToUpperInvariant(), 10,DateTime.UtcNow,DateTime.UtcNow, true)
         { }
 
-        public static Credits Hydrate(Guid id, Guid userId, string username, string normalizedUsername, int totalCredits, bool isActive)
+        public static Credits Hydrate(Guid id, Guid userId, string username, string normalizedUsername, int totalCredits,DateTime created, DateTime modified, bool isActive)
         {
-            return new Credits(id,userId,username, normalizedUsername,totalCredits, isActive);
+            return new Credits(id,userId,username, normalizedUsername,totalCredits,created, modified, isActive);
         }
 
         public Credits ChangeTotalCredits(int amount)
@@ -59,7 +61,7 @@ namespace TFN.Domain.Models.Entities
             {
                 throw new InvalidOperationException("Credits will result in a negative score");
             }
-            return Hydrate(Id,UserId,Username,NormalizedUsername,newCredits, IsActive);
+            return Hydrate(Id,UserId,Username,NormalizedUsername,newCredits,Created,Modified, IsActive);
         }
     }
 }

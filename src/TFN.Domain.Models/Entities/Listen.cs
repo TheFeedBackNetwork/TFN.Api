@@ -4,7 +4,7 @@ using TFN.Domain.Models.Enums;
 
 namespace TFN.Domain.Models.Entities
 {
-    public class Listen : DomainEntity<Guid>
+    public class Listen : DomainEntity<Guid>, IAggregateRoot
     {
         public Guid PostId { get; private set; }
         public Listener Listener { get; private set; }

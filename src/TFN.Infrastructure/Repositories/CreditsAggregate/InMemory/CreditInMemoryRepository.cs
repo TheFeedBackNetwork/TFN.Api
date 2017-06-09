@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities;
 
-namespace TFN.Infrastructure.Repositories.CreditAggregate.InMemory
+namespace TFN.Infrastructure.Repositories.CreditsAggregate.InMemory
 {
     public class CreditInMemoryRepository : ICreditRepository
     {
