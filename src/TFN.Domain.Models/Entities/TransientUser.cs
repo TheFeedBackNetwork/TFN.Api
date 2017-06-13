@@ -15,12 +15,12 @@ namespace TFN.Domain.Models.Entities
         public DateTime Modified { get; private set; }
 
         public TransientUser(string username, string email, string emailVerificationKey)
-            : this(Guid.NewGuid(), username, username.ToUpperInvariant(), email, email.ToUpperInvariant(), emailVerificationKey)
+            : this(Guid.NewGuid(), username, username.ToUpperInvariant(), email, email.ToUpperInvariant(), emailVerificationKey, DateTime.UtcNow, DateTime.UtcNow)
         {
             
         }
 
-        private TransientUser(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string verificationKey)
+        private TransientUser(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string verificationKey, DateTime created, DateTime modified)
             : base(id)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
@@ -57,11 +57,13 @@ namespace TFN.Domain.Models.Entities
             Email = email;
             NormalizedEmail = normalizedEmail;
             VerificationKey = verificationKey;
+            Created = created;
+            Modified = modified;
         }
 
-        public static TransientUser Hydrate(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string emailVerificationKey)
+        public static TransientUser Hydrate(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string emailVerificationKey, DateTime created, DateTime modified)
         {
-            return new TransientUser(id,username,normalizedUsername,email, normalizedEmail, emailVerificationKey);
+            return new TransientUser(id,username,normalizedUsername,email, normalizedEmail, emailVerificationKey,created ,modified);
         }
     }
 }

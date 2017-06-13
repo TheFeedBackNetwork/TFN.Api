@@ -18,6 +18,7 @@ using TFN.Domain.Services.IdentityServer.Validators;
 using TFN.Domain.Services.Posts;
 using TFN.Domain.Services.TransientUsers;
 using TFN.Domain.Services.UserAccounts;
+using TFN.Infrastructure.Architecture.Repositories.Document;
 using TFN.Infrastructure.Components;
 using TFN.Infrastructure.Components.Storage;
 using TFN.Infrastructure.Interfaces.Components;
@@ -40,7 +41,12 @@ namespace TFN.Resolution
     {
         public static void RegisterDbContext(IServiceCollection services, IConfiguration configuration)
         {
-            
+            /*services.AddDocumentDbContext<DocumentContext>(options =>
+            {
+                options.DatabaseName = configuration["DocumentDb:DatabaseName"];
+                options.DatabaseKey = configuration["DocumentDb:Key"];
+                options.DatabaseUri = new Uri(configuration["DocumentDb:EndpointUri"]);
+            });*/
         }
 
         public static void RegisterTypes(IServiceCollection services, IConfiguration configuration)
