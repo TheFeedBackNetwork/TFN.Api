@@ -8,7 +8,7 @@ namespace TFN.Infrastructure.Repositories.TransientUserAggregate.InMemory
 {
     public class TransientUserInMemoryRepository : ITransientUserRepository
     {
-        public Task Add(TransientUser entity)
+        public Task Add(TransientUserAccount entity)
         {
             InMemoryTransientUsers.TransientUsers.Add(entity);
             return Task.CompletedTask;
@@ -20,29 +20,29 @@ namespace TFN.Infrastructure.Repositories.TransientUserAggregate.InMemory
             return Task.CompletedTask;
         }
 
-        public Task<TransientUser> Find(Guid id)
+        public Task<TransientUserAccount> Find(Guid id)
         {
             return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.Id == id));
         }
 
-        public Task<TransientUser> GetByEmailAsync(string email)
+        public Task<TransientUserAccount> GetByEmailAsync(string email)
         {
             return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.Email == email));
         }
 
-        public Task<TransientUser> GetByEmailVerificationKeyAsync(string emailVerificationKey)
+        public Task<TransientUserAccount> GetByEmailVerificationKeyAsync(string emailVerificationKey)
         {
             return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.VerificationKey == emailVerificationKey));
         }
 
-        public Task Update(TransientUser entity)
+        public Task Update(TransientUserAccount entity)
         {
             Delete(entity.Id);
             Add(entity);
             return Task.CompletedTask;
         }
 
-        public Task<TransientUser> GetByUsernameAsync(string username)
+        public Task<TransientUserAccount> GetByUsernameAsync(string username)
         {
             return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.Username == username));
         }

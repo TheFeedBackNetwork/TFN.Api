@@ -4,7 +4,7 @@ using TFN.Domain.Models.Extensions;
 
 namespace TFN.Domain.Models.Entities
 {
-    public class TransientUser : DomainEntity<Guid>, IAggregateRoot
+    public class TransientUserAccount : DomainEntity<Guid>, IAggregateRoot
     {
         public string Username { get; private set; }
         public string NormalizedUsername { get; private set; }
@@ -14,13 +14,13 @@ namespace TFN.Domain.Models.Entities
         public DateTime Created { get; private set; }
         public DateTime Modified { get; private set; }
 
-        public TransientUser(string username, string email, string emailVerificationKey)
+        public TransientUserAccount(string username, string email, string emailVerificationKey)
             : this(Guid.NewGuid(), username, username.ToUpperInvariant(), email, email.ToUpperInvariant(), emailVerificationKey, DateTime.UtcNow, DateTime.UtcNow)
         {
             
         }
 
-        private TransientUser(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string verificationKey, DateTime created, DateTime modified)
+        private TransientUserAccount(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string verificationKey, DateTime created, DateTime modified)
             : base(id)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
@@ -61,9 +61,9 @@ namespace TFN.Domain.Models.Entities
             Modified = modified;
         }
 
-        public static TransientUser Hydrate(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string emailVerificationKey, DateTime created, DateTime modified)
+        public static TransientUserAccount Hydrate(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string emailVerificationKey, DateTime created, DateTime modified)
         {
-            return new TransientUser(id,username,normalizedUsername,email, normalizedEmail, emailVerificationKey,created ,modified);
+            return new TransientUserAccount(id,username,normalizedUsername,email, normalizedEmail, emailVerificationKey,created ,modified);
         }
     }
 }

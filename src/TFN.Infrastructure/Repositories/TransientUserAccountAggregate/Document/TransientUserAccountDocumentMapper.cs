@@ -4,11 +4,11 @@ using TFN.Infrastructure.Architecture.Mapping;
 
 namespace TFN.Infrastructure.Repositories.TransientUserAggregate.Document
 {
-    public class TransientUserDocumentMapper : IAggregateMapper<TransientUser, TransientUserDocumentModel, Guid>
+    public class TransientUserAccountDocumentMapper : IAggregateMapper<TransientUserAccount, TransientUserAccountDocumentModel, Guid>
     {
-        public TransientUser CreateFrom(TransientUserDocumentModel dataEntity)
+        public TransientUserAccount CreateFrom(TransientUserAccountDocumentModel dataEntity)
         {
-            return TransientUser.Hydrate(
+            return TransientUserAccount.Hydrate(
                 dataEntity.Id,
                 dataEntity.Username,
                 dataEntity.NormalizedUsername,
@@ -19,9 +19,9 @@ namespace TFN.Infrastructure.Repositories.TransientUserAggregate.Document
                 dataEntity.Modified);
         }
 
-        public TransientUserDocumentModel CreateFrom(TransientUser domainEntity)
+        public TransientUserAccountDocumentModel CreateFrom(TransientUserAccount domainEntity)
         {
-            return new TransientUserDocumentModel(domainEntity.Id, domainEntity.Created, domainEntity.Modified)
+            return new TransientUserAccountDocumentModel(domainEntity.Id, domainEntity.Created, domainEntity.Modified)
             {
                 Email = domainEntity.Email,
                 NormalizedEmail = domainEntity.NormalizedEmail,

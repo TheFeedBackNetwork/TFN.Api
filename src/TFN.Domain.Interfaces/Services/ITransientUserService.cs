@@ -5,11 +5,11 @@ namespace TFN.Domain.Interfaces.Services
 {
     public interface ITransientUserService
     {
-        Task CreateAsync(TransientUser transientUser);
+        Task CreateAsync(TransientUserAccount transientUserAccount);
         Task<bool> EmailVerificationKeyExistsAsync(string emailVerificationKey);
-        Task DeleteAsync(TransientUser transientUser);
-        Task<TransientUser> GetByEmailVerificationKeyAsync(string emailVerificationKey);
-        Task<TransientUser> GetByEmailAsync(string email);
-        Task<TransientUser> GetByUsernameAsync(string username);
+        Task DeleteAsync(TransientUserAccount transientUserAccount);
+        Task<TransientUserAccount> GetByEmailVerificationKeyAsync(string emailVerificationKey);
+        Task<TransientUserAccount> GetByEmailAsync(string email);
+        Task<TransientUserAccount> GetByUsernameAsync(string username);
     }
 }

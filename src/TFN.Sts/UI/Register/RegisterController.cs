@@ -60,7 +60,7 @@ namespace TFN.Sts.UI.Register
 
             var key = KeyService.GenerateUrlSafeUniqueKey();
 
-            var transientUser = new TransientUser(model.RegisterUsername,model.RegisterEmail,key);
+            var transientUser = new TransientUserAccount(model.RegisterUsername,model.RegisterEmail,key);
 
             await TransientUserService.CreateAsync(transientUser);
 

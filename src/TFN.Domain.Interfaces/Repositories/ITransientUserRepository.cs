@@ -5,10 +5,10 @@ using TFN.Domain.Models.Entities;
 
 namespace TFN.Domain.Interfaces.Repositories
 {
-    public interface ITransientUserRepository : IAddableRepository<TransientUser, Guid>, IDeleteableRepository<TransientUser, Guid>, IUpdateableRepository<TransientUser, Guid>
+    public interface ITransientUserRepository : IAddableRepository<TransientUserAccount, Guid>, IDeleteableRepository<TransientUserAccount, Guid>, IUpdateableRepository<TransientUserAccount, Guid>
     {
-        Task<TransientUser> GetByEmailAsync(string email);
-        Task<TransientUser> GetByEmailVerificationKeyAsync(string emailVerificationKey);
-        Task<TransientUser> GetByUsernameAsync(string username);
+        Task<TransientUserAccount> GetByEmailAsync(string email);
+        Task<TransientUserAccount> GetByEmailVerificationKeyAsync(string emailVerificationKey);
+        Task<TransientUserAccount> GetByUsernameAsync(string username);
     }
 }

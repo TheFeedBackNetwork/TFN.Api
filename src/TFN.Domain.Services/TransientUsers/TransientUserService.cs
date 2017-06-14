@@ -16,21 +16,21 @@ namespace TFN.Domain.Services.TransientUsers
             TransientUserRepository = transientUserRepository;
             AccountEmailService = accountEmailService;
         }
-        public async Task CreateAsync(TransientUser transientUser)
+        public async Task CreateAsync(TransientUserAccount transientUserAccount)
         {
-            if (transientUser == null)
+            if (transientUserAccount == null)
             {
-                throw new ArgumentNullException(nameof(transientUser));
+                throw new ArgumentNullException(nameof(transientUserAccount));
             }
 
-            await TransientUserRepository.Add(transientUser);
-            await AccountEmailService.SendVerificationEmailAsync(transientUser.Email,transientUser.Username, transientUser.VerificationKey);
+            await TransientUserRepository.Add(transientUserAccount);
+            await AccountEmailService.SendVerificationEmailAsync(transientUserAccount.Email,transientUserAccount.Username, transientUserAccount.VerificationKey);
 
         }
 
-        public async Task DeleteAsync(TransientUser transientUser)
+        public async Task DeleteAsync(TransientUserAccount transientUserAccount)
         {
-            await TransientUserRepository.Delete(transientUser.Id);
+            await TransientUserRepository.Delete(transientUserAccount.Id);
         }
 
         public async Task<bool> EmailVerificationKeyExistsAsync(string emailVerificationKey)
@@ -40,17 +40,17 @@ namespace TFN.Domain.Services.TransientUsers
             return transientUser != null;
         }
 
-        public async Task<TransientUser> GetByEmailVerificationKeyAsync(string emailVerificationKey)
+        public async Task<TransientUserAccount> GetByEmailVerificationKeyAsync(string emailVerificationKey)
         {
             return await TransientUserRepository.GetByEmailVerificationKeyAsync(emailVerificationKey);
         }
 
-        public async Task<TransientUser> GetByEmailAsync(string email)
+        public async Task<TransientUserAccount> GetByEmailAsync(string email)
         {
             return await TransientUserRepository.GetByEmailAsync(email);
         }
 
-        public async Task<TransientUser> GetByUsernameAsync(string username)
+        public async Task<TransientUserAccount> GetByUsernameAsync(string username)
         {
             return await TransientUserRepository.GetByUsernameAsync(username);
         }

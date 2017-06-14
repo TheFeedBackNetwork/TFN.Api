@@ -4,16 +4,16 @@ using TFN.Infrastructure.Architecture.Documents;
 
 namespace TFN.Infrastructure.Repositories.TransientUserAggregate.Document
 {
-    public sealed class TransientUserDocumentModel : TransientUserDocumentModel<Guid>
+    public sealed class TransientUserAccountDocumentModel : TransientUserAccountDocumentModel<Guid>
     {
-        public TransientUserDocumentModel(Guid id, DateTime created, DateTime modified)
+        public TransientUserAccountDocumentModel(Guid id, DateTime created, DateTime modified)
             : base(id,created,modified)
         {
 
         }
     }
 
-    public class TransientUserDocumentModel<TKey> : BaseDocument<TKey>
+    public class TransientUserAccountDocumentModel<TKey> : BaseDocument<TKey>
     {
         [JsonProperty(PropertyName = "username")]
         public string Username { get; set; }
@@ -30,7 +30,7 @@ namespace TFN.Infrastructure.Repositories.TransientUserAggregate.Document
         [JsonProperty(PropertyName = "verificationKey")]
         public string VerificationKey { get; set; }
 
-        public TransientUserDocumentModel(TKey id, DateTime created, DateTime modified)
+        public TransientUserAccountDocumentModel(TKey id, DateTime created, DateTime modified)
             : base(id,"transientUser",created,modified)
         {
             
