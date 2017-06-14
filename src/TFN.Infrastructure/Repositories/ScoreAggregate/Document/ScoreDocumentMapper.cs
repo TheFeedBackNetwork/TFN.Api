@@ -8,12 +8,22 @@ namespace TFN.Infrastructure.Repositories.ScoreAggregate.Document
     {
         public Score CreateFrom(ScoreDocumentModel dataEntity)
         {
-            throw new NotImplementedException();
+            return Score.Hydrate(
+                dataEntity.Id,
+                dataEntity.CommentId,
+                dataEntity.UserId,
+                dataEntity.Username,
+                dataEntity.Created);
         }
 
         public ScoreDocumentModel CreateFrom(Score domainEntity)
         {
-            throw new NotImplementedException();
+            return new ScoreDocumentModel(domainEntity.Id, domainEntity.Created)
+            {
+                CommentId = domainEntity.CommentId,
+                UserId = domainEntity.UserId,
+                Username = domainEntity.Username
+            };
         }
     }
 }
