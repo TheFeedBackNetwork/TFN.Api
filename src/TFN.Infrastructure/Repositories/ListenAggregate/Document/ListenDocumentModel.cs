@@ -17,16 +17,16 @@ namespace TFN.Infrastructure.Repositories.ListenAggregate.Document
     public class ListenDocumentModel<TKey> : BaseDocument<TKey>
     {
         [JsonProperty(PropertyName = "postId")]
-        public Guid PostId { get; private set; }
+        public Guid PostId { get; set; }
 
         [JsonProperty(PropertyName = "listener")]
-        public string Listener { get; private set; }
+        public string Listener { get; set; }
 
         [JsonProperty(PropertyName = "username")]
-        public string Username { get; private set; }
+        public string Username { get; set; }
 
         [JsonProperty(PropertyName = "iPaddress")]
-        public string IPAddress { get; private set; }
+        public string IPAddress { get; set; }
         public ListenDocumentModel(TKey id, DateTime created)
             : base(id,"listen",created,created)
         {

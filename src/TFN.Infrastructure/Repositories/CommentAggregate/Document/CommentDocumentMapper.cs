@@ -8,12 +8,25 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.Document
     {
         public Comment CreateFrom(CommentDocumentModel dataEntity)
         {
-            throw new NotImplementedException();
+            return Comment.Hydrate(
+                dataEntity.Id,
+                dataEntity.UserId,
+                dataEntity.PostId,
+                dataEntity.Username,
+                dataEntity.Text,
+                dataEntity.IsActive,
+                dataEntity.Created,
+                dataEntity.Modified);
         }
 
         public CommentDocumentModel CreateFrom(Comment domainEntity)
         {
-            throw new NotImplementedException();
+            return new CommentDocumentModel(domainEntity.Id, domainEntity.UserId, domainEntity.Username,
+                domainEntity.Text,
+                domainEntity.IsActive, domainEntity.Created, domainEntity.Modified)
+            {
+                PostId = domainEntity.PostId
+            };
         }
     }
 }

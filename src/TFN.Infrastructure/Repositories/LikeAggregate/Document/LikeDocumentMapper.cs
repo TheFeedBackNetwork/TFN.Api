@@ -8,12 +8,22 @@ namespace TFN.Infrastructure.Repositories.LikeAggregate.Document
     {
         public Like CreateFrom(LikeDocumentModel dataEntity)
         {
-            throw new NotImplementedException();
+            return Like.Hydrate(
+                dataEntity.Id,
+                dataEntity.PostId,
+                dataEntity.UserId,
+                dataEntity.Username,
+                dataEntity.Created);
         }
 
         public LikeDocumentModel CreateFrom(Like domainEntity)
         {
-            throw new NotImplementedException();
+            return new LikeDocumentModel(domainEntity.Id, domainEntity.Created)
+            {
+                PostId = domainEntity.PostId,
+                Username = domainEntity.Username,
+                UserId = domainEntity.UserId,
+            };
         }
     }
 }

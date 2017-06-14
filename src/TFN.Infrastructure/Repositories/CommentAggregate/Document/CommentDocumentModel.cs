@@ -17,7 +17,7 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.Document
     public class CommentDocumentModel<TKey> : MessageDocumentModel<TKey> 
     {
         [JsonProperty(PropertyName = "commentId")]
-        public Guid PostId { get; private set; }
+        public Guid PostId { get; set; }
 
         public CommentDocumentModel(TKey id, Guid userId, string username, string text, bool isActive, DateTime created,
             DateTime modified)
