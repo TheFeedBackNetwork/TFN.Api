@@ -55,7 +55,7 @@ namespace TFN.Domain.Services.UserAccounts
 
         public async Task<UserAccount> GetByUsernameAsync(string username)
         {
-            var user = await UserRepository.GetByUsernameAsync(username);
+            var user = await UserRepository.FindByUsername(username);
 
             return user;
         }
@@ -66,11 +66,11 @@ namespace TFN.Domain.Services.UserAccounts
 
             if (usernameOrEmail.IsEmail())
             {
-                user = await UserRepository.GetByEmailAsync(usernameOrEmail, password);
+                user = await UserRepository.FindByEmail(usernameOrEmail, password);
             }
             else if(usernameOrEmail.IsValidUsername())
             {
-                user = await UserRepository.GetByUsernameAsync(usernameOrEmail, password);
+                user = await UserRepository.FindByUsername(usernameOrEmail, password);
             }
 
             return user;
@@ -104,21 +104,21 @@ namespace TFN.Domain.Services.UserAccounts
 
         public async Task<bool> ExistsByEmail(string email)
         {
-            var user = await UserRepository.GetByEmailAsync(email);
+            var user = await UserRepository.FindByEmail(email);
 
             return user != null;
         }
 
         public async Task<bool> ExistsByUsername(string username)
         {
-            var user = await UserRepository.GetByUsernameAsync(username);
+            var user = await UserRepository.FindByUsername(username);
 
             return user != null;
         }
 
         public async Task<UserAccount> GetByEmailAsync(string email)
         {
-            var user = await UserRepository.GetByEmailAsync(email);
+            var user = await UserRepository.FindByEmail(email);
 
             return user;
         }
@@ -142,12 +142,12 @@ namespace TFN.Domain.Services.UserAccounts
         public async Task SendChangePasswordKeyAsync(UserAccount user)
         {
             var forgotPasswordKey = KeyService.GenerateUrlSafeUniqueKey();
-            await UserRepository.UpdateChangePasswordKeyAsync(user, forgotPasswordKey);
+            await UserRepository.UpdateChangePasswordKey(user, forgotPasswordKey);
             await AccountEmailService.SendChangePasswordEmailAsync(user.Email, forgotPasswordKey);
         }
         public async Task<bool> ChangePasswordKeyExistsAsync(string changePasswordKey)
         {
-            return await UserRepository.ChangePasswordKeyExistsAsync(changePasswordKey);
+            return await UserRepository.ChangePasswordKeyExists(changePasswordKey);
         }
 
         #pragma warning disable 1998
@@ -165,13 +165,13 @@ namespace TFN.Domain.Services.UserAccounts
 
         public async Task UpdateUserPasswordAsync(string changePasswordKey, string password)
         {
-            var user = await UserRepository.GetByChangePasswordKey(changePasswordKey);
-            await UserRepository.UpdateUserPasswordAsync(user, password);
+            var user = await UserRepository.FindByChangePasswordKey(changePasswordKey);
+            await UserRepository.UpdateUserPassword(user, password);
         }
 
         public async Task<UserAccount> GetByChangePasswordKey(string changePasswordKey)
         {
-            return await UserRepository.GetByChangePasswordKey(changePasswordKey);
+            return await UserRepository.FindByChangePasswordKey(changePasswordKey);
         }
 
         public async Task<IReadOnlyList<Models.Entities.Credits>> SearchUsers(string searchToken, int offset, int limit)

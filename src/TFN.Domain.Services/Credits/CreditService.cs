@@ -16,7 +16,7 @@ namespace TFN.Domain.Services.Credits
 
         public async Task AwardCreditAsync(Guid fromUserId, Guid toUserId, int amount)
         {
-            var credits = await CreditRepository.GetByUserId(toUserId);
+            var credits = await CreditRepository.FindByUserId(toUserId);
             if (credits == null)
             {
                 throw new ArgumentException($"{nameof(credits)} cannot be null.");
@@ -34,7 +34,7 @@ namespace TFN.Domain.Services.Credits
 
         public async Task<IReadOnlyList<Models.Entities.Credits>> GetLeaderBoardAsync(short offset, short limit)
         {
-            return await CreditRepository.GetHighestCredits(offset, limit);
+            return await CreditRepository.FindHighestCredits(offset, limit);
         }
 
         public async Task<Models.Entities.Credits> GetAsync(Guid id)
@@ -44,12 +44,12 @@ namespace TFN.Domain.Services.Credits
 
         public async Task<Models.Entities.Credits> GetByUserIdAsync(Guid userId)
         {
-            return await CreditRepository.GetByUserId(userId);
+            return await CreditRepository.FindByUserId(userId);
         }
 
         public async Task<Models.Entities.Credits> GetByUsernameAsync(string username)
         {
-            return await CreditRepository.GetByUsername(username);
+            return await CreditRepository.FindByUsername(username);
         }
 
         public async Task AddAsync(Models.Entities.Credits credits)
@@ -59,7 +59,7 @@ namespace TFN.Domain.Services.Credits
 
         public async Task<IReadOnlyList<Models.Entities.Credits>> SearchUsers(string searchToken, int offset, int limit)
         {
-            return await CreditRepository.SearchUsers(searchToken, offset, limit);
+            return await CreditRepository.FindUsers(searchToken, offset, limit);
         }
     }
 }

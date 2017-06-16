@@ -55,7 +55,7 @@ namespace TFN.Api.Controllers
 
         [HttpGet("{trackId:Guid}", Name = "GetTrack")]
         [Authorize("tracks.read")]
-        public async Task<IActionResult> GetAsync(Guid trackId)
+        public async Task<IActionResult> GetTrack(Guid trackId)
         {
             var track = await TrackRepository.Find(trackId);
 
@@ -71,7 +71,7 @@ namespace TFN.Api.Controllers
 
         [HttpPost(Name = "PostTrack")]
         //[Authorize("tracks.write")]
-        public async Task<IActionResult> PostAsync()
+        public async Task<IActionResult> PostTrack()
         {
             if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
             {

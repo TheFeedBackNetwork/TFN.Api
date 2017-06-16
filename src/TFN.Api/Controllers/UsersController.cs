@@ -27,7 +27,7 @@ namespace TFN.Api.Controllers
 
         [HttpGet(Name = "SearchUsers")]
         [Authorize("users.read")]
-        public async Task<IActionResult> SearchUsers(
+        public async Task<IActionResult> GetUsers(
             [ModelBinder(BinderType = typeof(UsernameQueryModelBinder))] string username,
             [ModelBinder(BinderType = typeof(OffsetQueryModelBinder))]short offset = 0,
             [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]short limit = 7)
@@ -42,7 +42,7 @@ namespace TFN.Api.Controllers
 
         [HttpGet("me",Name = "SearchMe")]
         [Authorize("users.read")]
-        public async Task<IActionResult> SearchMe()
+        public async Task<IActionResult> GetMe()
         {
             var user = await UserService.GetByUsernameAsync(HttpContext.GetUsername());
 

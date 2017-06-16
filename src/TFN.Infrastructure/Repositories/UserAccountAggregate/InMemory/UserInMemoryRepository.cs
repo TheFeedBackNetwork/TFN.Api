@@ -59,15 +59,15 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.InMemory
             return Task.FromResult(InMemoryUsers.Users.SingleOrDefault(x => x.Id == id));
         }
 
-        public Task<UserAccount> GetByUsernameAsync(string username)
+        public Task<UserAccount> FindByUsername(string username)
         {
             return Task.FromResult(InMemoryUsers.Users.SingleOrDefault(x => x.Username == username));
         }
 
-        public async Task<UserAccount> GetByUsernameAsync(string username, string password)
+        public async Task<UserAccount> FindByUsername(string username, string password)
         {
 
-            var user = await GetByUsernameAsync(username);
+            var user = await FindByUsername(username);
 
             if (user != null)
             {
@@ -83,10 +83,10 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.InMemory
             return null;
         }
 
-        public async Task<UserAccount> GetByEmailAsync(string username, string password)
+        public async Task<UserAccount> FindByEmail(string username, string password)
         {
 
-            var user = await GetByEmailAsync(username);
+            var user = await FindByEmail(username);
 
             if (user != null)
             {
@@ -108,24 +108,24 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.InMemory
             await Add(entity);
         }
 
-        public Task<UserAccount> GetByEmailAsync(string email)
+        public Task<UserAccount> FindByEmail(string email)
         {
             return Task.FromResult(InMemoryUsers.Users.SingleOrDefault(x => x.Email == email));
         }
 
-        public Task UpdateChangePasswordKeyAsync(UserAccount user, string changePasswordKey)
+        public Task UpdateChangePasswordKey(UserAccount user, string changePasswordKey)
         {
             //ChangePasswordKeys.Add(changePasswordKey,user.Id.ToString());
             ChangePasswordKeys[changePasswordKey] = user.Id.ToString();
             return Task.CompletedTask;
         }
 
-        public Task<bool> ChangePasswordKeyExistsAsync(string changePasswordKey)
+        public Task<bool> ChangePasswordKeyExists(string changePasswordKey)
         {
             return Task.FromResult(ChangePasswordKeys.ContainsKey(changePasswordKey));
         }
 
-        public Task<UserAccount> GetByChangePasswordKey(string changePasswordKey)
+        public Task<UserAccount> FindByChangePasswordKey(string changePasswordKey)
         {
             var id = ChangePasswordKeys[changePasswordKey];
             if (id != null)
@@ -136,7 +136,7 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.InMemory
             return Task.FromResult<UserAccount>(null);
         }
 
-        public Task UpdateUserPasswordAsync(UserAccount user, string password)
+        public Task UpdateUserPassword(UserAccount user, string password)
         {
             var hashedPass = PasswordService.HashPassword(password);
 

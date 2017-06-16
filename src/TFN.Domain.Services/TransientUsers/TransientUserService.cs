@@ -35,24 +35,24 @@ namespace TFN.Domain.Services.TransientUsers
 
         public async Task<bool> EmailVerificationKeyExistsAsync(string emailVerificationKey)
         {
-            var transientUser = await TransientUserRepository.GetByEmailVerificationKeyAsync(emailVerificationKey);
+            var transientUser = await TransientUserRepository.FindByVerificationKey(emailVerificationKey);
 
             return transientUser != null;
         }
 
         public async Task<TransientUserAccount> GetByEmailVerificationKeyAsync(string emailVerificationKey)
         {
-            return await TransientUserRepository.GetByEmailVerificationKeyAsync(emailVerificationKey);
+            return await TransientUserRepository.FindByVerificationKey(emailVerificationKey);
         }
 
         public async Task<TransientUserAccount> GetByEmailAsync(string email)
         {
-            return await TransientUserRepository.GetByEmailAsync(email);
+            return await TransientUserRepository.FindByEmail(email);
         }
 
         public async Task<TransientUserAccount> GetByUsernameAsync(string username)
         {
-            return await TransientUserRepository.GetByUsernameAsync(username);
+            return await TransientUserRepository.FindByUsername(username);
         }
     }
 }

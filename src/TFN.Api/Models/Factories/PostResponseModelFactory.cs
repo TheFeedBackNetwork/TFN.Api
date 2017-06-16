@@ -31,7 +31,7 @@ namespace TFN.Api.Models.Factories
         {
             var summary = await PostRepository.GetPostLikeSummaryAsync(post.Id, 5,post.Username);
 
-            var credits = await CreditRepository.GetByUserId(post.UserId);
+            var credits = await CreditRepository.FindByUserId(post.UserId);
 
             var authZ = ResourceAuthorizationResponseModelFactory.From(post, HttpContextAccessor.HttpContext);
 

@@ -17,7 +17,7 @@ namespace TFN.Domain.Services.IdentityServer.Services
         }
         public async Task<bool> IsOriginAllowedAsync(string origin)
         {
-            var urls = await ClientRepository.GetAllAllowedCorsOriginsAsync();
+            var urls = await ClientRepository.FindAllAllowedCorsOrigins();
 
             var origins = urls.Select(x => x.GetOrigin());
 

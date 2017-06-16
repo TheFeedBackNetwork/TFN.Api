@@ -9,9 +9,11 @@ namespace TFN.Domain.Interfaces.Repositories
 {
     public interface ICommentRepository : IAddableRepository<Comment, Guid>, IUpdateableRepository<Comment, Guid>, IDeleteableRepository<Comment, Guid>
     {
-        Task<IReadOnlyList<Comment>> GetAllCommentsAsync(Guid postId);
-        Task<IReadOnlyList<Comment>> GetCommentsAsync(Guid postId, int commentOffset, int commentLimit);
-        Task<IReadOnlyList<Score>> GetAllScores(Guid comentId, int offset, int limit);
+        Task<IReadOnlyList<Comment>> FindAllComments(Guid postId);
+        Task<IReadOnlyList<Comment>> FindComments(Guid postId, int commentOffset, int commentLimit);
+
+        //Score
+        Task<IReadOnlyList<Score>> FindAllScores(Guid comentId, int offset, int limit);
         Task<Score> GetAsync( Guid commentId, Guid scoreId);
         Task AddAsync(Score entity);
         Task DeleteAsync(Guid commentId, Guid scoreId);

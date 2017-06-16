@@ -15,7 +15,7 @@ namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.InMemory
             return InMemoryClients.Clients.SingleOrDefault(x => x.ClientId == clientId);
         }
 
-        public async Task<IEnumerable<string>> GetAllAllowedCorsOriginsAsync()
+        public async Task<IEnumerable<string>> FindAllAllowedCorsOrigins()
         {
             var origins = InMemoryClients.Clients.SelectMany(x => x.AllowedCorsOrigins);
             return origins;

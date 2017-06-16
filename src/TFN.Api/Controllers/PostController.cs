@@ -47,7 +47,7 @@ namespace TFN.Api.Controllers
 
         [HttpGet(Name = "GetAllPosts")]
         [Authorize("posts.read")]
-        public async Task<IActionResult> GetAllAsync(
+        public async Task<IActionResult> GetAll(
             [FromQuery]ExcludeQueryModel exclude,
             [ModelBinder(BinderType = typeof(OffsetQueryModelBinder))]int offset = 0,
             [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]int limit = 7)
@@ -69,7 +69,7 @@ namespace TFN.Api.Controllers
 
         [HttpGet("{postId:Guid}", Name = "GetPost")]
         [Authorize("posts.read")]
-        public async Task<IActionResult> GetAsync(
+        public async Task<IActionResult> GetPost(
             Guid postId,
             [FromQuery]ExcludeQueryModel exclude)
         {
@@ -92,7 +92,7 @@ namespace TFN.Api.Controllers
 
         [HttpGet("{postId:Guid}/likes", Name = "GetPostSummary")]
         [Authorize("posts.read")]
-        public async Task<IActionResult> GetPostLikesSummaryAsync(
+        public async Task<IActionResult> GetPostLikesSummary(
             Guid postId,
             [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]int limit = 7)
         {
@@ -117,7 +117,7 @@ namespace TFN.Api.Controllers
 
         [HttpGet("{postId:Guid}/comments/{commentId:Guid}", Name = "GetComment")]
         [Authorize("posts.read")]
-        public async Task<IActionResult> GetAsync(
+        public async Task<IActionResult> GetComment(
             Guid postId,
             Guid commentId,
             [FromQuery]ExcludeQueryModel exclude)
@@ -141,7 +141,7 @@ namespace TFN.Api.Controllers
 
         [HttpGet("{postId:Guid}/comments", Name = "GetComments")]
         [Authorize("posts.read")]
-        public async Task<IActionResult> GetCommentsAsync(
+        public async Task<IActionResult> GetComments(
             Guid postId,
             [FromQuery]ExcludeQueryModel exclude,
             [ModelBinder(BinderType = typeof(OffsetQueryModelBinder))]int offset = 0,
@@ -178,7 +178,7 @@ namespace TFN.Api.Controllers
 
         [HttpGet("{postId:Guid}/comments/{commentId:Guid}/scores", Name = "GetCommentSummary")]
         [Authorize("posts.read")]
-        public async Task<IActionResult> GetCommentScoreSummaryAsync(
+        public async Task<IActionResult> GetCommentScoreSummary(
             Guid postId,
             Guid commentId,
             [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]int limit = 7)
@@ -203,7 +203,7 @@ namespace TFN.Api.Controllers
 
         [HttpGet("{postId:Guid}/comments/{commentId:Guid}/scores/{scoreId:Guid}", Name = "GetScore")]
         [Authorize("posts.read")]
-        public async Task<IActionResult> GetAsync(Guid postId, Guid commentId, Guid scoreId)
+        public async Task<IActionResult> GetScore(Guid postId, Guid commentId, Guid scoreId)
         {
             var score = await PostService.GetScoreAsync(commentId, scoreId);
 
@@ -219,7 +219,7 @@ namespace TFN.Api.Controllers
 
         [HttpPost(Name = "PostPost")]
         [Authorize("posts.write")]
-        public async Task<IActionResult> PostAsync([FromBody]PostInputModel post)
+        public async Task<IActionResult> PostPost([FromBody]PostInputModel post)
         {
             var genre = Genre.Other;
             var parsed = Enum.TryParse(post.Genre.ToString(), out genre);
@@ -262,7 +262,7 @@ namespace TFN.Api.Controllers
 
         [HttpPost("{postId:Guid}/comments", Name = "PostComment")]
         [Authorize("posts.write")]
-        public async Task<IActionResult> PostAsync(
+        public async Task<IActionResult> PostComment(
             Guid postId,
             [FromBody]CommentInputModel comment)
         {
@@ -291,7 +291,7 @@ namespace TFN.Api.Controllers
 
         [HttpPost("{postId:Guid}/comments/{commentId:Guid}/scores", Name = "PostScore")]
         [Authorize("posts.write")]
-        public async Task<IActionResult> PostAsync(
+        public async Task<IActionResult> PostScore(
             Guid postId,
             Guid commentId,
             [ModelBinder(BinderType = typeof(OffsetQueryModelBinder))]int offset = 0,
@@ -331,7 +331,7 @@ namespace TFN.Api.Controllers
 
         [HttpPatch("{postId:Guid}", Name = "EditPost")]
         [Authorize("posts.edit")]
-        public async Task<IActionResult> PatchAsync(
+        public async Task<IActionResult> PatchPost(
             Guid postId,
             [FromBody]PostInputModel model)
         {
@@ -367,7 +367,7 @@ namespace TFN.Api.Controllers
 
         [HttpPatch("{postId:Guid}/comments/{commentId:Guid}", Name = "EditComment")]
         [Authorize("posts.edit")]
-        public async Task<IActionResult> PatchAsync(
+        public async Task<IActionResult> PatchComment(
             Guid postId,
             Guid commentId,
             [FromBody]CommentInputModel post)
@@ -393,7 +393,7 @@ namespace TFN.Api.Controllers
 
 
         [HttpDelete("{postId:Guid}", Name = "DeletePost")]
-        public async Task<IActionResult> DeleteAsync(Guid postId)
+        public async Task<IActionResult> DeletePost(Guid postId)
         {
             var post = await PostService.GetPostAsync(postId);
 
@@ -415,7 +415,7 @@ namespace TFN.Api.Controllers
         }
 
         [HttpDelete("{postId:Guid}/comments/{commentId:Guid}", Name = "DeleteComment")]
-        public async Task<IActionResult> DeleteAsync(Guid postId, Guid commentId)
+        public async Task<IActionResult> DeleteComment(Guid postId, Guid commentId)
         {
             var comment = await PostService.GetCommentAsync(postId, commentId);
 
@@ -437,7 +437,7 @@ namespace TFN.Api.Controllers
         }
 
         [HttpDelete("{postId:Guid}/comments/{commentId:Guid}/scores/{scoreId:Guid}", Name = "DeleteScore")]
-        public async Task<IActionResult> DeleteAsync(Guid postId, Guid commentId, Guid scoreId)
+        public async Task<IActionResult> DeleteScore(Guid postId, Guid commentId, Guid scoreId)
         {
             var score = await PostService.GetScoreAsync(commentId,scoreId);
 

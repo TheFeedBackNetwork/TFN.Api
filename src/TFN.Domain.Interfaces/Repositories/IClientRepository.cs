@@ -6,6 +6,6 @@ namespace TFN.Domain.Interfaces.Repositories
 {
     public interface IClientRepository : IClientStore
     {
-        Task<IEnumerable<string>> GetAllAllowedCorsOriginsAsync();
+        Task<IEnumerable<string>> FindAllAllowedCorsOrigins();
     }
 }

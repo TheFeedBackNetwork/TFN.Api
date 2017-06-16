@@ -25,12 +25,12 @@ namespace TFN.Infrastructure.Repositories.TransientUserAggregate.InMemory
             return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.Id == id));
         }
 
-        public Task<TransientUserAccount> GetByEmailAsync(string email)
+        public Task<TransientUserAccount> FindByEmail(string email)
         {
             return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.Email == email));
         }
 
-        public Task<TransientUserAccount> GetByEmailVerificationKeyAsync(string emailVerificationKey)
+        public Task<TransientUserAccount> FindByVerificationKey(string emailVerificationKey)
         {
             return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.VerificationKey == emailVerificationKey));
         }
@@ -42,7 +42,7 @@ namespace TFN.Infrastructure.Repositories.TransientUserAggregate.InMemory
             return Task.CompletedTask;
         }
 
-        public Task<TransientUserAccount> GetByUsernameAsync(string username)
+        public Task<TransientUserAccount> FindByUsername(string username)
         {
             return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.Username == username));
         }

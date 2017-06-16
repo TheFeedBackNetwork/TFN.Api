@@ -40,13 +40,13 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
             return Task.CompletedTask;
         }
 
-        public Task<IReadOnlyList<Comment>> GetAllCommentsAsync(Guid postId)
+        public Task<IReadOnlyList<Comment>> FindAllComments(Guid postId)
         {
             IReadOnlyList<Comment> comments = InMemoryComments.Comments.Where(x => x.PostId == postId).ToList();
             return Task.FromResult(comments);
         }
 
-        public Task<IReadOnlyList<Score>> GetAllScores(Guid commentId, int offset, int limit)
+        public Task<IReadOnlyList<Score>> FindAllScores(Guid commentId, int offset, int limit)
         {
             IReadOnlyList<Score> scores = InMemoryScores.Scores.FindAll(x => x.CommentId == commentId)
                     .OrderBy(x => x.Created)
@@ -70,7 +70,7 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
             return Task.FromResult(score);
         }
 
-        public Task<IReadOnlyList<Comment>> GetCommentsAsync(Guid postId, int offset, int limit)
+        public Task<IReadOnlyList<Comment>> FindComments(Guid postId, int offset, int limit)
         {
             IReadOnlyList<Comment> comments =
                 InMemoryComments.Comments.FindAll(x => x.PostId == postId)

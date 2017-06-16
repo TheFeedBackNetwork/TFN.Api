@@ -27,24 +27,24 @@ namespace TFN.Infrastructure.Repositories.CreditsAggregate.InMemory
             return Task.CompletedTask;
         }
 
-        public Task<Credits> GetByUsername(string username)
+        public Task<Credits> FindByUsername(string username)
         {
             return Task.FromResult(InMemoryCredits.Credits.SingleOrDefault(x => x.Username == username));
         }
 
-        public Task<Credits> GetByUserId(Guid userId)
+        public Task<Credits> FindByUserId(Guid userId)
         {
             return Task.FromResult(InMemoryCredits.Credits.SingleOrDefault(x => x.UserId == userId));
         }
 
-        public Task<IReadOnlyList<Credits>> GetHighestCredits(int offset, int limit)
+        public Task<IReadOnlyList<Credits>> FindHighestCredits(int offset, int limit)
         {
             IReadOnlyList<Credits> leaders =
                 InMemoryCredits.Credits.OrderBy(x => x.TotalCredits).Skip(offset).Take(limit).ToList();
 
             return Task.FromResult(leaders);
         }
-        public Task<IReadOnlyList<Credits>> SearchUsers(string searchToken, int offset, int limit)
+        public Task<IReadOnlyList<Credits>> FindUsers(string searchToken, int offset, int limit)
         {
             IReadOnlyList<Credits> credits =
                 InMemoryCredits.Credits.Where(x => x.Username.StartsWith(searchToken)).Skip(offset).Take(limit).ToList();

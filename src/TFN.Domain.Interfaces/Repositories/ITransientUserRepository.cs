@@ -7,8 +7,8 @@ namespace TFN.Domain.Interfaces.Repositories
 {
     public interface ITransientUserRepository : IAddableRepository<TransientUserAccount, Guid>, IDeleteableRepository<TransientUserAccount, Guid>, IUpdateableRepository<TransientUserAccount, Guid>
     {
-        Task<TransientUserAccount> GetByEmailAsync(string email);
-        Task<TransientUserAccount> GetByEmailVerificationKeyAsync(string emailVerificationKey);
-        Task<TransientUserAccount> GetByUsernameAsync(string username);
+        Task<TransientUserAccount> FindByEmail(string email);
+        Task<TransientUserAccount> FindByVerificationKey(string verificationKey);
+        Task<TransientUserAccount> FindByUsername(string username);
     }
 }

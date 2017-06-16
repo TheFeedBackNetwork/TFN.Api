@@ -31,7 +31,7 @@ namespace TFN.Domain.Services.Posts
 
         public async Task<IReadOnlyList<Post>> GetAllPostsAsync(int offset, int limit)
         {
-            return await PostRepository.GetAllAsync(offset, limit);
+            return await PostRepository.FindAll(offset, limit);
         }
 
         public async Task<Post> GetPostAsync(Guid postId)
@@ -60,7 +60,7 @@ namespace TFN.Domain.Services.Posts
 
         public async Task<IReadOnlyList<Comment>> GetCommentsAsync(Guid postId, int offset, int limit)
         {
-            return await CommentRepository.GetCommentsAsync(postId, offset, limit);
+            return await CommentRepository.FindComments(postId, offset, limit);
         }
 
         public async Task<Comment> GetCommentAsync(Guid postId, Guid commentId)
@@ -71,12 +71,12 @@ namespace TFN.Domain.Services.Posts
 
         public async Task<IReadOnlyList<Comment>> GetAllCommentsAsync(Guid postId)
         {
-            return await CommentRepository.GetAllCommentsAsync(postId);
+            return await CommentRepository.FindAllComments(postId);
         }
 
         public async Task<IReadOnlyList<Score>> GetAllScoresAsync(Guid commentId, int offset, int limit)
         {
-            return await CommentRepository.GetAllScores(commentId, offset, limit);
+            return await CommentRepository.FindAllScores(commentId, offset, limit);
         }
 
         public async Task<Score> GetScoreAsync(Guid commentId, Guid scoreId)

@@ -9,7 +9,10 @@ namespace TFN.Domain.Interfaces.Repositories
 {
     public interface IPostRepository : IAddableRepository<Post,Guid> , IUpdateableRepository<Post,Guid>, IDeleteableRepository<Post,Guid>
     {
-        Task<IReadOnlyList<Post>> GetAllAsync(int offset, int limit);
+        Task<IReadOnlyList<Post>> FindAll(int offset, int limit);
+
+
+        //Like
         Task<PostSummary> GetPostLikeSummaryAsync(Guid postId, int limit, string username);
         Task<IReadOnlyList<Like>> GetAllLikes(Guid postId, int offset, int limit);
         Task DeleteLike(Guid postId, Guid likeId);

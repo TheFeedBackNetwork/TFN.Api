@@ -25,7 +25,7 @@ namespace TFN.Api.Models.Factories
         {
             var summary = await CommentRepository.GetCommentScoreSummaryAsync(comment.Id, 5,comment.Username);
 
-            var credits = await CreditRepository.GetByUserId(comment.UserId);
+            var credits = await CreditRepository.FindByUserId(comment.UserId);
 
             var authZ = ResourceAuthorizationResponseModelFactory.From(comment, HttpContextAccessor.HttpContext);
 

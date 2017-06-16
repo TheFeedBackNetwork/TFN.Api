@@ -17,7 +17,7 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.InMemory
             return Task.CompletedTask;
         }
 
-        public Task<IReadOnlyList<Post>> GetAllAsync(int offset, int limit)
+        public Task<IReadOnlyList<Post>> FindAll(int offset, int limit)
         {
             IReadOnlyList<Post> posts = InMemoryPosts.Posts
                 .Where(x => x.IsActive)
