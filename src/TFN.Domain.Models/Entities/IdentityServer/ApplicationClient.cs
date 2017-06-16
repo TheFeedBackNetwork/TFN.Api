@@ -28,7 +28,7 @@ namespace TFN.Domain.Models.Entities.IdentityServer
             Client = client;
         }
 
-        public ApplicationClient(Guid tenantId, Client client)
+        public ApplicationClient(Client client)
             : this(Guid.NewGuid(), DateTime.UtcNow, DateTime.UtcNow, client)
         {
 
