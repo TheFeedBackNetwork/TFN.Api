@@ -6,7 +6,7 @@ using TFN.Domain.Models.Entities;
 
 namespace TFN.Infrastructure.Repositories.TransientUserAggregate.InMemory
 {
-    public class TransientUserInMemoryRepository : ITransientUserRepository
+    public class TransientUserAccountInMemoryRepository : ITransientUserAccountRepository
     {
         public Task Add(TransientUserAccount entity)
         {
@@ -45,6 +45,11 @@ namespace TFN.Infrastructure.Repositories.TransientUserAggregate.InMemory
         public Task<TransientUserAccount> FindByUsername(string username)
         {
             return Task.FromResult(InMemoryTransientUsers.TransientUsers.SingleOrDefault(x => x.Username == username));
+        }
+
+        public Task<bool> Any()
+        {
+            throw new NotImplementedException();
         }
     }
 }

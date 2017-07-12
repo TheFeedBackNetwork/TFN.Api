@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using IdentityServer4.Configuration;
 using IdentityServer4.Validation;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -14,10 +15,19 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using TFN.Domain.Interfaces.Repositories;
+using TFN.Domain.Models.Entities.IdentityServer;
+using TFN.Infrastructure.Architecture.Repositories.Document;
 using TFN.Infrastructure.Modules.Logging;
+using TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document;
+using TFN.Infrastructure.Repositories.CreditsAggregate.Document;
+using TFN.Infrastructure.Repositories.ProductApiResourceAggregate.Document;
+using TFN.Infrastructure.Repositories.UserAccountAggregate.Document;
+using TFN.Infrastructure.Repositories.UserIdentityResourceAggregate.Document;
 using TFN.Mvc.Constants;
 using TFN.Mvc.Extensions;
 using TFN.Resolution;
+using TFN.StaticData;
 using TFN.Sts.UI;
 
 namespace TFN.Sts
@@ -171,10 +181,14 @@ namespace TFN.Sts
             {
                 TelemetryConfiguration.Active.DisableTelemetry = true;
             }
+            
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceScopeFactory scopeFactory)
         {
+            //seed
+            EnsureSeeded(scopeFactory).Wait();
+
             var logger = loggerFactory.CreateLogger<Startup>();
             logger.LogInformation($"Signing Certificate \n Expiration: {PrimarySigningCredentials.NotAfter} \n Thumbprint: {PrimarySigningCredentials.Thumbprint} \n SignatureAlgorithm : {PrimarySigningCredentials.SignatureAlgorithm}");
             logger.LogInformation($"Verification Key \n Expiration: {SecondarySigningCredentials.NotAfter} \n Thumbprint: {SecondarySigningCredentials.Thumbprint} \n SignatureAlgorithm : {SecondarySigningCredentials.SignatureAlgorithm}");
@@ -190,6 +204,45 @@ namespace TFN.Sts
             app.UseMvcWithDefaultRoute();
 
             logger.LogInformation("Tfn.Sts startup is complete.");
+        }
+
+        public async Task EnsureSeeded(IServiceScopeFactory scopeFactory)
+        {
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var provider = scope.ServiceProvider;
+                var context = provider.GetRequiredService<DocumentContext>();
+
+                var clientRepository = provider.GetRequiredService<IApplicationClientRepository>();
+                var productApiRepository = provider.GetRequiredService<IProductApiResourceRepository>();
+                var userIdentityRepository = provider.GetRequiredService<IUserIdentityResourceRepository>();
+
+                if (!await context.Collection<ApplicationClientDocumentModel>().Any(x => x.Type == "applicationClient"))
+                {
+                    foreach (var client in ApplicationClients.Clients)
+                    {
+                        await clientRepository.Add(client);
+                    }
+                }
+
+                if (!await context.Collection<ProductApiResourceDocumentModel>().Any(x => x.Type == "productApiResource"))
+                {
+                    foreach (var apiResources in ProductApiResources.ApiResourceses)
+                    {
+                        await productApiRepository.Add(apiResources);
+                    }
+                }
+
+                if (!await context.Collection<UserIdentityResourceDocumentModel>()
+                    .Any(x => x.Type == "userIdentityResource"))
+                {
+                    foreach (var identityResource in UserIdentityResources.IdentityResources)
+                    {
+                        await userIdentityRepository.Add(identityResource);
+                    }
+                }
+
+            }
         }
     }
 }

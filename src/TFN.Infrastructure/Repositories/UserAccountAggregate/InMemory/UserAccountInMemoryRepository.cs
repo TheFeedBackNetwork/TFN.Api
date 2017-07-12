@@ -8,7 +8,7 @@ using TFN.Domain.Models.Entities;
 
 namespace TFN.Infrastructure.Repositories.UserAccountAggregate.InMemory
 {
-    public class UserInMemoryRepository : IUserRepository
+    public class UserAccountInMemoryRepository : IUserAccountRepository
     {
         public static Dictionary<string, string> ChangePasswordKeys = new Dictionary<string, string>();
 
@@ -29,7 +29,7 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.InMemory
 
         };
         public IPasswordService PasswordService { get; private set; }
-        public UserInMemoryRepository(IPasswordService passwordService)
+        public UserAccountInMemoryRepository(IPasswordService passwordService)
         {
             PasswordService = passwordService;
 
@@ -146,6 +146,11 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.InMemory
             ChangePasswordKeys.Remove(user.Id.ToString());
 
             return Task.CompletedTask;
+        }
+
+        public Task<bool> Any()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -50,5 +50,10 @@ namespace TFN.Infrastructure.Repositories.CreditsAggregate.InMemory
                 InMemoryCredits.Credits.Where(x => x.Username.StartsWith(searchToken)).Skip(offset).Take(limit).ToList();
             return Task.FromResult(credits);
         }
+
+        public Task<bool> Any()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

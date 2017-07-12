@@ -77,41 +77,6 @@ namespace TFN.StaticData
                         "ip.read",
                         "users.read"
                     }
-                },
-                new Client
-                {
-                    ClientId = "collectorapp_collectorapi",
-                    ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-
-                    RequireConsent = false,
-                    ClientSecrets =
-                    {
-                        new Secret("BF2360DB1EBF4A3317F68482DAA34E91AF81A968AEBCB56F4245C278C78B1D4F".Sha256())
-                    },
-
-                    AccessTokenType = AccessTokenType.Reference,
-                    RedirectUris = { "app://collector.whereismytransport.com/end" },
-                    PostLogoutRedirectUris = { "app://collector.whereismytransport.com/end" },
-
-                    AllowedScopes =
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.OfflineAccess,
-                        "biography",
-                        "profile_picture_url",
-                        "posts.write",
-                        "posts.read",
-                        "posts.edit",
-                        "posts.delete",
-                        "tracks.read",
-                        "tracks.write",
-                        "tracks.delete",
-                        "credits.read",
-                        "credits.write",
-                        "credits.delete",
-                    }
                 }
             };
 

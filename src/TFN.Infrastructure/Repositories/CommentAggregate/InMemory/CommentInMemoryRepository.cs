@@ -100,5 +100,10 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
 
             return Task.CompletedTask;
         }
+
+        public Task<bool> Any()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

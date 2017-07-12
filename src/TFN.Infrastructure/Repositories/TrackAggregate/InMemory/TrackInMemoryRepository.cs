@@ -14,6 +14,11 @@ namespace TFN.Infrastructure.Repositories.TrackAggregate.InMemory
             return Task.CompletedTask;
         }
 
+        public Task<bool> Any()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task Delete(Guid id)
         {
             InMemoryTracks.Tracks.RemoveAll(x => x.Id == id);

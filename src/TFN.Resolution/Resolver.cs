@@ -16,6 +16,7 @@ using TFN.Domain.Services;
 using TFN.Domain.Services.Credits;
 using TFN.Domain.Services.Cryptography;
 using TFN.Domain.Services.IdentityServer.Services;
+using TFN.Domain.Services.IdentityServer.Stores;
 using TFN.Domain.Services.IdentityServer.Validators;
 using TFN.Domain.Services.Posts;
 using TFN.Domain.Services.TransientUsers;
@@ -56,12 +57,12 @@ namespace TFN.Resolution
     {
         public static void RegisterDbContext(IServiceCollection services, IConfiguration configuration)
         {
-            /*services.AddDocumentDbContext<DocumentContext>(options =>
+            services.AddDocumentDbContext<DocumentContext>(options =>
             {
                 options.DatabaseName = configuration["DocumentDb:DatabaseName"];
                 options.DatabaseKey = configuration["DocumentDb:Key"];
                 options.DatabaseUri = new Uri(configuration["DocumentDb:EndpointUri"]);
-            });*/
+            });
         }
 
         public static void RegisterTypes(IServiceCollection services, IConfiguration configuration)
@@ -82,17 +83,22 @@ namespace TFN.Resolution
 
 
             //repositories
-            services.AddTransient<IResourceRepository, ResourceInMemoryRepository>();
-            services.AddTransient<IResourceStore, ResourceInMemoryRepository>();
-            services.AddTransient<IUserRepository, UserInMemoryRepository>();
-            services.AddTransient<ITransientUserRepository, TransientUserInMemoryRepository>();
-            services.AddTransient<IClientRepository, ClientInMemoryRepository>();
-            services.AddTransient<IPostRepository, PostInMemoryRepository>();
-            services.AddTransient<ICommentRepository, CommentInMemoryRepository>();
-            services.AddTransient<IClientStore, ClientInMemoryRepository>();
-            services.AddTransient<ITrackRepository, TrackInMemoryRepository>();
-            services.AddTransient<ICreditRepository, CreditInMemoryRepository>();
+            services.AddTransient<IApplicationClientRepository, ApplicationClientDocumentRepository>();
+            //services.AddTransient<ICommentRepository, CommentDocumentRepository>();
+            //services.AddTransient<ICreditRepository, CreditsDocumentRepository>();
+            //services.AddTransient<ILikeRepository, LikeDocumentRepository>();
+            //services.AddTransient<IListenRepository, ListenDocumentRepository>();
+            //services.AddTransient<IPostRepository, PostDocumentRepository>();
+            services.AddTransient<IProductApiResourceRepository, ProductApiResourceDocumentRepository>();
+            //services.AddTransient<IScoreRepository, ScoreDocumentRepository>();
+            //services.AddTransient<ITrackRepository, TrackDocumentRepository>();
+            //services.AddTransient<ITransientUserAccountRepository, TransientUserAccountDocumentRepository>();
+            //services.AddTransient<IUserAccountRepository, UserAccountDocumentRepository>();
+            services.AddTransient<IUserIdentityResourceRepository, UserIdentityResourceDocumentRepository>();
+
             //services
+            services.AddTransient<IClientStore, ClientStore>();
+            services.AddTransient<IResourceStore, ResourceStore>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICorsPolicyService, CorsPolicyService>();
             services.AddTransient<IProfileService, ProfileService>();

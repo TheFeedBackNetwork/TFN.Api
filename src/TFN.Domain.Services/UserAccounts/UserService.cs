@@ -12,13 +12,13 @@ namespace TFN.Domain.Services.UserAccounts
 {
     public class UserService : IUserService
     {
-        public IUserRepository UserRepository { get; private set; }
+        public IUserAccountRepository UserAccountRepository { get; private set; }
         public IKeyService KeyService { get; private set; }
         public IAccountEmailService AccountEmailService { get; private set; }
         public ICreditService CreditService { get; private set; }
-        public UserService(IUserRepository userRepository, IKeyService keyService, IAccountEmailService accountEmailService, ICreditService creditService)
+        public UserService(IUserAccountRepository userAccountRepository, IKeyService keyService, IAccountEmailService accountEmailService, ICreditService creditService)
         {
-            UserRepository = userRepository;
+            UserAccountRepository = userAccountRepository;
             KeyService = keyService;
             AccountEmailService = accountEmailService;
             CreditService = creditService;
@@ -38,24 +38,24 @@ namespace TFN.Domain.Services.UserAccounts
 
             var credit = new Models.Entities.Credits(user.Id,user.Username);
             await CreditService.AddAsync(credit);
-            await UserRepository.Add(user, password);
+            await UserAccountRepository.Add(user, password);
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            await UserRepository.Delete(id);
+            await UserAccountRepository.Delete(id);
         }
 
         public async Task<UserAccount> GetAsync(Guid id)
         {
-            var user = await UserRepository.Find(id);
+            var user = await UserAccountRepository.Find(id);
 
             return user;
         }
 
         public async Task<UserAccount> GetByUsernameAsync(string username)
         {
-            var user = await UserRepository.FindByUsername(username);
+            var user = await UserAccountRepository.FindByUsername(username);
 
             return user;
         }
@@ -66,11 +66,11 @@ namespace TFN.Domain.Services.UserAccounts
 
             if (usernameOrEmail.IsEmail())
             {
-                user = await UserRepository.FindByEmail(usernameOrEmail, password);
+                user = await UserAccountRepository.FindByEmail(usernameOrEmail, password);
             }
             else if(usernameOrEmail.IsValidUsername())
             {
-                user = await UserRepository.FindByUsername(usernameOrEmail, password);
+                user = await UserAccountRepository.FindByUsername(usernameOrEmail, password);
             }
 
             return user;
@@ -83,7 +83,7 @@ namespace TFN.Domain.Services.UserAccounts
                 throw new ArgumentNullException($"{nameof(entity)}");
             }
 
-            await UserRepository.Update(entity);
+            await UserAccountRepository.Update(entity);
         }
         
 
@@ -104,21 +104,21 @@ namespace TFN.Domain.Services.UserAccounts
 
         public async Task<bool> ExistsByEmail(string email)
         {
-            var user = await UserRepository.FindByEmail(email);
+            var user = await UserAccountRepository.FindByEmail(email);
 
             return user != null;
         }
 
         public async Task<bool> ExistsByUsername(string username)
         {
-            var user = await UserRepository.FindByUsername(username);
+            var user = await UserAccountRepository.FindByUsername(username);
 
             return user != null;
         }
 
         public async Task<UserAccount> GetByEmailAsync(string email)
         {
-            var user = await UserRepository.FindByEmail(email);
+            var user = await UserAccountRepository.FindByEmail(email);
 
             return user;
         }
@@ -142,12 +142,12 @@ namespace TFN.Domain.Services.UserAccounts
         public async Task SendChangePasswordKeyAsync(UserAccount user)
         {
             var forgotPasswordKey = KeyService.GenerateUrlSafeUniqueKey();
-            await UserRepository.UpdateChangePasswordKey(user, forgotPasswordKey);
+            await UserAccountRepository.UpdateChangePasswordKey(user, forgotPasswordKey);
             await AccountEmailService.SendChangePasswordEmailAsync(user.Email, forgotPasswordKey);
         }
         public async Task<bool> ChangePasswordKeyExistsAsync(string changePasswordKey)
         {
-            return await UserRepository.ChangePasswordKeyExists(changePasswordKey);
+            return await UserAccountRepository.ChangePasswordKeyExists(changePasswordKey);
         }
 
         #pragma warning disable 1998
@@ -165,13 +165,13 @@ namespace TFN.Domain.Services.UserAccounts
 
         public async Task UpdateUserPasswordAsync(string changePasswordKey, string password)
         {
-            var user = await UserRepository.FindByChangePasswordKey(changePasswordKey);
-            await UserRepository.UpdateUserPassword(user, password);
+            var user = await UserAccountRepository.FindByChangePasswordKey(changePasswordKey);
+            await UserAccountRepository.UpdateUserPassword(user, password);
         }
 
         public async Task<UserAccount> GetByChangePasswordKey(string changePasswordKey)
         {
-            return await UserRepository.FindByChangePasswordKey(changePasswordKey);
+            return await UserAccountRepository.FindByChangePasswordKey(changePasswordKey);
         }
 
         public async Task<IReadOnlyList<Models.Entities.Credits>> SearchUsers(string searchToken, int offset, int limit)

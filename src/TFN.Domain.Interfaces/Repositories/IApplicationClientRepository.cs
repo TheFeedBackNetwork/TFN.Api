@@ -6,7 +6,8 @@ using TFN.Domain.Models.Entities.IdentityServer;
 
 namespace TFN.Domain.Interfaces.Repositories
 {
-    public interface IApplicationClientRepository : IRepository<ApplicationClient, Guid>
+                                                                                            //REMOVE THIS IS USED FOR SEEDDATAONLY
+    public interface IApplicationClientRepository : IRepository<ApplicationClient, Guid>, IAddableRepository<ApplicationClient, Guid>
     {
         Task<ApplicationClient> Find(string clientId);
         Task<IReadOnlyCollection<string>> FindAllAllowedCorsOrigins();

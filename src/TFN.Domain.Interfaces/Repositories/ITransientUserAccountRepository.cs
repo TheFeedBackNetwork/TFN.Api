@@ -5,7 +5,7 @@ using TFN.Domain.Models.Entities;
 
 namespace TFN.Domain.Interfaces.Repositories
 {
-    public interface ITransientUserRepository : IAddableRepository<TransientUserAccount, Guid>, IDeleteableRepository<TransientUserAccount, Guid>, IUpdateableRepository<TransientUserAccount, Guid>
+    public interface ITransientUserAccountRepository : IAddableRepository<TransientUserAccount, Guid>, IDeleteableRepository<TransientUserAccount, Guid>, IUpdateableRepository<TransientUserAccount, Guid>
     {
         Task<TransientUserAccount> FindByEmail(string email);
         Task<TransientUserAccount> FindByVerificationKey(string verificationKey);

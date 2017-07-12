@@ -6,7 +6,7 @@ using TFN.Domain.Models.Entities;
 
 namespace TFN.Domain.Interfaces.Repositories
 {
-    public interface IUserRepository : IAddableRepository<UserAccount, Guid>, IDeleteableRepository<UserAccount, Guid>, IUpdateableRepository<UserAccount,Guid>
+    public interface IUserAccountRepository : IAddableRepository<UserAccount, Guid>, IDeleteableRepository<UserAccount, Guid>, IUpdateableRepository<UserAccount,Guid>
     {
         Task<UserAccount> FindByUsername(string username);
         Task<UserAccount> FindByEmail(string email);

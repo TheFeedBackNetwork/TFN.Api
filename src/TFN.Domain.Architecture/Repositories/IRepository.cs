@@ -7,5 +7,8 @@ namespace TFN.Domain.Architecture.Repositories
         where TDomainEntity : DomainEntity<TKey>, IAggregateRoot
     {
         Task<TDomainEntity> Find(TKey id);
+
+        //REMOVE THIS IS USED FOR SEEDDATAONLY
+        Task<bool> Any();
     }
 }

@@ -58,5 +58,11 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
 
             await Collection.Update(document, document.Id.ToString());
         }
+
+        public virtual async Task<bool> Any()
+        {
+            
+            return await Collection.Any();
+        }
     }
 }

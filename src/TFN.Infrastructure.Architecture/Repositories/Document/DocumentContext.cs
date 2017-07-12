@@ -71,7 +71,7 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             {
                 throw new InvalidOperationException($"Type '{typeof(TDocument).Name}' does not have a [CollectionOptions] attribute.");
             }
-            return new DocumentCollection<TDocument>(DocumentClient, Logger, QueryCursorComponent, DatabaseName, options.CollectionName);
+            return new DocumentCollection<TDocument>(DocumentClient, Logger, QueryCursorComponent, DatabaseName, options.CollectionName, options.TypeName);
         }
     }
 }

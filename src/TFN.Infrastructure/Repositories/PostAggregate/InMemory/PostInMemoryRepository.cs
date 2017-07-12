@@ -84,5 +84,10 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.InMemory
 
             return Task.FromResult(like);
         }
+
+        public Task<bool> Any()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
