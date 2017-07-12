@@ -7,7 +7,7 @@ using TFN.Infrastructure.Architecture.Documents.Models;
 
 namespace TFN.Infrastructure.Repositories.ProductApiResourceAggregate.Document
 {
-    [CollectionOptions("productApiResources")]
+    [CollectionOptions("configuration","productApiResource")]
     public sealed class ProductApiResourceDocumentModel : ProductApiResourceDocumentModel<Guid>
     {
         public ProductApiResourceDocumentModel() { }

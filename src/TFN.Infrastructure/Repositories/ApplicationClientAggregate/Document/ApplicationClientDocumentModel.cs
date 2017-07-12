@@ -7,7 +7,7 @@ using TFN.Infrastructure.Architecture.Documents.Models;
 
 namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document
 {
-    [CollectionOptions("applicationClients")]
+    [CollectionOptions("configuration","applicationClient")]
     public sealed class ApplicationClientDocumentModel : ApplicationClientDocumentModel<Guid>
     {
         public ApplicationClientDocumentModel(Guid id, DateTime created, DateTime modified)

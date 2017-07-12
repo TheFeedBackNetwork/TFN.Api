@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using TFN.Infrastructure.Architecture.Documents.Models;
+using TFN.Infrastructure.Architecture.Documents.Attributes;
 
 namespace TFN.Infrastructure.Repositories.PostAggregate.Document
 {
+    [CollectionOptions("messages", "post")]
     public sealed class PostDocumentModel : PostDocumentModel<Guid>
     {
         public PostDocumentModel(Guid id, Guid userId, string username, string text, bool isActive, DateTime created,

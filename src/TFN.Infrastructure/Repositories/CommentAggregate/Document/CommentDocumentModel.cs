@@ -1,9 +1,11 @@
 ﻿using System;
 using Newtonsoft.Json;
 using TFN.Infrastructure.Architecture.Documents.Models;
+using TFN.Infrastructure.Architecture.Documents.Attributes;
 
 namespace TFN.Infrastructure.Repositories.CommentAggregate.Document
 {
+    [CollectionOptions("messages", "comment")]
     public sealed class CommentDocumentModel : CommentDocumentModel<Guid>
     {
         public CommentDocumentModel(Guid id, Guid userId, string username, string text, bool isActive, DateTime created,

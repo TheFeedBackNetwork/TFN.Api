@@ -1,10 +1,11 @@
 ﻿using System;
 using Newtonsoft.Json;
 using TFN.Infrastructure.Architecture.Documents;
+using TFN.Infrastructure.Architecture.Documents.Attributes;
 
 namespace TFN.Infrastructure.Repositories.ListenAggregate.Document
 {
-
+    [CollectionOptions("messageMetadata", "listen")]
     public sealed class ListenDocumentModel : ListenDocumentModel<Guid>
     {
         public ListenDocumentModel(Guid id, DateTime created)

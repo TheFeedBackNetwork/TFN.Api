@@ -7,7 +7,7 @@ using TFN.Infrastructure.Architecture.Documents.Models;
 
 namespace TFN.Infrastructure.Repositories.UserIdentityResourceAggregate.Document
 {
-    [CollectionOptions("userIdentityResources")]
+    [CollectionOptions("configuration","userIdentityResource")]
     public sealed class UserIdentityResourceDocumentModel : UserIdentityResourceDocumentModel<Guid>
     {
         public UserIdentityResourceDocumentModel() { }

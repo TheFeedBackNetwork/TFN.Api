@@ -1,10 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
 using TFN.Infrastructure.Architecture.Documents;
+using TFN.Infrastructure.Architecture.Documents.Attributes;
 
 namespace TFN.Infrastructure.Repositories.ScoreAggregate.Document
 {
-    public class ScoreDocumentModel : ScoreDocumentModel<Guid>
+    [CollectionOptions("messageMetadata", "score")]
+    public sealed class ScoreDocumentModel : ScoreDocumentModel<Guid>
     {
         public ScoreDocumentModel(Guid id, DateTime created)
             :base(id,created)

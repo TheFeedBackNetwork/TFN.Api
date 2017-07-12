@@ -5,7 +5,7 @@ using TFN.Infrastructure.Architecture.Documents.Attributes;
 
 namespace TFN.Infrastructure.Repositories.UserAccountAggregate.Document
 {
-    [CollectionOptions("userAccounts")]
+    [CollectionOptions("identity","userAccount")]
     public sealed class UserAccountDocumentModel : UserAccountDocumentModel<Guid>
     {
         public UserAccountDocumentModel(Guid id, DateTime created, DateTime modified)

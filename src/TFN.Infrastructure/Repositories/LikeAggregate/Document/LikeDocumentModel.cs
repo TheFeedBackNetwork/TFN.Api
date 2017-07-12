@@ -1,9 +1,11 @@
 ﻿using System;
 using Newtonsoft.Json;
 using TFN.Infrastructure.Architecture.Documents;
+using TFN.Infrastructure.Architecture.Documents.Attributes;
 
 namespace TFN.Infrastructure.Repositories.LikeAggregate.Document
 {
+    [CollectionOptions("messageMetadata", "like")]
     public sealed class LikeDocumentModel : LikeDocumentModel<Guid>
     {
         public LikeDocumentModel(Guid id, DateTime created)

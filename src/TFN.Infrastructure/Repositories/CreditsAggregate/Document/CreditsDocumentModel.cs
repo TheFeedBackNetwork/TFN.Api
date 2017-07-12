@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TFN.Infrastructure.Architecture.Documents;
+using TFN.Infrastructure.Architecture.Documents.Attributes;
 
 namespace TFN.Infrastructure.Repositories.CreditsAggregate.Document
 {
+    [CollectionOptions("identity", "credits")]
     public sealed class CreditsDocumentModel : CreditsDocumentModel<Guid>
     {
         public CreditsDocumentModel(Guid id, DateTime created, DateTime modified)

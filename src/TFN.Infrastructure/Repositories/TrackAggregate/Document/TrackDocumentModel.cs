@@ -6,7 +6,7 @@ using TFN.Infrastructure.Architecture.Documents.Attributes;
 
 namespace TFN.Infrastructure.Repositories.TrackAggregate.Document
 {
-    [CollectionOptions("tracks")]
+    [CollectionOptions("tracks", "track")]
     public sealed class TrackDocumentModel : TrackDocumentModel<Guid>
     {
         public TrackDocumentModel(Guid id, DateTime created, DateTime modified)
