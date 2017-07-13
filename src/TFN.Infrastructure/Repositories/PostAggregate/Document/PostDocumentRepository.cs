@@ -24,7 +24,7 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
 
         public async Task<IReadOnlyList<Post>> FindAllPostsPaginated(string continuationToken)
         {
-            var documents = await Collection.FindAllPaginated(null, continuationToken);
+            var documents = await Collection.FindAllPaginated(x => x.Type == Type, continuationToken);
 
             if (documents == null)
             {
@@ -38,7 +38,7 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
 
         public async Task<IReadOnlyList<Post>> FindAllPostsPaginated(Guid userId,string continuationToken)
         {
-            var documents = await Collection.FindAllPaginated(x => x.UserId == userId, continuationToken);
+            var documents = await Collection.FindAllPaginated(x => x.UserId == userId && x.Type == Type, continuationToken);
 
             if (documents == null)
             {

@@ -22,7 +22,7 @@ namespace TFN.Infrastructure.Repositories.ListenAggregate.Document
 
         public async Task<int> Count(Guid postId)
         {
-            var count = await Collection.Count(x => x.PostId == postId);
+            var count = await Collection.Count(x => x.PostId == postId && x.Type == Type);
 
             return count;
         }

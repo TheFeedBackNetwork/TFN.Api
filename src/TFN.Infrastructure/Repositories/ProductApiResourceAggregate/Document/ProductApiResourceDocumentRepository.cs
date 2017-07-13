@@ -38,7 +38,7 @@ namespace TFN.Infrastructure.Repositories.ProductApiResourceAggregate.Document
         public async Task<IReadOnlyCollection<ProductApiResource>> FindAll(IReadOnlyCollection<string> scopeNames)
         {
 
-            var documents = await Collection.FindAll();
+            var documents = await Collection.FindAll(x => x.Type == Type);
 
             if (documents == null)
             {
@@ -54,7 +54,7 @@ namespace TFN.Infrastructure.Repositories.ProductApiResourceAggregate.Document
 
         public async Task<IReadOnlyCollection<ProductApiResource>> FindAll()
         {
-            var documents = await Collection.FindAll();
+            var documents = await Collection.FindAll(x => x.Type == Type);
 
             if (documents == null)
             {

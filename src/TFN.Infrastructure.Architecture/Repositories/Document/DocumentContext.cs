@@ -73,5 +73,27 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             }
             return new DocumentCollection<TDocument>(DocumentClient, Logger, QueryCursorComponent, DatabaseName, options.CollectionName, options.TypeName);
         }
+
+        public string GetType<TDocument>()
+            where TDocument : class
+        {
+            if (!typeof(TDocument).GetTypeInfo().IsSealed)
+            {
+                throw new InvalidOperationException($"Type '{typeof(TDocument).Name}' is not sealed. Sealed document types must be used to represent MongoDB collections as this preserves all fields during serialisation.");
+            }
+
+            var options = typeof(TDocument)
+                .GetTypeInfo()
+                .GetCustomAttributes(false)
+                .OfType<CollectionOptionsAttribute>()
+                .Cast<CollectionOptionsAttribute>()
+                .SingleOrDefault();
+
+            if (options == null)
+            {
+                throw new InvalidOperationException($"Type '{typeof(TDocument).Name}' does not have a [CollectionOptions] attribute.");
+            }
+            return options.TypeName;
+        }
     }
 }

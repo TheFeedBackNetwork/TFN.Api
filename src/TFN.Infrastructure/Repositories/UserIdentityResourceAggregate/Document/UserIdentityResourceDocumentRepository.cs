@@ -22,7 +22,7 @@ namespace TFN.Infrastructure.Repositories.UserIdentityResourceAggregate.Document
 
         public async Task<IReadOnlyCollection<UserIdentityResource>> FindAll()
         {
-            var documents = await Collection.FindAll();
+            var documents = await Collection.FindAll(x => x.Type == Type);
 
             if (documents == null)
             {

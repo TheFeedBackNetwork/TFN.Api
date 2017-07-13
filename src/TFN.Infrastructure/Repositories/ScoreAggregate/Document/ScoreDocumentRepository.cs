@@ -23,14 +23,14 @@ namespace TFN.Infrastructure.Repositories.ScoreAggregate.Document
 
         public async Task<int> Count(Guid commentId)
         {
-            var count = await Collection.Count(x => x.CommentId == commentId);
+            var count = await Collection.Count(x => x.CommentId == commentId && x.Type == Type);
 
             return count;
         }
 
         public async Task<IReadOnlyList<Score>> FindAllPaginated(Guid comentId, string continuationToken)
         {
-            var documents = await Collection.FindAllPaginated(x => x.CommentId == comentId, continuationToken);
+            var documents = await Collection.FindAllPaginated(x => x.CommentId == comentId && x.Type == Type, continuationToken);
 
             if (documents == null)
             {

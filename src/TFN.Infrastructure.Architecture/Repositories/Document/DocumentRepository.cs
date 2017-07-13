@@ -15,6 +15,7 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
         protected DocumentContext Context { get; }
         protected IDocumentCollection<TDocument> Collection { get; }
         protected ILogger Logger { get; }
+        protected string Type { get; }
 
         protected DocumentRepository(IAggregateMapper<TAggregate,TDocument,TKey> mapper,DocumentContext context, ILogger logger)
         {
@@ -22,6 +23,7 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             Collection = context.Collection<TDocument>();
             Logger = logger;
             Mapper = mapper;
+            Type = context.GetType<TDocument>();
         }
 
         public virtual async Task<TAggregate> Find(TKey id)

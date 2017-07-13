@@ -12,7 +12,6 @@ using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Interfaces.Services;
 using TFN.Domain.Models.Entities;
 using TFN.Domain.Models.Entities.IdentityServer;
-using TFN.Domain.Services;
 using TFN.Domain.Services.Credits;
 using TFN.Domain.Services.Cryptography;
 using TFN.Domain.Services.IdentityServer.Services;
@@ -104,6 +103,7 @@ namespace TFN.Resolution
 
             //validators
             services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
+            
             //components
             services.AddTransient<IS3StorageComponent, S3StorageComponent>();
             services.AddTransient<IBlobStorageComponent, BlobStorageComponent>();

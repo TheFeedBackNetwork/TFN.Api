@@ -23,14 +23,14 @@ namespace TFN.Infrastructure.Repositories.LikeAggregate.Document
 
         public async Task<int> Count(Guid postId)
         {
-            var count = await Collection.Count(x => x.PostId == postId);
+            var count = await Collection.Count(x => x.PostId == postId && x.Type == Type);
 
             return count;
         }
 
         public async Task<IReadOnlyList<Like>> FindAll(Guid postId, string continuationToken)
         {
-            var documents = await Collection.FindAllPaginated(x => x.PostId == postId, continuationToken);
+            var documents = await Collection.FindAllPaginated(x => x.PostId == postId && x.Type == Type, continuationToken);
 
             if (documents == null)
             {
