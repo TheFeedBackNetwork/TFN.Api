@@ -14,6 +14,7 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.Document
                 dataEntity.Username,
                 dataEntity.NormalizedUsername,
                 dataEntity.HashedPassword,
+                dataEntity.ChangePasswordKey,
                 dataEntity.ProfilePictureUrl,
                 dataEntity.Email,
                 dataEntity.NormalizedEmail,
@@ -44,6 +45,7 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.Document
                 NormalizedEmail = domainEntity.NormalizedEmail,
                 FullName = domainEntity.FullName,
                 HashedPassword = domainEntity.HashedPassword,
+                ChangePasswordKey = domainEntity.ChangePasswordKey,
                 IsActive = domainEntity.IsActive
             };
         }

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities;
 
-namespace TFN.Infrastructure.Repositories.TransientUserAggregate.InMemory
+namespace TFN.Infrastructure.Repositories.TransientUserAccountAggregate.InMemory
 {
     public class TransientUserAccountInMemoryRepository : ITransientUserAccountRepository
     {

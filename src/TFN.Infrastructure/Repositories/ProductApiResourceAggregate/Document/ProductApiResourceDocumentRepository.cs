@@ -13,7 +13,8 @@ namespace TFN.Infrastructure.Repositories.ProductApiResourceAggregate.Document
     public class ProductApiResourceDocumentRepository : DocumentRepository<ProductApiResource, ProductApiResourceDocumentModel, Guid>, IProductApiResourceRepository
     {
         public ProductApiResourceDocumentRepository(
-            IAggregateMapper<ProductApiResource, ProductApiResourceDocumentModel, Guid> mapper, DocumentContext context,
+            IAggregateMapper<ProductApiResource, ProductApiResourceDocumentModel, Guid> mapper,
+            DocumentContext context,
             ILogger<ProductApiResourceDocumentRepository> logger)
             : base(mapper, context, logger)
         {

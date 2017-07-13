@@ -36,7 +36,7 @@ using TFN.Infrastructure.Repositories.PostAggregate.Document;
 using TFN.Infrastructure.Repositories.ProductApiResourceAggregate.Document;
 using TFN.Infrastructure.Repositories.ScoreAggregate.Document;
 using TFN.Infrastructure.Repositories.TrackAggregate.Document;
-using TFN.Infrastructure.Repositories.TransientUserAggregate.Document;
+using TFN.Infrastructure.Repositories.TransientUserAccountAggregate.Document;
 using TFN.Infrastructure.Repositories.UserAccountAggregate.Document;
 using TFN.Infrastructure.Repositories.UserIdentityResourceAggregate.Document;
 using TFN.Mvc.Extensions;
@@ -77,15 +77,15 @@ namespace TFN.Resolution
             //repositories
             services.AddTransient<IApplicationClientRepository, ApplicationClientDocumentRepository>();
             services.AddTransient<ICommentRepository, CommentDocumentRepository>();
-            //services.AddTransient<ICreditRepository, CreditsDocumentRepository>();
-            //services.AddTransient<ILikeRepository, LikeDocumentRepository>();
-            //services.AddTransient<IListenRepository, ListenDocumentRepository>();
-            //services.AddTransient<IPostRepository, PostDocumentRepository>();
+            services.AddTransient<ICreditRepository, CreditsDocumentRepository>();
+            services.AddTransient<ILikeRepository, LikeDocumentRepository>();
+            services.AddTransient<IListenRepository, ListenDocumentRepository>();
+            services.AddTransient<IPostRepository, PostDocumentRepository>();
             services.AddTransient<IProductApiResourceRepository, ProductApiResourceDocumentRepository>();
-            //services.AddTransient<IScoreRepository, ScoreDocumentRepository>();
-            //services.AddTransient<ITrackRepository, TrackDocumentRepository>();
-            //services.AddTransient<ITransientUserAccountRepository, TransientUserAccountDocumentRepository>();
-            //services.AddTransient<IUserAccountRepository, UserAccountDocumentRepository>();
+            services.AddTransient<IScoreRepository, ScoreDocumentRepository>();
+            services.AddTransient<ITrackRepository, TrackDocumentRepository>();
+            services.AddTransient<ITransientUserAccountRepository, TransientUserAccountDocumentRepository>();
+            services.AddTransient<IUserAccountRepository, UserAccountDocumentRepository>();
             services.AddTransient<IUserIdentityResourceRepository, UserIdentityResourceDocumentRepository>();
 
             //services

@@ -24,11 +24,11 @@ namespace TFN.Domain.Models.Entities
         public bool IsActive { get; private set; }
 
         public UserAccount(string username,string hashedPassword, string profilePictureUrl, string email, string name, Biography biography)
-            : this(Guid.NewGuid(), username, username.ToUpperInvariant(),hashedPassword,profilePictureUrl, email, email.ToUpperInvariant(), name, biography,DateTime.UtcNow,DateTime.UtcNow, true)
+            : this(Guid.NewGuid(), username, username.ToUpperInvariant(),hashedPassword, String.Empty,profilePictureUrl, email, email.ToUpperInvariant(), name, biography,DateTime.UtcNow,DateTime.UtcNow, true)
         {
 
         }
-        private UserAccount(Guid id, string username, string normalizedUsername, string hashedPassword, string profilePictureUrl, string email, string normalizedEmail, string fullName, Biography biography, DateTime created, DateTime modified, bool isActive)
+        private UserAccount(Guid id, string username, string normalizedUsername, string hashedPassword, string changePasswordKey, string profilePictureUrl, string email, string normalizedEmail, string fullName, Biography biography, DateTime created, DateTime modified, bool isActive)
             : base(id)
         {
             if(string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
@@ -68,13 +68,14 @@ namespace TFN.Domain.Models.Entities
             FullName = fullName;
             Biography = biography;
             HashedPassword = hashedPassword;
+            ChangePasswordKey = changePasswordKey;
             Created = created;
             IsActive = isActive;
         }
 
-        public static UserAccount Hydrate(Guid id, string username, string normalizedUsername,string hashedPassword, string profilePictureUrl, string email, string normalizedEmail, string name, Biography biography, DateTime created, DateTime modified, bool isActive)
+        public static UserAccount Hydrate(Guid id, string username, string normalizedUsername,string hashedPassword, string changePasswordKey, string profilePictureUrl, string email, string normalizedEmail, string name, Biography biography, DateTime created, DateTime modified, bool isActive)
         {
-            return new UserAccount(id, username,normalizedUsername, hashedPassword,profilePictureUrl, email, normalizedEmail, name, biography, created, modified, isActive);
+            return new UserAccount(id, username,normalizedUsername, hashedPassword,changePasswordKey,profilePictureUrl, email, normalizedEmail, name, biography, created, modified, isActive);
         }
 
         public IReadOnlyList<Claim> GetClaims()
@@ -101,6 +102,17 @@ namespace TFN.Domain.Models.Entities
             }
 
             return claims;
+        }
+
+        public void UpdateHashedPassword(string hashedPassword)
+        {
+            HashedPassword = hashedPassword;
+            ChangePasswordKey = String.Empty;
+        }
+
+        public void UpdateChangePasswordKey(string changePasswordKey)
+        {
+            ChangePasswordKey = changePasswordKey;
         }
     }
 }

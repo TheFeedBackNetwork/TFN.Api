@@ -13,7 +13,8 @@ namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document
     public class ApplicationClientDocumentRepository : DocumentRepository<ApplicationClient, ApplicationClientDocumentModel, Guid>, IApplicationClientRepository
     {
         public ApplicationClientDocumentRepository(
-            IAggregateMapper<ApplicationClient, ApplicationClientDocumentModel, Guid> mapper, DocumentContext context,
+            IAggregateMapper<ApplicationClient, ApplicationClientDocumentModel, Guid> mapper, 
+            DocumentContext context,
             ILogger<ApplicationClientDocumentRepository> logger)
             : base(mapper,context,logger)
         {

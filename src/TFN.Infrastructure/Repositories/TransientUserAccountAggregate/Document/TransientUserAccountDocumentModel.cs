@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using TFN.Infrastructure.Architecture.Documents;
 using TFN.Infrastructure.Architecture.Documents.Attributes;
 
-namespace TFN.Infrastructure.Repositories.TransientUserAggregate.Document
+namespace TFN.Infrastructure.Repositories.TransientUserAccountAggregate.Document
 {
     [CollectionOptions("identity", "transientUserAccount")]
     public sealed class TransientUserAccountDocumentModel : TransientUserAccountDocumentModel<Guid>

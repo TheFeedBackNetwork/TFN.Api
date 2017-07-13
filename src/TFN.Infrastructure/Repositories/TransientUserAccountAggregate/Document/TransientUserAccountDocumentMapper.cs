@@ -2,7 +2,7 @@
 using TFN.Domain.Models.Entities;
 using TFN.Infrastructure.Architecture.Mapping;
 
-namespace TFN.Infrastructure.Repositories.TransientUserAggregate.Document
+namespace TFN.Infrastructure.Repositories.TransientUserAccountAggregate.Document
 {
     public class TransientUserAccountDocumentMapper : IAggregateMapper<TransientUserAccount, TransientUserAccountDocumentModel, Guid>
     {

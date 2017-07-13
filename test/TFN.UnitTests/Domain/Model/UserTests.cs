@@ -15,6 +15,7 @@ namespace TFN.UnitTests.Domain.Model
         private static string NormalizedUsernameDefault = "FOOMUSIC";
         private static string ProfilePictureUrlDefault = "tfn.foo.bar/picture/foo.png";
         private static string HashedPasswordDefault = "2710.AMjdCBvWAjoqwP4U9uhyxGSfShdrqfS746Qpls9WDOA5pdFv1uQk4w8Pbo3Dx6jQtA==";
+        private static string ChangePasswordKeyDefault = "";
         private static string EmailDefault = "foo@bar.com";
         private static string NormalizedEmailDefault  = "FOO@BAR.COM";
         private static string GivenNameDefault = "foo";
@@ -26,7 +27,7 @@ namespace TFN.UnitTests.Domain.Model
 
         public UserAccount make_User(Guid id, string username, string normalizedUsername, string profilePictureUrl, string email,string normalizedEmail, string givenName, string familyName, Biography biography, DateTime created, DateTime modified)
         {
-            return UserAccount.Hydrate(id, username,normalizedUsername, HashedPasswordDefault, profilePictureUrl, email, normalizedEmail, givenName, biography, created, modified, IsActiveDefault);
+            return UserAccount.Hydrate(id, username,normalizedUsername, HashedPasswordDefault,ChangePasswordKeyDefault, profilePictureUrl, email, normalizedEmail, givenName, biography, created, modified, IsActiveDefault);
         }
 
         public UserAccount make_UserByUsername(string username)

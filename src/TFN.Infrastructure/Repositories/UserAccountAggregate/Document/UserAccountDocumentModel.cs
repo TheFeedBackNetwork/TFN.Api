@@ -37,6 +37,9 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.Document
         [JsonProperty(PropertyName = "hashedPassword")]
         public string HashedPassword { get; set; }
 
+        [JsonProperty(PropertyName = "changePasswordKey")]
+        public string ChangePasswordKey { get; set; }
+
         [JsonProperty(PropertyName = "biography")]
         public BiographyDocumentModel Biography { get; set; }
 

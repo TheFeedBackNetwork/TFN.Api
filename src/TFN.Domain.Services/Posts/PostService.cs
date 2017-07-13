@@ -31,7 +31,7 @@ namespace TFN.Domain.Services.Posts
 
         public async Task<IReadOnlyList<Post>> FindAllPostsPaginated(string continuationToken)
         {
-            return await PostRepository.FindAll(continuationToken);
+            return await PostRepository.FindAllPostsPaginated(continuationToken);
         }
 
         public async Task<Post> FindPost(Guid postId)
