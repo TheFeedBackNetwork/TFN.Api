@@ -8,7 +8,7 @@ namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.InMemory
 {
 #pragma warning disable 1998
     //TODO Remove when we async
-    public class ClientInMemoryRepository : IClientRepository
+    public class ClientInMemoryRepository //: IClientRepository
     {
         public async Task<Client> FindClientByIdAsync(string clientId)
         {

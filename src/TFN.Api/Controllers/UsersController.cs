@@ -29,11 +29,10 @@ namespace TFN.Api.Controllers
         [Authorize("users.read")]
         public async Task<IActionResult> GetUsers(
             [ModelBinder(BinderType = typeof(UsernameQueryModelBinder))] string username,
-            [ModelBinder(BinderType = typeof(OffsetQueryModelBinder))]short offset = 0,
-            [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]short limit = 7)
+            [ModelBinder(BinderType = typeof(ContinuationTokenModelBinder))]string continuationToken = null)
         {
             
-            var users = await UserService.SearchUsers(username, offset, limit);
+            var users = await UserService.SearchUsers(username, continuationToken);
 
             var model = users.Select(x => CreditsResponseModelFactory.From(x, HttpContext.GetAbsoluteUri()));
 
@@ -44,7 +43,7 @@ namespace TFN.Api.Controllers
         [Authorize("users.read")]
         public async Task<IActionResult> GetMe()
         {
-            var user = await UserService.GetByUsernameAsync(HttpContext.GetUsername());
+            var user = await UserService.FindByUsername(HttpContext.GetUsername());
 
             if (user == null)
             {

@@ -9,6 +9,7 @@ namespace TFN.Domain.Interfaces.Repositories
     public interface IScoreRepository : IAddableRepository<Score, Guid>
     {
         Task<IReadOnlyList<Score>> FindAll(Guid comentId);
+        Task<int> Count(Guid commentId); 
         Task<Score> Find(Guid commentId, Guid scoreId);
         Task Delete(Guid commentId, Guid scoreId);
     }

@@ -10,7 +10,7 @@ namespace TFN.Domain.Interfaces.Repositories
     {
         Task<Credits> FindByUsername(string username);
         Task<Credits> FindByUserId(Guid userId);
-        Task<IReadOnlyList<Credits>> FindHighestCredits(int offset, int limit);
-        Task<IReadOnlyList<Credits>> FindUsers(string searchToken, int offset, int limit);
+        Task<IReadOnlyList<Credits>> FindHighestCredits(string continuationToken);
+        Task<IReadOnlyList<Credits>> FindUsers(string searchToken, string continuationToken);
     }
 }

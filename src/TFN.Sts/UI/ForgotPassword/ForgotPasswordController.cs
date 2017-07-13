@@ -28,10 +28,10 @@ namespace TFN.Sts.UI.ForgotPassword
                 return View(new ForgotPasswordViewModel());
             }
 
-            var user = await UserService.GetByEmailAsync(model.ForgotPasswordEmail);
+            var user = await UserService.FindByEmail(model.ForgotPasswordEmail);
             if (user != null)
             {
-                await UserService.SendChangePasswordKeyAsync(user);
+                await UserService.SendChangePasswordKey(user);
             }
 
             return RedirectToAction("ForgotPasswordSuccess");

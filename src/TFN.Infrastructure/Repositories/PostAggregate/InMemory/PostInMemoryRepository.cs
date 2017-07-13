@@ -8,21 +8,21 @@ using TFN.Domain.Models.ValueObjects;
 
 namespace TFN.Infrastructure.Repositories.PostAggregate.InMemory
 {
-    public class PostInMemoryRepository : IPostRepository
+    public class PostInMemoryRepository //: IPostRepository
     {
-        public Task Add(Post entity)
+        /*public Task Add(Post entity)
         {
             InMemoryPosts.Posts.Add(entity);
 
             return Task.CompletedTask;
         }
 
-        public Task<IReadOnlyList<Post>> FindAll(int offset, int limit)
+        public Task<IReadOnlyList<Post>> FindAll(string continuationToken)
         {
             IReadOnlyList<Post> posts = InMemoryPosts.Posts
                 .Where(x => x.IsActive)
                 .OrderBy(x => x.Created)
-                .Skip(offset)
+                .Skip(continuationToken)
                 .Take(limit)
                 .ToList();
 
@@ -60,11 +60,11 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.InMemory
             return Task.FromResult(summary);
         }
 
-        public Task<IReadOnlyList<Like>> FindAllLikes(Guid postId, int offset, int limit)
+        public Task<IReadOnlyList<Like>> FindAllLikes(Guid postId, string continuationToken)
         {
             IReadOnlyList<Like> likes = InMemoryLikes.Likes.FindAll(x => x.PostId == postId)
                     .OrderBy(x => x.Created)
-                    .Skip(offset)
+                    .Skip(continuationToken)
                     .Take(limit)
                     .ToList();
 
@@ -88,6 +88,6 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.InMemory
         public Task<bool> Any()
         {
             throw new NotImplementedException();
-        }
+        }*/
     }
 }

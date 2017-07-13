@@ -16,7 +16,7 @@ namespace TFN.Domain.Services.TransientUsers
             TransientUserAccountRepository = transientUserAccountRepository;
             AccountEmailService = accountEmailService;
         }
-        public async Task CreateAsync(TransientUserAccount transientUserAccount)
+        public async Task Create(TransientUserAccount transientUserAccount)
         {
             if (transientUserAccount == null)
             {
@@ -28,29 +28,29 @@ namespace TFN.Domain.Services.TransientUsers
 
         }
 
-        public async Task DeleteAsync(TransientUserAccount transientUserAccount)
+        public async Task Delete(TransientUserAccount transientUserAccount)
         {
             await TransientUserAccountRepository.Delete(transientUserAccount.Id);
         }
 
-        public async Task<bool> EmailVerificationKeyExistsAsync(string emailVerificationKey)
+        public async Task<bool> EmailVerificationKeyExists(string emailVerificationKey)
         {
             var transientUser = await TransientUserAccountRepository.FindByVerificationKey(emailVerificationKey);
 
             return transientUser != null;
         }
 
-        public async Task<TransientUserAccount> GetByEmailVerificationKeyAsync(string emailVerificationKey)
+        public async Task<TransientUserAccount> FindByEmailVerificationKey(string emailVerificationKey)
         {
             return await TransientUserAccountRepository.FindByVerificationKey(emailVerificationKey);
         }
 
-        public async Task<TransientUserAccount> GetByEmailAsync(string email)
+        public async Task<TransientUserAccount> FindByEmail(string email)
         {
             return await TransientUserAccountRepository.FindByEmail(email);
         }
 
-        public async Task<TransientUserAccount> GetByUsernameAsync(string username)
+        public async Task<TransientUserAccount> FindByUsername(string username)
         {
             return await TransientUserAccountRepository.FindByUsername(username);
         }

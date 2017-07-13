@@ -76,7 +76,7 @@ namespace TFN.Resolution
 
             //repositories
             services.AddTransient<IApplicationClientRepository, ApplicationClientDocumentRepository>();
-            //services.AddTransient<ICommentRepository, CommentDocumentRepository>();
+            services.AddTransient<ICommentRepository, CommentDocumentRepository>();
             //services.AddTransient<ICreditRepository, CreditsDocumentRepository>();
             //services.AddTransient<ILikeRepository, LikeDocumentRepository>();
             //services.AddTransient<IListenRepository, ListenDocumentRepository>();

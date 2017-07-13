@@ -8,7 +8,7 @@ using TFN.Domain.Models.ValueObjects;
 
 namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
 {
-    public class CommentInMemoryRepository : ICommentRepository
+    public class CommentInMemoryRepository //: ICommentRepository
     {
         public Task Add(Comment entity)
         {
@@ -46,12 +46,12 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
             return Task.FromResult(comments);
         }
 
-        public Task<IReadOnlyList<Score>> FindAllScores(Guid commentId, int offset, int limit)
+        public Task<IReadOnlyList<Score>> FindAllScores(Guid commentId, string continuationToken)
         {
             IReadOnlyList<Score> scores = InMemoryScores.Scores.FindAll(x => x.CommentId == commentId)
                     .OrderBy(x => x.Created)
-                    .Skip(offset)
-                    .Take(limit)
+                    //.Skip(continuationToken)
+                    //.Take(limit)
                     .ToList();
 
             return Task.FromResult(scores);
@@ -70,8 +70,10 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
             return Task.FromResult(score);
         }
 
-        public Task<IReadOnlyList<Comment>> FindComments(Guid postId, int offset, int limit)
+        public Task<IReadOnlyList<Comment>> FindCommentsPaginated(Guid postId, string offset)
         {
+            throw new NotImplementedException();
+            /*
             IReadOnlyList<Comment> comments =
                 InMemoryComments.Comments.FindAll(x => x.PostId == postId)
                     .OrderBy(x => x.Created)
@@ -79,7 +81,7 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
                     .Take(limit)
                     .ToList();
 
-            return Task.FromResult(comments);
+            return Task.FromResult(comments);*/
         }
 
         public Task<CommentSummary> FindCommentScoreSummary(Guid commentId, int limit, string username)

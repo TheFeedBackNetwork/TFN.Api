@@ -49,10 +49,9 @@ namespace TFN.Api.Controllers
         [Authorize("posts.read")]
         public async Task<IActionResult> GetAll(
             [FromQuery]ExcludeQueryModel exclude,
-            [ModelBinder(BinderType = typeof(OffsetQueryModelBinder))]int offset = 0,
-            [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]int limit = 7)
+            [ModelBinder(BinderType = typeof(ContinuationTokenModelBinder))]string continuationToken = null)
         {
-            var posts = await PostService.GetAllPostsAsync(offset, limit);
+            var posts = await PostService.FindAllPostsPaginated(continuationToken);
             
             var model = new List<PostResponseModel>();
             foreach (var post in posts)
@@ -73,7 +72,7 @@ namespace TFN.Api.Controllers
             Guid postId,
             [FromQuery]ExcludeQueryModel exclude)
         {
-            var post = await PostService.GetPostAsync(postId);
+            var post = await PostService.FindPost(postId);
 
             if (post == null)
             {
@@ -96,13 +95,13 @@ namespace TFN.Api.Controllers
             Guid postId,
             [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]int limit = 7)
         {
-            var post = await PostService.GetPostAsync(postId);
+            var post = await PostService.FindPost(postId);
             if (post == null)
             {
                 return NotFound();
             }
 
-            var postSummary = await PostService.GetPostLikeSummaryAsync(postId, limit, Username);
+            var postSummary = await PostService.FindPostLikeSummary(postId, limit, Username);
             if (postSummary == null)
             {
                 return NotFound();
@@ -122,7 +121,7 @@ namespace TFN.Api.Controllers
             Guid commentId,
             [FromQuery]ExcludeQueryModel exclude)
         {
-            var comment = await PostService.GetCommentAsync(postId, commentId);
+            var comment = await PostService.FindComment(postId, commentId);
 
             if (comment == null)
             {
@@ -144,10 +143,9 @@ namespace TFN.Api.Controllers
         public async Task<IActionResult> GetComments(
             Guid postId,
             [FromQuery]ExcludeQueryModel exclude,
-            [ModelBinder(BinderType = typeof(OffsetQueryModelBinder))]int offset = 0,
-            [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]int limit = 7)
+            [ModelBinder(BinderType = typeof(ContinuationTokenModelBinder))]string continuationToken = null)
         {
-            var comments = await PostService.GetCommentsAsync(postId, offset, limit);
+            var comments = await PostService.FindComments(postId, continuationToken);
 
             if (comments == null)
             {
@@ -157,7 +155,7 @@ namespace TFN.Api.Controllers
             var summaries = new List<CommentSummary>();
             foreach (var comment in comments)
             {
-                var summary = await PostService.GetCommentScoreSummaryAsync(comment.Id, 5, Username);
+                var summary = await PostService.FindCommentScoreSummary(comment.Id, 5, Username);
                 summaries.Add(summary);
             }
 
@@ -183,13 +181,13 @@ namespace TFN.Api.Controllers
             Guid commentId,
             [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]int limit = 7)
         {
-            var comment = await PostService.GetCommentAsync(postId,commentId);
+            var comment = await PostService.FindComment(postId,commentId);
             if (comment == null)
             {
                 return NotFound();
             }
 
-            var commentSummary = await PostService.GetCommentScoreSummaryAsync(commentId, limit, Username);
+            var commentSummary = await PostService.FindCommentScoreSummary(commentId, limit, Username);
             if (commentSummary == null)
             {
                 return NotFound();
@@ -205,7 +203,7 @@ namespace TFN.Api.Controllers
         [Authorize("posts.read")]
         public async Task<IActionResult> GetScore(Guid postId, Guid commentId, Guid scoreId)
         {
-            var score = await PostService.GetScoreAsync(commentId, scoreId);
+            var score = await PostService.FindScore(commentId, scoreId);
 
             if (score == null)
             {
@@ -252,7 +250,7 @@ namespace TFN.Api.Controllers
                 return new HttpForbiddenResult("A POST request for adding a new post resource was attempted, but the authorization policy challenged the request.");
             }
 
-            await PostService.AddAsync(entity);
+            await PostService.Add(entity);
             await CreditService.ReduceCredits(credits, 5);
 
             var model = await PostResponseModelFactory.From(entity, AbsoluteUri);
@@ -266,7 +264,7 @@ namespace TFN.Api.Controllers
             Guid postId,
             [FromBody]CommentInputModel comment)
         {
-            var post = await PostService.GetPostAsync(postId);
+            var post = await PostService.FindPost(postId);
 
             if (post == null)
             {
@@ -282,7 +280,7 @@ namespace TFN.Api.Controllers
                 return new HttpForbiddenResult("A POST request for adding a new post comment resource was attempted, but the authorization policy challenged the request.");
             }
 
-            await PostService.AddAsync(entity);
+            await PostService.Add(entity);
             
             var model = await CommentResponseModelFactory.From(entity, AbsoluteUri);
 
@@ -294,17 +292,16 @@ namespace TFN.Api.Controllers
         public async Task<IActionResult> PostScore(
             Guid postId,
             Guid commentId,
-            [ModelBinder(BinderType = typeof(OffsetQueryModelBinder))]int offset = 0,
-            [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]int limit = 7)
+            [ModelBinder(BinderType = typeof(ContinuationTokenModelBinder))]string continuationToken = null)
         {
-            var comment = await PostService.GetCommentAsync(postId, commentId);
+            var comment = await PostService.FindComment(postId, commentId);
 
             if (comment == null)
             {
                 return NotFound();
             }
 
-            var scores = await PostService.GetAllScoresAsync(commentId, offset, limit);
+            var scores = await PostService.AllScores(commentId, continuationToken);
 
             if(scores.Any(x => x.UserId == UserId))
             {
@@ -320,7 +317,7 @@ namespace TFN.Api.Controllers
                 return new HttpForbiddenResult("A POST request for adding a new comment score resource was attempted, but the authorization policy challenged the request.");
             }
 
-            await PostService.AddAsync(entity);
+            await PostService.Add(entity);
             await CreditService.AwardCredits(UserId, comment.UserId, 1);
 
             var model = ScoreResponseModel.From(entity, AbsoluteUri, postId);
@@ -335,7 +332,7 @@ namespace TFN.Api.Controllers
             Guid postId,
             [FromBody]PostInputModel model)
         {
-            var post = await PostService.GetPostAsync(postId);
+            var post = await PostService.FindPost(postId);
 
             if (post == null)
             {
@@ -359,7 +356,7 @@ namespace TFN.Api.Controllers
 
             var editedPost = Post.EditPost(post, model.Text, model.TrackUrl, model.Tags, genre);
 
-            await PostService.UpdateAsync(editedPost);
+            await PostService.Update(editedPost);
 
             return NoContent();
         }
@@ -372,7 +369,7 @@ namespace TFN.Api.Controllers
             Guid commentId,
             [FromBody]CommentInputModel post)
         {
-            var comment = await PostService.GetCommentAsync(postId, commentId);
+            var comment = await PostService.FindComment(postId, commentId);
 
             if (comment == null)
             {
@@ -386,7 +383,7 @@ namespace TFN.Api.Controllers
                 return new HttpForbiddenResult("A PATCH request for ammending a comment resource was attempted, but the authorization policy challenged the request.");
             }
 
-            await PostService.UpdateAsync(comment);
+            await PostService.Update(comment);
 
             return NoContent();
         }
@@ -395,7 +392,7 @@ namespace TFN.Api.Controllers
         [HttpDelete("{postId:Guid}", Name = "DeletePost")]
         public async Task<IActionResult> DeletePost(Guid postId)
         {
-            var post = await PostService.GetPostAsync(postId);
+            var post = await PostService.FindPost(postId);
 
             if (post == null)
             {
@@ -409,7 +406,7 @@ namespace TFN.Api.Controllers
                 return new HttpForbiddenResult("A DELETE request for deleting a post resource was attempted, but the authorization policy challenged the request.");
             }
 
-            await PostService.DeletePostAsync(postId);
+            await PostService.DeletePost(postId);
 
             return Ok();
         }
@@ -417,7 +414,7 @@ namespace TFN.Api.Controllers
         [HttpDelete("{postId:Guid}/comments/{commentId:Guid}", Name = "DeleteComment")]
         public async Task<IActionResult> DeleteComment(Guid postId, Guid commentId)
         {
-            var comment = await PostService.GetCommentAsync(postId, commentId);
+            var comment = await PostService.FindComment(postId, commentId);
 
             if (comment == null)
             {
@@ -431,7 +428,7 @@ namespace TFN.Api.Controllers
                 return new HttpForbiddenResult("A DELETE request for deleting a post's comment resource was attempted, but the authorization policy challenged the request.");
             }
 
-            await PostService.DeleteCommentAsync(commentId);
+            await PostService.DeleteComment(commentId);
 
             return Ok();
         }
@@ -439,7 +436,7 @@ namespace TFN.Api.Controllers
         [HttpDelete("{postId:Guid}/comments/{commentId:Guid}/scores/{scoreId:Guid}", Name = "DeleteScore")]
         public async Task<IActionResult> DeleteScore(Guid postId, Guid commentId, Guid scoreId)
         {
-            var score = await PostService.GetScoreAsync(commentId,scoreId);
+            var score = await PostService.FindScore(commentId,scoreId);
 
             if (score == null)
             {
@@ -453,7 +450,7 @@ namespace TFN.Api.Controllers
                 return new HttpForbiddenResult("A DELETE request for deleting a score resource was attempted, but the authorization policy challenged the request.");
             }
 
-            await PostService.DeleteScoreAsync(commentId,scoreId);
+            await PostService.DeleteScore(commentId,scoreId);
 
             return Ok();
         }

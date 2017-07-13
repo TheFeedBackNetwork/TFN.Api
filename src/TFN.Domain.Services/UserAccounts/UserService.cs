@@ -53,14 +53,14 @@ namespace TFN.Domain.Services.UserAccounts
             return user;
         }
 
-        public async Task<UserAccount> GetByUsernameAsync(string username)
+        public async Task<UserAccount> FindByUsername(string username)
         {
             var user = await UserAccountRepository.FindByUsername(username);
 
             return user;
         }
 
-        public async Task<UserAccount> GetAsync(string usernameOrEmail, string password)
+        public async Task<UserAccount> Find(string usernameOrEmail, string password)
         {
             UserAccount user = null;
 
@@ -94,10 +94,10 @@ namespace TFN.Domain.Services.UserAccounts
             return claims;
         }
 
-        public async Task<bool> ValidateCredentialsAsync(string usernameOrEmail, string password)
+        public async Task<bool> ValidateCredentials(string usernameOrEmail, string password)
         {
             
-            var user = await GetAsync(usernameOrEmail, password);
+            var user = await Find(usernameOrEmail, password);
 
             return user != null;
         }
@@ -116,7 +116,7 @@ namespace TFN.Domain.Services.UserAccounts
             return user != null;
         }
 
-        public async Task<UserAccount> GetByEmailAsync(string email)
+        public async Task<UserAccount> FindByEmail(string email)
         {
             var user = await UserAccountRepository.FindByEmail(email);
 
@@ -139,49 +139,49 @@ namespace TFN.Domain.Services.UserAccounts
 
             return true;
         }
-        public async Task SendChangePasswordKeyAsync(UserAccount user)
+        public async Task SendChangePasswordKey(UserAccount user)
         {
             var forgotPasswordKey = KeyService.GenerateUrlSafeUniqueKey();
             await UserAccountRepository.UpdateChangePasswordKey(user, forgotPasswordKey);
             await AccountEmailService.SendChangePasswordEmail(user.Email, forgotPasswordKey);
         }
-        public async Task<bool> ChangePasswordKeyExistsAsync(string changePasswordKey)
+        public async Task<bool> ChangePasswordKeyExists(string changePasswordKey)
         {
             return await UserAccountRepository.ChangePasswordKeyExists(changePasswordKey);
         }
 
         #pragma warning disable 1998
         //TODO Remove when we async
-        public async Task<UserAccount> FindByExternalProviderAsync(string provider, string userId)
+        public async Task<UserAccount> FindByExternalProvider(string provider, string userId)
         {
             throw new NotImplementedException();
         }
         #pragma warning disable 1998
         //TODO Remove when we async
-        public async Task<UserAccount> AutoProvisionUserAsync(string provider, string userId, List<Claim> claims)
+        public async Task<UserAccount> AutoProvisionUser(string provider, string userId, List<Claim> claims)
         {
             throw new NotImplementedException();
         }
 
-        public async Task UpdateUserPasswordAsync(string changePasswordKey, string password)
+        public async Task UpdateUserPassword(string changePasswordKey, string password)
         {
             var user = await UserAccountRepository.FindByChangePasswordKey(changePasswordKey);
             await UserAccountRepository.UpdateUserPassword(user, password);
         }
 
-        public async Task<UserAccount> GetByChangePasswordKey(string changePasswordKey)
+        public async Task<UserAccount> FindByChangePasswordKey(string changePasswordKey)
         {
             return await UserAccountRepository.FindByChangePasswordKey(changePasswordKey);
         }
 
-        public async Task<IReadOnlyList<Models.Entities.Credits>> SearchUsers(string searchToken, int offset, int limit)
+        public async Task<IReadOnlyList<Models.Entities.Credits>> SearchUsers(string searchToken, string continuationToken)
         {
-            var credits = await CreditService.SearchUsers(searchToken, offset, limit);
+            var credits = await CreditService.SearchUsers(searchToken, continuationToken);
 
             return credits;
         }
 
-        public async Task<Models.Entities.Credits> GetCredits(string username)
+        public async Task<Models.Entities.Credits> FindCredits(string username)
         {
             var credits = await CreditService.GetByUsernameAsync(username);
 

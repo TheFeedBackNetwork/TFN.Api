@@ -32,9 +32,9 @@ namespace TFN.Domain.Services.Credits
             await CreditRepository.Update(newCredits);
         }
 
-        public async Task<IReadOnlyList<Models.Entities.Credits>> FindLeaderBoard(short offset, short limit)
+        public async Task<IReadOnlyList<Models.Entities.Credits>> FindLeaderBoard(string continuationToken)
         {
-            return await CreditRepository.FindHighestCredits(offset, limit);
+            return await CreditRepository.FindHighestCredits(continuationToken);
         }
 
         public async Task<Models.Entities.Credits> GetAsync(Guid id)
@@ -57,9 +57,9 @@ namespace TFN.Domain.Services.Credits
             await CreditRepository.Add(credits);
         }
 
-        public async Task<IReadOnlyList<Models.Entities.Credits>> SearchUsers(string searchToken, int offset, int limit)
+        public async Task<IReadOnlyList<Models.Entities.Credits>> SearchUsers(string searchToken, string continuationToken)
         {
-            return await CreditRepository.FindUsers(searchToken, offset, limit);
+            return await CreditRepository.FindUsers(searchToken, continuationToken);
         }
     }
 }

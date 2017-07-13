@@ -15,6 +15,7 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
     public class DocumentCollection<TDocument> : IDocumentCollection<TDocument>
         where TDocument : class
     {
+        public const int maxItems = 20;
         public DocumentClient DocumentClient { get; private set; }
         public Uri CollectionUri { get; private set; }
         public string DatabaseName { get; private set; }
@@ -120,7 +121,72 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             var options = new FeedOptions
             {
                 //MaxItemCount = maxItems,
-                //RequestContinuation = continutationToken
+                //RequestContinuation = continuationToken
+            };
+            var hasMoreResults = true;
+            var list = new List<TDocument>();
+
+            while (hasMoreResults)
+            {
+                var query = DocumentClient.CreateDocumentQuery<TDocument>(CollectionUri, options).AsDocumentQuery();
+                string nextCursor = null;
+
+                if (query.HasMoreResults)
+                {
+                    var result = await query.ExecuteNextAsync<TDocument>();
+                    nextCursor = result.ResponseContinuation;
+                    QueryCursorComponent.SetCursor(nextCursor);
+                    list.AddRange(result);
+                }
+
+                hasMoreResults = nextCursor != null;
+            }
+            
+
+            return list;
+        }
+
+        public async Task<IEnumerable<TDocument>> FindAll(Expression<Func<TDocument, bool>> predicate)
+        {
+            var options = new FeedOptions
+            {
+                //MaxItemCount = maxItems,
+                //RequestContinuation = continuationToken
+            };
+            var hasMoreResults = true;
+            var list = new List<TDocument>();
+
+            while (hasMoreResults)
+            {
+                var query = DocumentClient
+                    .CreateDocumentQuery<TDocument>(CollectionUri, options)
+                    .Where(predicate)
+                    .Select(x => x)
+                    .AsDocumentQuery();
+
+                string nextCursor = null;
+
+                if (query.HasMoreResults)
+                {
+                    var result = await query.ExecuteNextAsync<TDocument>();
+                    nextCursor = result.ResponseContinuation;
+                    QueryCursorComponent.SetCursor(nextCursor);
+                    list.AddRange(result);
+                }
+
+                hasMoreResults = nextCursor != null;
+            }
+
+
+            return list;
+        }
+
+        public async Task<IEnumerable<TDocument>> FindAllPaginated(string continuationToken)
+        {
+            var options = new FeedOptions
+            {
+                MaxItemCount = maxItems,
+                RequestContinuation = continuationToken
             };
 
             var query = DocumentClient.CreateDocumentQuery<TDocument>(CollectionUri, options).AsDocumentQuery();
@@ -138,12 +204,12 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             return list;
         }
 
-        public async Task<IEnumerable<TDocument>> FindAll(Expression<Func<TDocument, bool>> predicate)
+        public async Task<IEnumerable<TDocument>> FindAllPaginated(Expression<Func<TDocument, bool>> predicate, string continuationToken)
         {
             var options = new FeedOptions
             {
-                //MaxItemCount = maxItems,
-                //RequestContinuation = continutationToken
+                MaxItemCount = maxItems,
+                RequestContinuation = continuationToken
             };
 
             var query = DocumentClient
@@ -164,6 +230,51 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             }
 
             return list;
+        }
+
+        public async Task<IEnumerable<TDocument>> FindAllPaginated(Expression<Func<TDocument, bool>> wherePredicate, Expression<Func<TDocument, dynamic>> orderPredicate, string continuationToken)
+        {
+            var options = new FeedOptions
+            {
+                MaxItemCount = maxItems,
+                RequestContinuation = continuationToken
+            };
+
+            var query = DocumentClient
+                .CreateDocumentQuery<TDocument>(CollectionUri, options)
+                .Where(wherePredicate)
+                .Select(x => x)
+                .OrderBy(orderPredicate)
+                .AsDocumentQuery();
+
+
+            var list = new List<TDocument>();
+
+            if (query.HasMoreResults)
+            {
+                var result = await query.ExecuteNextAsync<TDocument>();
+                var nextCursor = result.ResponseContinuation;
+                QueryCursorComponent.SetCursor(nextCursor);
+                list.AddRange(result);
+            }
+
+            return list;
+        }
+
+        public async Task<int> Count(Expression<Func<TDocument, bool>> predicate)
+        {
+            var options = new FeedOptions
+            {
+                //MaxItemCount = maxItems,
+                //RequestContinuation = continutationToken
+            };
+
+            var count = await DocumentClient
+                .CreateDocumentQuery<TDocument>(CollectionUri, options)
+                .Where(predicate)
+                .CountAsync();
+            
+            return count;
         }
 
         public async Task<bool> Any()
@@ -248,6 +359,7 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
         {
             return DocumentClient.CreateDocumentQuery<TDocument>(CollectionUri, sqlQuery, feedOptions);
         }
+
         
     }
 

@@ -15,9 +15,13 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
         Task<TDocument> Find(Expression<Func<TDocument, bool>> predicate);
         Task<IEnumerable<TDocument>> FindAll();
         Task<IEnumerable<TDocument>> FindAll(Expression<Func<TDocument, bool>> predicate);
+        Task<IEnumerable<TDocument>> FindAllPaginated(string continuationToken);
+        Task<IEnumerable<TDocument>> FindAllPaginated(Expression<Func<TDocument, bool>> predicate, string continuationToken);
+        Task<IEnumerable<TDocument>> FindAllPaginated(Expression<Func<TDocument, bool>> wherePredicate, Expression<Func<TDocument, dynamic>> orderPredicate , string continuationToken);
         Task Add(TDocument document);
         Task Update(TDocument document, string id);
         Task Delete(string id);
+        Task<int> Count(Expression<Func<TDocument, bool>> predicate);
         Task<bool> Any();
         Task<bool> Any(Expression<Func<TDocument, bool>> predicate);
         IQueryable<TDocument> CreateQuery(FeedOptions feedOptions);
