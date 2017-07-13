@@ -253,7 +253,7 @@ namespace TFN.Api.Controllers
             }
 
             await PostService.AddAsync(entity);
-            await CreditService.ReduceCreditsAsync(credits, 5);
+            await CreditService.ReduceCredits(credits, 5);
 
             var model = await PostResponseModelFactory.From(entity, AbsoluteUri);
             
@@ -321,7 +321,7 @@ namespace TFN.Api.Controllers
             }
 
             await PostService.AddAsync(entity);
-            await CreditService.AwardCreditAsync(UserId, comment.UserId, 1);
+            await CreditService.AwardCredits(UserId, comment.UserId, 1);
 
             var model = ScoreResponseModel.From(entity, AbsoluteUri, postId);
 

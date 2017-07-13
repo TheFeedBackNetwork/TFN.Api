@@ -4,6 +4,6 @@ namespace TFN.Domain.Interfaces.Services
 {
     public interface IEmailService
     {
-        Task SendEmailAsync(string toEmail, string subject, string body);
+        Task SendEmail(string toEmail, string subject, string body);
     }
 }

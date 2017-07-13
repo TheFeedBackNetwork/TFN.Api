@@ -17,7 +17,7 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
             return Task.CompletedTask;
         }
 
-        public Task AddAsync(Score entity)
+        public Task Add(Score entity)
         {
             if (InMemoryComments.Comments.Any(x => x.Id == entity.CommentId))
             {
@@ -34,7 +34,7 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
             return Task.CompletedTask;
         }
 
-        public Task DeleteAsync(Guid commentId, Guid scoreId)
+        public Task Delete(Guid commentId, Guid scoreId)
         {
             InMemoryScores.Scores.RemoveAll(x => x.CommentId == commentId && scoreId == x.Id);
             return Task.CompletedTask;
@@ -64,7 +64,7 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
             return Task.FromResult(comment);
         }
 
-        public Task<Score> GetAsync(Guid commentId, Guid scoreId)
+        public Task<Score> Find(Guid commentId, Guid scoreId)
         {
             var score = InMemoryScores.Scores.SingleOrDefault(x => x.CommentId == commentId && x.Id == scoreId);
             return Task.FromResult(score);
@@ -82,7 +82,7 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.InMemory
             return Task.FromResult(comments);
         }
 
-        public Task<CommentSummary> GetCommentScoreSummaryAsync(Guid commentId, int limit, string username)
+        public Task<CommentSummary> FindCommentScoreSummary(Guid commentId, int limit, string username)
         {
             var hasScored = InMemoryScores.Scores.Any(x => x.Username == username && x.CommentId == commentId);
             var count = InMemoryScores.Scores.FindAll(x => x.CommentId == commentId).Count;

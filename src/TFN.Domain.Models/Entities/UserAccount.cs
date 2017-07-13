@@ -17,6 +17,7 @@ namespace TFN.Domain.Models.Entities
         public string NormalizedEmail { get; private set; }
         public string FullName { get; private set; }
         public string HashedPassword { get; private set; }
+        public string ChangePasswordKey { get; private set; }
         public Biography Biography { get; private set; }
         public DateTime Created { get; private set; }
         public DateTime Modified { get; private set; }

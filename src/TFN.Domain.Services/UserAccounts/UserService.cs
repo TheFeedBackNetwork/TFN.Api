@@ -143,7 +143,7 @@ namespace TFN.Domain.Services.UserAccounts
         {
             var forgotPasswordKey = KeyService.GenerateUrlSafeUniqueKey();
             await UserAccountRepository.UpdateChangePasswordKey(user, forgotPasswordKey);
-            await AccountEmailService.SendChangePasswordEmailAsync(user.Email, forgotPasswordKey);
+            await AccountEmailService.SendChangePasswordEmail(user.Email, forgotPasswordKey);
         }
         public async Task<bool> ChangePasswordKeyExistsAsync(string changePasswordKey)
         {

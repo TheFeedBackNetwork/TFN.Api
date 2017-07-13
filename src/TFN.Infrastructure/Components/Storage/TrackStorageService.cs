@@ -18,23 +18,23 @@ namespace TFN.Infrastructure.Components.Storage
             S3StorageComponent = s3StorageComponent;
 
         }
-        public async Task<Uri> UploadProcessedAsync(Stream trackStream, string fileName)
+        public async Task<Uri> UploadProcessed(Stream trackStream, string fileName)
         {
-            return await BlobStorageComponent.UploadAsync(trackStream, ProcessedContainer, fileName);
+            return await BlobStorageComponent.Upload(trackStream, ProcessedContainer, fileName);
         }
 
-        public async Task<Uri> UploadProcessedAsync(string path, string fileName)
+        public async Task<Uri> UploadProcessed(string path, string fileName)
         {
             var stream = File.Open(path, FileMode.Open);
-            return await BlobStorageComponent.UploadAsync(stream, ProcessedContainer, fileName);
+            return await BlobStorageComponent.Upload(stream, ProcessedContainer, fileName);
         }
 
-        public async Task<Uri> UploadUnprocessedAsync(Stream trackStream, string fileName)
+        public async Task<Uri> UploadUnprocessed(Stream trackStream, string fileName)
         {
-            return await BlobStorageComponent.UploadAsync(trackStream, UnprocessedContainer, fileName);
+            return await BlobStorageComponent.Upload(trackStream, UnprocessedContainer, fileName);
         }
 
-        public Task DeleteLocalAsync(string fileName)
+        public Task DeleteLocal(string fileName)
         {
             if (File.Exists(fileName))
             {

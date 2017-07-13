@@ -6,7 +6,7 @@ namespace TFN.Domain.Interfaces.Services
 {
     public interface ITrackProcessingService
     {
-        Task TranscodeAudioAsync(string sourceFilePath, string destinationFilePath);
-        Task<List<int>> GetWaveformAsync(string sourceFilePath, string destinationFilePath);
+        Task TranscodeAudio(string sourceFilePath, string destinationFilePath);
+        Task<List<int>> GetWaveform(string sourceFilePath, string destinationFilePath);
     }
 }

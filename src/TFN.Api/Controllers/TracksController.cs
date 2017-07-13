@@ -133,25 +133,25 @@ namespace TFN.Api.Controllers
                         Logger.LogInformation($"{DateTime.UtcNow} processing track [{unprocessedFileName}]");
 
 
-                        await TrackProcessingService.TranscodeAudioAsync(unprocessedFilePath, processedFilePath);
+                        await TrackProcessingService.TranscodeAudio(unprocessedFilePath, processedFilePath);
 
                         var metaData = TagLib.File.Create(unprocessedFilePath);
 
-                        var waveFormData = await TrackProcessingService.GetWaveformAsync(processedFilePath,waveformFilePath);
+                        var waveFormData = await TrackProcessingService.GetWaveform(processedFilePath,waveformFilePath);
 
                         Logger.LogInformation($"{DateTime.UtcNow} processed track with name [{processedFileName}] to be stored in storage.");
 
                         var processedUri =
-                            await TrackStorageService.UploadProcessedAsync(processedFilePath, processedFileName);
+                            await TrackStorageService.UploadProcessed(processedFilePath, processedFileName);
 
                         Logger.LogInformation($"processed track is stored at [{processedUri}]");
 
 
                         Logger.LogInformation("deleting processed and unprocessed tracks in wwwroot.");
 
-                        await TrackStorageService.DeleteLocalAsync(unprocessedFilePath);
-                        await TrackStorageService.DeleteLocalAsync(processedFilePath);
-                        await TrackStorageService.DeleteLocalAsync(waveformFilePath);
+                        await TrackStorageService.DeleteLocal(unprocessedFilePath);
+                        await TrackStorageService.DeleteLocal(processedFilePath);
+                        await TrackStorageService.DeleteLocal(waveformFilePath);
 
                         var trackMetaData = TrackMetaData.From(metaData.Properties.Duration.Hours,
                             metaData.Properties.Duration.Minutes, metaData.Properties.Duration.Seconds,

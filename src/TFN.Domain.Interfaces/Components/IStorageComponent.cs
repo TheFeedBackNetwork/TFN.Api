@@ -6,7 +6,7 @@ namespace TFN.Domain.Interfaces.Components
 {
     public interface IStorageComponent
     {
-        Task<Uri> UploadAsync(Stream trackStream, string container, string fileName);
-        Task DeleteAsync(string container, string fileName);
+        Task<Uri> Upload(Stream trackStream, string container, string fileName);
+        Task Delete(string container, string fileName);
     }
 }

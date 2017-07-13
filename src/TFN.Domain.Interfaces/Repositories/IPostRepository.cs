@@ -13,8 +13,8 @@ namespace TFN.Domain.Interfaces.Repositories
 
 
         //Like
-        Task<PostSummary> GetPostLikeSummaryAsync(Guid postId, int limit, string username);
-        Task<IReadOnlyList<Like>> GetAllLikes(Guid postId, int offset, int limit);
+        Task<PostSummary> FindPostLikeSummary(Guid postId, int limit, string username);
+        Task<IReadOnlyList<Like>> FindAllLikes(Guid postId, int offset, int limit);
         Task DeleteLike(Guid postId, Guid likeId);
         Task<Like> GetLikeAsync(Guid postId, Guid likeId);
     }

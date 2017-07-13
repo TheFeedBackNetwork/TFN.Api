@@ -13,14 +13,14 @@ namespace TFN.Infrastructure.Modules.Email
             EmailService = emailService;
             KeyBaseUrl = options.Value.KeyBaseUrl;
         }
-        public async Task SendChangePasswordEmailAsync(string toEmail, string token)
+        public async Task SendChangePasswordEmail(string toEmail, string token)
         {
-            await EmailService.SendEmailAsync(toEmail, "Password Reset for The Feedback Network", $"Hi, click on the link to reset your password {KeyBaseUrl}/changepassword/{token}");
+            await EmailService.SendEmail(toEmail, "Password Reset for The Feedback Network", $"Hi, click on the link to reset your password {KeyBaseUrl}/changepassword/{token}");
         }
 
-        public async Task SendVerificationEmailAsync(string toEmail, string username, string token)
+        public async Task SendVerificationEmail(string toEmail, string username, string token)
         {
-            await EmailService.SendEmailAsync(toEmail, "Thanks for joining The Feedback Network", $"Hi {username} </br> click on the link to complete registration {KeyBaseUrl}/verify/{token}");
+            await EmailService.SendEmail(toEmail, "Thanks for joining The Feedback Network", $"Hi {username} </br> click on the link to complete registration {KeyBaseUrl}/verify/{token}");
 
         }
     }

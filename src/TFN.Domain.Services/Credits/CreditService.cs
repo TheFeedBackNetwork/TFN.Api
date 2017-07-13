@@ -14,7 +14,7 @@ namespace TFN.Domain.Services.Credits
             CreditRepository = creditRepository;
         }
 
-        public async Task AwardCreditAsync(Guid fromUserId, Guid toUserId, int amount)
+        public async Task AwardCredits(Guid fromUserId, Guid toUserId, int amount)
         {
             var credits = await CreditRepository.FindByUserId(toUserId);
             if (credits == null)
@@ -26,13 +26,13 @@ namespace TFN.Domain.Services.Credits
             await CreditRepository.Update(newCredits);
         }
 
-        public async Task ReduceCreditsAsync(Models.Entities.Credits credits, int amount)
+        public async Task ReduceCredits(Models.Entities.Credits credits, int amount)
         {
             var newCredits = credits.ChangeTotalCredits(-amount);
             await CreditRepository.Update(newCredits);
         }
 
-        public async Task<IReadOnlyList<Models.Entities.Credits>> GetLeaderBoardAsync(short offset, short limit)
+        public async Task<IReadOnlyList<Models.Entities.Credits>> FindLeaderBoard(short offset, short limit)
         {
             return await CreditRepository.FindHighestCredits(offset, limit);
         }

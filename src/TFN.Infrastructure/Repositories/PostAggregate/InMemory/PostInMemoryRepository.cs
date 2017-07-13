@@ -49,7 +49,7 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.InMemory
             return Task.CompletedTask;
         }
 
-        public Task<PostSummary> GetPostLikeSummaryAsync(Guid postId, int limit, string username)
+        public Task<PostSummary> FindPostLikeSummary(Guid postId, int limit, string username)
         {
             var hasLiked = InMemoryLikes.Likes.Any(x => x.Username == username && x.PostId == postId);
             var count = InMemoryLikes.Likes.FindAll(x => x.PostId == postId).Count;
@@ -60,7 +60,7 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.InMemory
             return Task.FromResult(summary);
         }
 
-        public Task<IReadOnlyList<Like>> GetAllLikes(Guid postId, int offset, int limit)
+        public Task<IReadOnlyList<Like>> FindAllLikes(Guid postId, int offset, int limit)
         {
             IReadOnlyList<Like> likes = InMemoryLikes.Likes.FindAll(x => x.PostId == postId)
                     .OrderBy(x => x.Created)

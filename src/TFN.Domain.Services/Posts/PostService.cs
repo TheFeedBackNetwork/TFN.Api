@@ -21,12 +21,12 @@ namespace TFN.Domain.Services.Posts
 
         public async Task<CommentSummary> GetCommentScoreSummaryAsync(Guid commentId, int limit, string username)
         {
-            return await CommentRepository.GetCommentScoreSummaryAsync(commentId, limit, username);
+            return await CommentRepository.FindCommentScoreSummary(commentId, limit, username);
         }
 
         public async Task<PostSummary> GetPostLikeSummaryAsync(Guid postId, int limit, string username)
         {
-            return await PostRepository.GetPostLikeSummaryAsync(postId, limit, username);
+            return await PostRepository.FindPostLikeSummary(postId, limit, username);
         }
 
         public async Task<IReadOnlyList<Post>> GetAllPostsAsync(int offset, int limit)
@@ -51,7 +51,7 @@ namespace TFN.Domain.Services.Posts
 
         public async Task<IReadOnlyList<Like>> GetAllLikesAsync(Guid postId, int offset, int limit)
         {
-            return await PostRepository.GetAllLikes(postId, offset, limit);
+            return await PostRepository.FindAllLikes(postId, offset, limit);
         }
         public async Task<Like> GetLikeAsync(Guid postId, Guid likeId)
         {
@@ -81,7 +81,7 @@ namespace TFN.Domain.Services.Posts
 
         public async Task<Score> GetScoreAsync(Guid commentId, Guid scoreId)
         {
-            return await CommentRepository.GetAsync(commentId, scoreId);
+            return await CommentRepository.Find(commentId, scoreId);
         }
 
         public async Task UpdateAsync(Comment entity)
@@ -96,7 +96,7 @@ namespace TFN.Domain.Services.Posts
 
         public async Task AddAsync(Score entity)
         {
-            await CommentRepository.AddAsync(entity);
+            await CommentRepository.Add(entity);
         }
 
         public async Task DeletePostAsync(Guid postId)
@@ -116,7 +116,7 @@ namespace TFN.Domain.Services.Posts
 
         public async Task DeleteScoreAsync(Guid commentId, Guid scoreId)
         {
-            await CommentRepository.DeleteAsync(commentId, scoreId);
+            await CommentRepository.Delete(commentId, scoreId);
         }
 
 

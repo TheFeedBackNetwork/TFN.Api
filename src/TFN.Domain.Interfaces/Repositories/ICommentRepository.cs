@@ -14,9 +14,9 @@ namespace TFN.Domain.Interfaces.Repositories
 
         //Score
         Task<IReadOnlyList<Score>> FindAllScores(Guid comentId, int offset, int limit);
-        Task<Score> GetAsync( Guid commentId, Guid scoreId);
-        Task AddAsync(Score entity);
-        Task DeleteAsync(Guid commentId, Guid scoreId);
-        Task<CommentSummary> GetCommentScoreSummaryAsync(Guid commentId, int limit, string username);
+        Task<Score> Find( Guid commentId, Guid scoreId);
+        Task Add(Score entity);
+        Task Delete(Guid commentId, Guid scoreId);
+        Task<CommentSummary> FindCommentScoreSummary(Guid commentId, int limit, string username);
     }
 }
