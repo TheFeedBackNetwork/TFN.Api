@@ -55,9 +55,9 @@ namespace TFN.Sts.UI.SignIn
         {
             if (ModelState.IsValid)
             {
-                if (await UserService.ValidateCredentialsAsync(model.Username, model.Password))
+                if (await UserService.ValidateCredentials(model.Username, model.Password))
                 {
-                    var user = await UserService.GetAsync(model.Username, model.Password);
+                    var user = await UserService.Find(model.Username, model.Password);
                     await HttpContext.Authentication.SignInAsync(user.Id.ToString(), user.Username);
 
                     if (Interaction.IsValidReturnUrl(model.ReturnUrl))
@@ -130,12 +130,12 @@ namespace TFN.Sts.UI.SignIn
             var userId = userIdClaim.Value;
 
             // check if the external user is already provisioned
-            var user = await UserService.FindByExternalProviderAsync(provider, userId);
+            var user = await UserService.FindByExternalProvider(provider, userId);
             if (user == null)
             {
                 // this sample simply auto-provisions new external user
                 // another common approach is to start a registrations workflow first
-                user = await UserService.AutoProvisionUserAsync(provider, userId, claims);
+                user = await UserService.AutoProvisionUser(provider, userId, claims);
             }
 
             var additionalClaims = new List<Claim>();

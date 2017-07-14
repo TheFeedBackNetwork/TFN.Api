@@ -13,22 +13,24 @@ namespace TFN.UnitTests.Domain.Model
         private static Guid UserIdDefault = new Guid("2a2c9a98-1853-4405-b41e-ca589a7c243e");
         private static string UsernameDefault = "FooBar";
         private static string NormalizedUsernameDefault = "FOOBAR";
-        public static int TotalCreditsDefault = 10;
-        public static bool IsActiveDefault = true;
+        private static int TotalCreditsDefault = 10;
+        private static DateTime CreatedDefault = new DateTime(2016, 6, 6, 6, 6, 6);
+        private static DateTime ModifiedDefault = new DateTime(2016, 6, 6, 6, 6, 6);
+        private static bool IsActiveDefault = true;
 
-        public Credits make_Credits(Guid id, Guid userId, string username, string normalizedUsername, int totalCredits, bool isActive)
+        public Credits make_Credits(Guid id, Guid userId, string username, string normalizedUsername, int totalCredits, DateTime created, DateTime modified, bool isActive)
         {
-            return Credits.Hydrate(id,userId,username, normalizedUsername,totalCredits,isActive);
+            return Credits.Hydrate(id,userId,username, normalizedUsername,totalCredits,created,modified,isActive);
         }
 
         public Credits make_Credits(string username)
         {
-            return make_Credits(CreditsIdDefault,UserIdDefault,username,username?.ToUpperInvariant(),TotalCreditsDefault,IsActiveDefault);
+            return make_Credits(CreditsIdDefault,UserIdDefault,username,username?.ToUpperInvariant(),TotalCreditsDefault,CreatedDefault,ModifiedDefault,IsActiveDefault);
         }
 
         public Credits make_Credits(int totalCredits)
         {
-            return make_Credits(CreditsIdDefault,UserIdDefault,UsernameDefault,NormalizedUsernameDefault,totalCredits,IsActiveDefault);
+            return make_Credits(CreditsIdDefault,UserIdDefault,UsernameDefault,NormalizedUsernameDefault,totalCredits,CreatedDefault,ModifiedDefault,IsActiveDefault);
         }
 
         [Theory]

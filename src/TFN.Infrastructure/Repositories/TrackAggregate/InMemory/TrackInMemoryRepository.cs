@@ -8,20 +8,25 @@ namespace TFN.Infrastructure.Repositories.TrackAggregate.InMemory
 {
     public class TrackInMemoryRepository : ITrackRepository
     {
-        public Task AddAsync(Track entity)
+        public Task Add(Track entity)
         {
             InMemoryTracks.Tracks.Add(entity);
             return Task.CompletedTask;
         }
 
-        public Task DeleteAsync(Guid id)
+        public Task<bool> Any()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Delete(Guid id)
         {
             InMemoryTracks.Tracks.RemoveAll(x => x.Id == id);
 
             return Task.CompletedTask;
         }
 
-        public Task<Track> GetAsync(Guid id)
+        public Task<Track> Find(Guid id)
         {
             return Task.FromResult(InMemoryTracks.Tracks.SingleOrDefault(x => x.Id == id));
         }

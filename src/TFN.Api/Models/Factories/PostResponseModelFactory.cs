@@ -29,9 +29,9 @@ namespace TFN.Api.Models.Factories
 
         public async Task<PostResponseModel> From(Post post, string apiUrl)
         {
-            var summary = await PostRepository.GetPostLikeSummaryAsync(post.Id, 5,post.Username);
+            var summary = await PostRepository.FindPostLikeSummary(post.Id, 5,post.Username);
 
-            var credits = await CreditRepository.GetByUserId(post.UserId);
+            var credits = await CreditRepository.FindByUserId(post.UserId);
 
             var authZ = ResourceAuthorizationResponseModelFactory.From(post, HttpContextAccessor.HttpContext);
 

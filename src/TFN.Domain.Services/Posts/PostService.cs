@@ -19,104 +19,106 @@ namespace TFN.Domain.Services.Posts
             CommentRepository = commentRepository;
         }
 
-        public async Task<CommentSummary> GetCommentScoreSummaryAsync(Guid commentId, int limit, string username)
+        public async Task<CommentSummary> FindCommentScoreSummary(Guid commentId, int limit, string username)
         {
-            return await CommentRepository.GetCommentScoreSummaryAsync(commentId, limit, username);
+            return await CommentRepository.FindCommentScoreSummary(commentId, limit, username);
         }
 
-        public async Task<PostSummary> GetPostLikeSummaryAsync(Guid postId, int limit, string username)
+        public async Task<PostSummary> FindPostLikeSummary(Guid postId, int limit, string username)
         {
-            return await PostRepository.GetPostLikeSummaryAsync(postId, limit, username);
+            return await PostRepository.FindPostLikeSummary(postId, limit, username);
         }
 
-        public async Task<IReadOnlyList<Post>> GetAllPostsAsync(int offset, int limit)
+        public async Task<IReadOnlyList<Post>> FindAllPostsPaginated(string continuationToken)
         {
-            return await PostRepository.GetAllAsync(offset, limit);
+            return await PostRepository.FindAllPostsPaginated(continuationToken);
         }
 
-        public async Task<Post> GetPostAsync(Guid postId)
+        public async Task<Post> FindPost(Guid postId)
         {
-            return await PostRepository.GetAsync(postId);
+            return await PostRepository.Find(postId);
         }
 
-        public async Task AddAsync(Post post)
+        public async Task Add(Post post)
         {
-            await PostRepository.AddAsync(post);
+            await PostRepository.Add(post);
         }
 
-        public async Task UpdateAsync(Post entity)
+        public async Task Update(Post entity)
         {
-            await PostRepository.UpdateAsync(entity);
+            await PostRepository.Update(entity);
         }
 
-        public async Task<IReadOnlyList<Like>> GetAllLikesAsync(Guid postId, int offset, int limit)
+        public async Task<IReadOnlyList<Like>> FindAllLikes(Guid postId, string continuationToken)
         {
-            return await PostRepository.GetAllLikes(postId, offset, limit);
+            return await PostRepository.FindAllLikes(postId, continuationToken);
         }
-        public async Task<Like> GetLikeAsync(Guid postId, Guid likeId)
+        public async Task<Like> FindLike(Guid postId, Guid likeId)
         {
             return await PostRepository.GetLikeAsync(postId, likeId);
         }
 
-        public async Task<IReadOnlyList<Comment>> GetCommentsAsync(Guid postId, int offset, int limit)
+        public async Task<IReadOnlyList<Comment>> FindComments(Guid postId, string continuationToken)
         {
-            return await CommentRepository.GetCommentsAsync(postId, offset, limit);
+            throw new NotImplementedException();
+            //return await CommentRepository.FindCommentsPaginated(postId, offset);
         }
 
-        public async Task<Comment> GetCommentAsync(Guid postId, Guid commentId)
+        public async Task<Comment> FindComment(Guid postId, Guid commentId)
         {
             //TODO Check for existing post or not?
-            return await CommentRepository.GetAsync(commentId);
+            return await CommentRepository.Find(commentId);
         }
 
-        public async Task<IReadOnlyList<Comment>> GetAllCommentsAsync(Guid postId)
+        public async Task<IReadOnlyList<Comment>> FindAllComments(Guid postId)
         {
-            return await CommentRepository.GetAllCommentsAsync(postId);
+            throw new NotImplementedException();
+            //return await CommentRepository.FindAllComments(postId);
         }
 
-        public async Task<IReadOnlyList<Score>> GetAllScoresAsync(Guid commentId, int offset, int limit)
+        public async Task<IReadOnlyList<Score>> AllScores(Guid commentId, string continuationToken)
         {
-            return await CommentRepository.GetAllScores(commentId, offset, limit);
+            return await CommentRepository.FindAllScores(commentId, continuationToken);
         }
 
-        public async Task<Score> GetScoreAsync(Guid commentId, Guid scoreId)
+        public async Task<Score> FindScore(Guid commentId, Guid scoreId)
         {
-            return await CommentRepository.GetAsync(commentId, scoreId);
+            return await CommentRepository.Find(commentId, scoreId);
         }
 
-        public async Task UpdateAsync(Comment entity)
+        public async Task Update(Comment entity)
         {
-            await CommentRepository.UpdateAsync(entity);
+            await CommentRepository.Update(entity);
         }
 
-        public async Task AddAsync(Comment entity)
+        public async Task Add(Comment entity)
         {
-            await CommentRepository.AddAsync(entity);
+            await CommentRepository.Add(entity);
         }
 
-        public async Task AddAsync(Score entity)
+        public async Task Add(Score entity)
         {
-            await CommentRepository.AddAsync(entity);
+            await CommentRepository.Add(entity);
         }
 
-        public async Task DeletePostAsync(Guid postId)
+        public async Task DeletePost(Guid postId)
         {
-            await PostRepository.DeleteAsync(postId);
+            await PostRepository.Delete(postId);
         }
 
-        public async Task DeleteLikeAsync(Guid postId, Guid likeId)
+        public async Task DeleteLike(Guid postId, Guid likeId)
         {
             await PostRepository.DeleteLike(postId, likeId);
         }
 
-        public async Task DeleteCommentAsync(Guid commentId)
+        public async Task DeleteComment(Guid commentId)
         {
-            await CommentRepository.DeleteAsync(commentId);
+            await CommentRepository.Delete(commentId);
         }
 
-        public async Task DeleteScoreAsync(Guid commentId, Guid scoreId)
+        public async Task DeleteScore(Guid commentId, Guid scoreId)
         {
-            await CommentRepository.DeleteAsync(commentId, scoreId);
+            await CommentRepository.Delete(commentId, scoreId);
         }
 
 

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -10,10 +12,11 @@ namespace TFN.Domain.Services.IdentityServer.Services
 {
     public class ProfileService : IProfileService
     {
-        private IUserRepository UserRepository { get;set; }
-        public ProfileService(IUserRepository userRepository)
+        public IUserAccountRepository UserAccountRepository { get; private set; }
+
+        public ProfileService(IUserAccountRepository userAccountRepository)
         {
-            UserRepository = userRepository;
+            UserAccountRepository = userAccountRepository;
         }
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
@@ -26,9 +29,11 @@ namespace TFN.Domain.Services.IdentityServer.Services
                 throw new ArgumentException($"{nameof(context.Subject)} is invalid as a subject Id.");
             }
 
-            var user = await UserRepository.GetAsync(subjectId);
+            var user = await UserAccountRepository.Find(subjectId);
 
-            var claims = user.GetClaims().ToList();
+            var claims = new List<Claim>();
+
+            claims.AddRange(user.GetClaims());
 
             context.IssuedClaims = claims;
         }
@@ -44,7 +49,7 @@ namespace TFN.Domain.Services.IdentityServer.Services
                 throw new ArgumentException($"{nameof(context.Subject)} is invalid as a subject Id.");
             }
 
-            var user = await UserRepository.GetAsync(subjectId);
+            var user = await UserAccountRepository.Find(subjectId);
 
             context.IsActive = (user != null) && user.IsActive;
         }

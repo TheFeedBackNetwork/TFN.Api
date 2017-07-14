@@ -6,6 +6,6 @@ namespace TFN.Api.Models.Interfaces
 {
     public interface IUsersResponseModelFactory
     {
-        Task<UserResponseModel> From(User user, string apiUrl);
+        Task<UserResponseModel> From(UserAccount user, string apiUrl);
     }
 }

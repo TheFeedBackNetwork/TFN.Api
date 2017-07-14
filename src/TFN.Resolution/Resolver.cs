@@ -10,26 +10,34 @@ using Microsoft.Extensions.DependencyInjection;
 using TFN.Api.Authorization.Handlers;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Interfaces.Services;
-using TFN.Domain.Services;
+using TFN.Domain.Models.Entities;
+using TFN.Domain.Models.Entities.IdentityServer;
 using TFN.Domain.Services.Credits;
 using TFN.Domain.Services.Cryptography;
 using TFN.Domain.Services.IdentityServer.Services;
+using TFN.Domain.Services.IdentityServer.Stores;
 using TFN.Domain.Services.IdentityServer.Validators;
 using TFN.Domain.Services.Posts;
 using TFN.Domain.Services.TransientUsers;
 using TFN.Domain.Services.UserAccounts;
+using TFN.Infrastructure.Architecture.Mapping;
+using TFN.Infrastructure.Architecture.Repositories.Document;
 using TFN.Infrastructure.Components;
 using TFN.Infrastructure.Components.Storage;
 using TFN.Infrastructure.Interfaces.Components;
-using TFN.Infrastructure.Repositories.ApplicationClientAggregate.InMemory;
-using TFN.Infrastructure.Repositories.CommentAggregate.InMemory;
-using TFN.Infrastructure.Repositories.CreditAggregate.InMemory;
-using TFN.Infrastructure.Repositories.PostAggregate.InMemory;
-using TFN.Infrastructure.Repositories.TrackAggregate.InMemory;
-using TFN.Infrastructure.Repositories.TransientUserAggregate.InMemory;
-using TFN.Infrastructure.Repositories.UserAccountAggregate.InMemory;
 using TFN.Infrastructure.Modules.Email;
-using TFN.Infrastructure.Repositories.ResourceAggregate.InMemory;
+using TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document;
+using TFN.Infrastructure.Repositories.CommentAggregate.Document;
+using TFN.Infrastructure.Repositories.CreditsAggregate.Document;
+using TFN.Infrastructure.Repositories.LikeAggregate.Document;
+using TFN.Infrastructure.Repositories.ListenAggregate.Document;
+using TFN.Infrastructure.Repositories.PostAggregate.Document;
+using TFN.Infrastructure.Repositories.ProductApiResourceAggregate.Document;
+using TFN.Infrastructure.Repositories.ScoreAggregate.Document;
+using TFN.Infrastructure.Repositories.TrackAggregate.Document;
+using TFN.Infrastructure.Repositories.TransientUserAccountAggregate.Document;
+using TFN.Infrastructure.Repositories.UserAccountAggregate.Document;
+using TFN.Infrastructure.Repositories.UserIdentityResourceAggregate.Document;
 using TFN.Mvc.Extensions;
 using IBlobStorageComponent = TFN.Domain.Interfaces.Components.IBlobStorageComponent;
 using IS3StorageComponent = TFN.Domain.Interfaces.Components.IS3StorageComponent;
@@ -40,22 +48,48 @@ namespace TFN.Resolution
     {
         public static void RegisterDbContext(IServiceCollection services, IConfiguration configuration)
         {
-            
+            services.AddDocumentDbContext<DocumentContext>(options =>
+            {
+                options.DatabaseName = configuration["DocumentDb:DatabaseName"];
+                options.DatabaseKey = configuration["DocumentDb:Key"];
+                options.DatabaseUri = new Uri(configuration["DocumentDb:EndpointUri"]);
+            });
         }
 
         public static void RegisterTypes(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<IResourceRepository, ResourceInMemoryRepository>();
-            services.AddTransient<IResourceStore, ResourceInMemoryRepository>();
-            services.AddTransient<IUserRepository, UserInMemoryRepository>();
-            services.AddTransient<ITransientUserRepository, TransientUserInMemoryRepository>();
-            services.AddTransient<IClientRepository, ClientInMemoryRepository>();
-            services.AddTransient<IPostRepository, PostInMemoryRepository>();
-            services.AddTransient<ICommentRepository, CommentInMemoryRepository>();
-            services.AddTransient<IClientStore, ClientInMemoryRepository>();
-            services.AddTransient<ITrackRepository, TrackInMemoryRepository>();
-            services.AddTransient<ICreditRepository, CreditInMemoryRepository>();
+            //aggregate mappers
+            services.AddTransient<IAggregateMapper<ApplicationClient, ApplicationClientDocumentModel, Guid>, ApplicationClientDocumentMapper>();
+            services.AddTransient<IAggregateMapper<Comment, CommentDocumentModel, Guid>,CommentDocumentMapper>();
+            services.AddTransient<IAggregateMapper<Credits, CreditsDocumentModel, Guid>,CreditsDocumentMapper>();
+            services.AddTransient<IAggregateMapper<Like, LikeDocumentModel, Guid>,LikeDocumentMapper>();
+            services.AddTransient<IAggregateMapper<Listen, ListenDocumentModel, Guid>,ListenDocumentMapper>();
+            services.AddTransient<IAggregateMapper<Post, PostDocumentModel, Guid>,PostDocumentMapper>();
+            services.AddTransient<IAggregateMapper<ProductApiResource, ProductApiResourceDocumentModel, Guid>,ProductApiResourceDocumentMapper>();
+            services.AddTransient<IAggregateMapper<Score, ScoreDocumentModel, Guid>,ScoreDocumentMapper>();
+            services.AddTransient<IAggregateMapper<Track, TrackDocumentModel, Guid>,TrackDocumentMapper>();
+            services.AddTransient<IAggregateMapper<TransientUserAccount, TransientUserAccountDocumentModel, Guid>,TransientUserAccountDocumentMapper>();
+            services.AddTransient<IAggregateMapper<UserAccount, UserAccountDocumentModel, Guid>, UserAccountDocumentMapper>();
+            services.AddTransient<IAggregateMapper<UserIdentityResource, UserIdentityResourceDocumentModel, Guid>,UserIdentityResourceDocumentMapper>();
+
+
+            //repositories
+            services.AddTransient<IApplicationClientRepository, ApplicationClientDocumentRepository>();
+            services.AddTransient<ICommentRepository, CommentDocumentRepository>();
+            services.AddTransient<ICreditRepository, CreditsDocumentRepository>();
+            services.AddTransient<ILikeRepository, LikeDocumentRepository>();
+            services.AddTransient<IListenRepository, ListenDocumentRepository>();
+            services.AddTransient<IPostRepository, PostDocumentRepository>();
+            services.AddTransient<IProductApiResourceRepository, ProductApiResourceDocumentRepository>();
+            services.AddTransient<IScoreRepository, ScoreDocumentRepository>();
+            services.AddTransient<ITrackRepository, TrackDocumentRepository>();
+            services.AddTransient<ITransientUserAccountRepository, TransientUserAccountDocumentRepository>();
+            services.AddTransient<IUserAccountRepository, UserAccountDocumentRepository>();
+            services.AddTransient<IUserIdentityResourceRepository, UserIdentityResourceDocumentRepository>();
+
             //services
+            services.AddTransient<IClientStore, ClientStore>();
+            services.AddTransient<IResourceStore, ResourceStore>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICorsPolicyService, CorsPolicyService>();
             services.AddTransient<IProfileService, ProfileService>();
@@ -69,6 +103,7 @@ namespace TFN.Resolution
 
             //validators
             services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
+            
             //components
             services.AddTransient<IS3StorageComponent, S3StorageComponent>();
             services.AddTransient<IBlobStorageComponent, BlobStorageComponent>();

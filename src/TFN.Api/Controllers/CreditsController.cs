@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TFN.Api.Authorization.Models.Resource;
 using TFN.Api.Authorization.Operations;
+using TFN.Api.Controllers.Base;
 using TFN.Api.Models.Interfaces;
 using TFN.Api.Models.ResponseModels;
 using TFN.Domain.Interfaces.Services;
@@ -26,7 +27,7 @@ namespace TFN.Api.Controllers
 
         [HttpGet(Name = "GetCreditsForCaller")]
         [Authorize("credits.read")]
-        public async Task<IActionResult> GetCreditsAsync()
+        public async Task<IActionResult> GetCredits()
         {
             var credit = await CreditService.GetByUserIdAsync(UserId);
 
@@ -72,7 +73,7 @@ namespace TFN.Api.Controllers
 
         [HttpGet("users/{userId:Guid}", Name = "GetCreditsByUserId")]
         [Authorize("credits.read")]
-        public async Task<IActionResult> GetCreditsByUserIdAsync(Guid userId)
+        public async Task<IActionResult> GetCreditsByUserId(Guid userId)
         {
             var credit = await CreditService.GetByUserIdAsync(userId);
 

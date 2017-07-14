@@ -6,6 +6,9 @@ namespace TFN.Domain.Architecture.Repositories
     public interface IRepository<TDomainEntity, TKey>
         where TDomainEntity : DomainEntity<TKey>, IAggregateRoot
     {
-        Task<TDomainEntity> GetAsync(TKey id);
+        Task<TDomainEntity> Find(TKey id);
+
+        //REMOVE THIS IS USED FOR SEEDDATAONLY
+        Task<bool> Any();
     }
 }

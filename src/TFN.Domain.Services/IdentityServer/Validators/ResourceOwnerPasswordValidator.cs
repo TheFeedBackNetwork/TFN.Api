@@ -13,7 +13,7 @@ namespace TFN.Domain.Services.IdentityServer.Validators
         }
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var user = await UserService.GetAsync(context.UserName, context.Password);
+            var user = await UserService.Find(context.UserName, context.Password);
 
             if (user != null)
             {

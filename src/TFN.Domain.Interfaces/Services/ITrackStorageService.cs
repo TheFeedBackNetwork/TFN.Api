@@ -6,9 +6,9 @@ namespace TFN.Domain.Interfaces.Services
 {
     public interface ITrackStorageService
     {
-        Task<Uri> UploadUnprocessedAsync(Stream trackStream, string fileName);
-        Task<Uri> UploadProcessedAsync(Stream trackStream, string fileName);
-        Task<Uri> UploadProcessedAsync(string path, string fileName);
-        Task DeleteLocalAsync(string filePath);
+        Task<Uri> UploadUnprocessed(Stream trackStream, string fileName);
+        Task<Uri> UploadProcessed(Stream trackStream, string fileName);
+        Task<Uri> UploadProcessed(string path, string fileName);
+        Task DeleteLocal(string filePath);
     }
 }

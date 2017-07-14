@@ -17,7 +17,7 @@ namespace TFN.Infrastructure.Components.Storage
                 .Parse(configuration["Storage:StorageAccountConnectionString"])
                 .CreateCloudBlobClient();
         }
-        public async Task DeleteAsync(string container, string fileName)
+        public async Task Delete(string container, string fileName)
         {
             var blobContainer = BlobClient.GetContainerReference(container);
 
@@ -26,7 +26,7 @@ namespace TFN.Infrastructure.Components.Storage
             await block.DeleteAsync();
         }
 
-        public async Task<Uri> UploadAsync(Stream trackStream, string container, string fileName)
+        public async Task<Uri> Upload(Stream trackStream, string container, string fileName)
         {
             trackStream.Position = 0;
 

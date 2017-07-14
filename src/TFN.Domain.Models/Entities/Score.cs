@@ -3,7 +3,7 @@ using TFN.Domain.Architecture.Models;
 
 namespace TFN.Domain.Models.Entities
 {
-    public class Score : DomainEntity<Guid>
+    public class Score : DomainEntity<Guid>, IAggregateRoot
     {
         public Guid CommentId { get; private set; }
         public Guid UserId { get; private set; }

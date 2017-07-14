@@ -14,47 +14,50 @@ namespace TFN.UnitTests.Domain.Model
         private static string UsernameDefault = "foomusic";
         private static string NormalizedUsernameDefault = "FOOMUSIC";
         private static string ProfilePictureUrlDefault = "tfn.foo.bar/picture/foo.png";
+        private static string HashedPasswordDefault = "2710.AMjdCBvWAjoqwP4U9uhyxGSfShdrqfS746Qpls9WDOA5pdFv1uQk4w8Pbo3Dx6jQtA==";
+        private static string ChangePasswordKeyDefault = "";
         private static string EmailDefault = "foo@bar.com";
         private static string NormalizedEmailDefault  = "FOO@BAR.COM";
         private static string GivenNameDefault = "foo";
         private static string FamilyNameDefault = "bar";
         public static Biography BiographyDefault = Biography.From("FooBar", "www.instagram.com/foo", "www.soundcloud.com/bar", "www.twitter.com/baz", "www.youtube.com/bo", "www.facebook.com/bing", "yourmomshouse");
         private static DateTime CreatedDefault = new DateTime(2016, 4, 4, 5, 4, 4);
+        private static DateTime ModifiedDefault = new DateTime(2016, 4, 4, 5, 4, 5);
         public static bool IsActiveDefault = true;
 
-        public User make_User(Guid id, string username, string normalizedUsername, string profilePictureUrl, string email,string normalizedEmail, string givenName, string familyName, Biography biography, DateTime created)
+        public UserAccount make_User(Guid id, string username, string normalizedUsername, string profilePictureUrl, string email,string normalizedEmail, string givenName, string familyName, Biography biography, DateTime created, DateTime modified)
         {
-            return User.Hydrate(id, username,normalizedUsername, profilePictureUrl, email, normalizedEmail, givenName, biography, created, IsActiveDefault);
+            return UserAccount.Hydrate(id, username,normalizedUsername, HashedPasswordDefault,ChangePasswordKeyDefault, profilePictureUrl, email, normalizedEmail, givenName, biography, created, modified, IsActiveDefault);
         }
 
-        public User make_UserByUsername(string username)
+        public UserAccount make_UserByUsername(string username)
         {
-            return make_User(UserIdDefault, username, username?.ToUpperInvariant(), ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
+            return make_User(UserIdDefault, username, username?.ToUpperInvariant(), ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault, ModifiedDefault);
         }
 
-        public User make_UserByNormalizedUsername(string normalizedUsername)
+        public UserAccount make_UserByNormalizedUsername(string normalizedUsername)
         {
-            return make_User(UserIdDefault, UsernameDefault, normalizedUsername, ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
+            return make_User(UserIdDefault, UsernameDefault, normalizedUsername, ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault, ModifiedDefault);
         }
 
-        public User make_UserByProfilePictureUrl(string profilePictureUrl)
+        public UserAccount make_UserByProfilePictureUrl(string profilePictureUrl)
         {
-            return make_User(UserIdDefault, UsernameDefault, NormalizedUsernameDefault, profilePictureUrl, EmailDefault,NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
+            return make_User(UserIdDefault, UsernameDefault, NormalizedUsernameDefault, profilePictureUrl, EmailDefault,NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault, ModifiedDefault);
         }
 
-        public User make_UserByEmail(string email)
+        public UserAccount make_UserByEmail(string email)
         {
-            return make_User(UserIdDefault, UsernameDefault, NormalizedUsernameDefault, ProfilePictureUrlDefault, email, NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault);
+            return make_User(UserIdDefault, UsernameDefault, NormalizedUsernameDefault, ProfilePictureUrlDefault, email, NormalizedEmailDefault, GivenNameDefault, FamilyNameDefault, BiographyDefault, CreatedDefault, ModifiedDefault);
         }
 
-        public User make_UserByGivenName(string givenName)
+        public UserAccount make_UserByGivenName(string givenName)
         {
-            return make_User(UserIdDefault, UsernameDefault,NormalizedUsernameDefault, ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault , givenName, FamilyNameDefault, BiographyDefault, CreatedDefault);
+            return make_User(UserIdDefault, UsernameDefault,NormalizedUsernameDefault, ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault , givenName, FamilyNameDefault, BiographyDefault, CreatedDefault, ModifiedDefault);
         }
 
-        public User make_UserByFamilyName(string familyName)
+        public UserAccount make_UserByFamilyName(string familyName)
         {
-            return make_User(UserIdDefault, UsernameDefault, NormalizedUsernameDefault,  ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault, GivenNameDefault, familyName, BiographyDefault, CreatedDefault);
+            return make_User(UserIdDefault, UsernameDefault, NormalizedUsernameDefault,  ProfilePictureUrlDefault, EmailDefault, NormalizedEmailDefault, GivenNameDefault, familyName, BiographyDefault, CreatedDefault, ModifiedDefault);
         }
 
         [Theory]

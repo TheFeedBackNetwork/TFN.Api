@@ -14,52 +14,52 @@ namespace TFN.Domain.Services.Credits
             CreditRepository = creditRepository;
         }
 
-        public async Task AwardCreditAsync(Guid fromUserId, Guid toUserId, int amount)
+        public async Task AwardCredits(Guid fromUserId, Guid toUserId, int amount)
         {
-            var credits = await CreditRepository.GetByUserId(toUserId);
+            var credits = await CreditRepository.FindByUserId(toUserId);
             if (credits == null)
             {
                 throw new ArgumentException($"{nameof(credits)} cannot be null.");
             }
 
             var newCredits = credits.ChangeTotalCredits(amount);
-            await CreditRepository.UpdateAsync(newCredits);
+            await CreditRepository.Update(newCredits);
         }
 
-        public async Task ReduceCreditsAsync(Models.Entities.Credits credits, int amount)
+        public async Task ReduceCredits(Models.Entities.Credits credits, int amount)
         {
             var newCredits = credits.ChangeTotalCredits(-amount);
-            await CreditRepository.UpdateAsync(newCredits);
+            await CreditRepository.Update(newCredits);
         }
 
-        public async Task<IReadOnlyList<Models.Entities.Credits>> GetLeaderBoardAsync(short offset, short limit)
+        public async Task<IReadOnlyList<Models.Entities.Credits>> FindLeaderBoard(string continuationToken)
         {
-            return await CreditRepository.GetHighestCredits(offset, limit);
+            return await CreditRepository.FindHighestCredits(continuationToken);
         }
 
         public async Task<Models.Entities.Credits> GetAsync(Guid id)
         {
-            return await CreditRepository.GetAsync(id);
+            return await CreditRepository.Find(id);
         }
 
         public async Task<Models.Entities.Credits> GetByUserIdAsync(Guid userId)
         {
-            return await CreditRepository.GetByUserId(userId);
+            return await CreditRepository.FindByUserId(userId);
         }
 
         public async Task<Models.Entities.Credits> GetByUsernameAsync(string username)
         {
-            return await CreditRepository.GetByUsername(username);
+            return await CreditRepository.FindByUsername(username);
         }
 
         public async Task AddAsync(Models.Entities.Credits credits)
         {
-            await CreditRepository.AddAsync(credits);
+            await CreditRepository.Add(credits);
         }
 
-        public async Task<IReadOnlyList<Models.Entities.Credits>> SearchUsers(string searchToken, int offset, int limit)
+        public async Task<IReadOnlyList<Models.Entities.Credits>> SearchUsers(string searchToken, string continuationToken)
         {
-            return await CreditRepository.SearchUsers(searchToken, offset, limit);
+            return await CreditRepository.FindUsers(searchToken, continuationToken);
         }
     }
 }

@@ -23,9 +23,9 @@ namespace TFN.Api.Models.Factories
         }
         public async Task<CommentResponseModel> From(Comment comment, string apiUrl)
         {
-            var summary = await CommentRepository.GetCommentScoreSummaryAsync(comment.Id, 5,comment.Username);
+            var summary = await CommentRepository.FindCommentScoreSummary(comment.Id, 5,comment.Username);
 
-            var credits = await CreditRepository.GetByUserId(comment.UserId);
+            var credits = await CreditRepository.FindByUserId(comment.UserId);
 
             var authZ = ResourceAuthorizationResponseModelFactory.From(comment, HttpContextAccessor.HttpContext);
 

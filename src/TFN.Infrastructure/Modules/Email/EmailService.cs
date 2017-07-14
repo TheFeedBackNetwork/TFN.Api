@@ -13,7 +13,7 @@ namespace TFN.Infrastructure.Modules.Email
         {
             Options = options;
         }
-        public Task SendEmailAsync(string toEmail, string subject, string body)
+        public Task SendEmail(string toEmail, string subject, string body)
         {
             var email = new MailMessage();
             email.From = Options.Value.Sender;

@@ -11,12 +11,12 @@ namespace TFN.Infrastructure.Components.Storage
         {
 
         }
-        public Task DeleteAsync(string container, string fileName)
+        public Task Delete(string container, string fileName)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Uri> UploadAsync(Stream trackStream, string container, string fileName)
+        public Task<Uri> Upload(Stream trackStream, string container, string fileName)
         {
             throw new NotImplementedException();
         }

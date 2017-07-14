@@ -3,7 +3,7 @@ using TFN.Domain.Architecture.Models;
 
 namespace TFN.Domain.Models.Entities
 {
-    public class Like : DomainEntity<Guid>
+    public class Like : DomainEntity<Guid>, IAggregateRoot
     {
         public Guid PostId { get; private set; }
         public Guid UserId { get; private set; }

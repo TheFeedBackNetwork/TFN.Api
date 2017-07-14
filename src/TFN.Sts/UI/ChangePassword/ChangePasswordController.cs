@@ -22,7 +22,7 @@ namespace TFN.Sts.UI.ChangePassword
         [Route("changepassword/{changePasswordKey}", Name = "ChangePassword")]
         public async Task<IActionResult> ChangePassword(string changePasswordKey)
         {
-            if (!await UserService.ChangePasswordKeyExistsAsync(changePasswordKey))
+            if (!await UserService.ChangePasswordKeyExists(changePasswordKey))
             {
                 return NotFound();
             }
@@ -53,14 +53,14 @@ namespace TFN.Sts.UI.ChangePassword
             }
             else
             {
-                var user = await UserService.GetByChangePasswordKey(changePasswordKey);
+                var user = await UserService.FindByChangePasswordKey(changePasswordKey);
                 if (user == null)
                 {
                     //TODO Correct error handling
                     return NotFound();
                 }
 
-                await UserService.UpdateUserPasswordAsync(changePasswordKey, model.ConfirmPassword);
+                await UserService.UpdateUserPassword(changePasswordKey, model.ConfirmPassword);
 
                 return View("ChangePasswordSuccess");
             }

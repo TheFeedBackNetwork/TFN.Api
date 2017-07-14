@@ -29,7 +29,7 @@ namespace TFN.Sts.UI.Verify
         public async Task<IActionResult> Verify(string emailVerificationKey)
         {
             if (!string.IsNullOrEmpty(emailVerificationKey) && !string.IsNullOrWhiteSpace(emailVerificationKey) &&
-                await TransientUserService.EmailVerificationKeyExistsAsync(emailVerificationKey))
+                await TransientUserService.EmailVerificationKeyExists(emailVerificationKey))
             {
                 if (User.Identity.IsAuthenticated)
                 {
@@ -54,7 +54,7 @@ namespace TFN.Sts.UI.Verify
             {
                 return View();
             }
-            else if (!await TransientUserService.EmailVerificationKeyExistsAsync(emailVerificationKey))
+            else if (!await TransientUserService.EmailVerificationKeyExists(emailVerificationKey))
             {
                 return NotFound();
                 //return RedirectToAction("VerifyError");
@@ -66,13 +66,14 @@ namespace TFN.Sts.UI.Verify
                 return View(vm);
             }
 
-            var transientUser = await TransientUserService.GetByEmailVerificationKeyAsync(emailVerificationKey);
+            var transientUser = await TransientUserService.FindByEmailVerificationKey(emailVerificationKey);
             var bio = new Biography(null,null,null,null,null,null,null);
-            var user = new User(transientUser.Username, null, transientUser.Email, null, bio);
-            await UserService.CreateAsync(user, model.VerifyPassword);
-            await TransientUserService.DeleteAsync(transientUser);
+            var hashedPassword = PasswordService.HashPassword(model.VerifyPassword);
+            var user = new UserAccount(transientUser.Username, hashedPassword, null, transientUser.Email, null, bio);
+            await UserService.Create(user, model.VerifyPassword);
+            await TransientUserService.Delete(transientUser);
 
-            var claims = UserService.GetClaims(user);
+            var claims = user.GetClaims();
             
             var ci = new ClaimsIdentity(claims, "password", JwtClaimTypes.PreferredUserName,JwtClaimTypes.Role);
             //needed for IDS UI

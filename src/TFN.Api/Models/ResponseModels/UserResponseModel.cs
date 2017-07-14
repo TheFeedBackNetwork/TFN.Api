@@ -35,14 +35,14 @@ namespace TFN.Api.Models.ResponseModels
             return new Uri($"{apiUrl}/api/users/{id}");
         }
 
-        public static UserResponseModel From(User user, Credits credits, string apiUrl)
+        public static UserResponseModel From(UserAccount user, Credits credits, string apiUrl)
         {
             return new UserResponseModel(
                 user.Id,
                 user.Username,
                 user.ProfilePictureUrl,
                 user.Email,
-                user.Name,
+                user.FullName,
                 BiographyResponseModel.From(user.Biography),
                 user.Created,
                 CreditsResponseModel.From(credits,apiUrl), 

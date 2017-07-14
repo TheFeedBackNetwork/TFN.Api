@@ -60,9 +60,9 @@ namespace TFN.Sts.UI.Register
 
             var key = KeyService.GenerateUrlSafeUniqueKey();
 
-            var transientUser = new TransientUser(model.RegisterUsername,model.RegisterEmail,key);
+            var transientUser = new TransientUserAccount(model.RegisterUsername,model.RegisterEmail,key);
 
-            await TransientUserService.CreateAsync(transientUser);
+            await TransientUserService.Create(transientUser);
 
             return View("RegisterConfirmed");
 
@@ -71,7 +71,7 @@ namespace TFN.Sts.UI.Register
 
         private async Task<bool> CanTrasientUserTakeUsername(string email, string username)
         {
-            var transientUserByUsername = await TransientUserService.GetByUsernameAsync(username);
+            var transientUserByUsername = await TransientUserService.FindByUsername(username);
 
             if (transientUserByUsername != null)
             {

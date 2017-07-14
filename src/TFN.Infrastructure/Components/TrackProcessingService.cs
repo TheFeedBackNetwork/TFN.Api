@@ -24,7 +24,7 @@ namespace TFN.Infrastructure.Components
             Bitrate = int.Parse(configuration["TranscodeBitrate"]);
         }
 
-        public Task TranscodeAudioAsync(string sourceFilePath, string destinationFilePath)
+        public Task TranscodeAudio(string sourceFilePath, string destinationFilePath)
         {
             var options = new ConversionOptions
             {
@@ -45,7 +45,7 @@ namespace TFN.Infrastructure.Components
             return Task.CompletedTask;
         }
 
-        public Task<List<int>> GetWaveformAsync(string sourceSoundFilePath, string destinationPngFilePath)
+        public Task<List<int>> GetWaveform(string sourceSoundFilePath, string destinationPngFilePath)
         {
             var input = new MediaFile(sourceSoundFilePath);
             var output = new MediaFile(destinationPngFilePath);

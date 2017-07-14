@@ -15,26 +15,28 @@ namespace TFN.UnitTests.Domain.Model
         private static string EmailDefault = "foo@bar.com";
         private static string NormalizedEmailDefault = "FOO@BAR.COM";
         private static string VerificationKeyDefault = "abcdefgABCDEFG";
+        private static DateTime CreatedDefault = new DateTime(2016, 4, 4, 5, 4, 4);
+        private static DateTime ModifiedDefault = new DateTime(2016, 4, 4, 5, 5, 5);
 
-        public TransientUser make_TransientUser(Guid id, string username, string normalizedUsername, string email,
-            string normalizedEmail, string emailVerificationKey)
+        public TransientUserAccount make_TransientUser(Guid id, string username, string normalizedUsername, string email,
+            string normalizedEmail, string emailVerificationKey, DateTime created, DateTime modifed)
         {
-            return TransientUser.Hydrate(id, username, normalizedUsername, email, normalizedEmail, emailVerificationKey);
+            return TransientUserAccount.Hydrate(id, username, normalizedUsername, email, normalizedEmail, emailVerificationKey, created,modifed);
         }
 
-        public TransientUser make_TransientUser(string username)
+        public TransientUserAccount make_TransientUser(string username)
         {
-            return make_TransientUser(TransientUserIdDefault,username,username?.ToUpperInvariant(),EmailDefault, NormalizedEmailDefault,VerificationKeyDefault);
+            return make_TransientUser(TransientUserIdDefault,username,username?.ToUpperInvariant(),EmailDefault, NormalizedEmailDefault,VerificationKeyDefault, CreatedDefault, ModifiedDefault);
         }
 
-        public TransientUser make_TransientUserByNormalizedUsername(string normalizedUsername)
+        public TransientUserAccount make_TransientUserByNormalizedUsername(string normalizedUsername)
         {
-            return make_TransientUser(TransientUserIdDefault,UsernameDefault,normalizedUsername,EmailDefault,NormalizedUsernameDefault,VerificationKeyDefault);
+            return make_TransientUser(TransientUserIdDefault,UsernameDefault,normalizedUsername,EmailDefault,NormalizedUsernameDefault,VerificationKeyDefault, CreatedDefault, ModifiedDefault);
         }
 
-        public TransientUser make_TransientUserByEmail(string email)
+        public TransientUserAccount make_TransientUserByEmail(string email)
         {
-            return make_TransientUser(TransientUserIdDefault,UsernameDefault,NormalizedUsernameDefault,email,email?.ToUpperInvariant(),VerificationKeyDefault);
+            return make_TransientUser(TransientUserIdDefault,UsernameDefault,NormalizedUsernameDefault,email,email?.ToUpperInvariant(),VerificationKeyDefault, CreatedDefault, ModifiedDefault);
         }
 
         [Theory]
