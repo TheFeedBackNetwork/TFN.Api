@@ -6,7 +6,7 @@ using TFN.Domain.Models.Entities;
 
 namespace TFN.Domain.Interfaces.Repositories
 {
-    public interface IScoreRepository : IAddableRepository<Score, Guid>
+    public interface IScoreRepository : IAddableRepository<Score, Guid>, IDeleteableRepository<Score,Guid>
     {
         Task<IReadOnlyList<Score>> FindAllPaginated(Guid comentId, string continuationToken);
         Task<int> Count(Guid commentId); 

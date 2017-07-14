@@ -26,7 +26,7 @@ namespace TFN.Domain.Services.UserAccounts
             PasswordService = passwordService;
         }
 
-        public async Task CreateAsync(UserAccount user, string password)
+        public async Task Create(UserAccount user, string password)
         {
             if (user == null)
             {

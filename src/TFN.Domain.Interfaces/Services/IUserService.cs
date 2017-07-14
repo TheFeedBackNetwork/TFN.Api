@@ -13,8 +13,7 @@ namespace TFN.Domain.Interfaces.Services
         Task<UserAccount> FindByExternalProvider(string provider, string userId);
         Task<bool> ExistsByEmail(string email);
         Task<bool> ExistsByUsername(string username);
-        Task CreateAsync(UserAccount user, string password);
-        IReadOnlyList<Claim> GetClaims(UserAccount user);
+        Task Create(UserAccount user, string password);
         Task SendChangePasswordKey(UserAccount user);
         Task<UserAccount> FindByUsername(string username);
         Task<UserAccount> FindByEmail(string email);

@@ -70,10 +70,10 @@ namespace TFN.Sts.UI.Verify
             var bio = new Biography(null,null,null,null,null,null,null);
             var hashedPassword = PasswordService.HashPassword(model.VerifyPassword);
             var user = new UserAccount(transientUser.Username, hashedPassword, null, transientUser.Email, null, bio);
-            await UserService.CreateAsync(user, model.VerifyPassword);
+            await UserService.Create(user, model.VerifyPassword);
             await TransientUserService.Delete(transientUser);
 
-            var claims = UserService.GetClaims(user);
+            var claims = user.GetClaims();
             
             var ci = new ClaimsIdentity(claims, "password", JwtClaimTypes.PreferredUserName,JwtClaimTypes.Role);
             //needed for IDS UI
