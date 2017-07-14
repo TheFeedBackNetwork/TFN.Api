@@ -11,12 +11,5 @@ namespace TFN.Domain.Interfaces.Repositories
     {
         Task<IReadOnlyList<Comment>> FindCommentsPaginated(Guid postId, string continuationToken);
         Task<int> Count(Guid postId);
-
-        //Score
-        Task<IReadOnlyList<Score>> FindAllScores(Guid comentId, string continuationToken);
-        Task<Score> Find( Guid commentId, Guid scoreId);
-        Task Add(Score entity);
-        Task Delete(Guid commentId, Guid scoreId);
-        Task<CommentSummary> FindCommentScoreSummary(Guid commentId, int limit, string username);
     }
 }

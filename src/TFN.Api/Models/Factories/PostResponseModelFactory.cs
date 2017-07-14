@@ -5,6 +5,7 @@ using TFN.Api.Extensions;
 using TFN.Api.Models.Interfaces;
 using TFN.Api.Models.ResponseModels;
 using TFN.Domain.Interfaces.Repositories;
+using TFN.Domain.Interfaces.Services;
 using TFN.Domain.Models.Entities;
 using TFN.Domain.Models.ValueObjects;
 
@@ -13,23 +14,23 @@ namespace TFN.Api.Models.Factories
     public class PostResponseModelFactory : IPostResponseModelFactory
     {
         public ICreditRepository CreditRepository { get; private set; }
-        public IPostRepository PostRepository { get; private set; }
+        public IPostService PostService { get; private set; }
         public IResourceAuthorizationResponseModelFactory ResourceAuthorizationResponseModelFactory { get; private set; }
         public IHttpContextAccessor HttpContextAccessor { get; private set; }
 
-        public PostResponseModelFactory(ICreditRepository creditRepository, IPostRepository postRepository,
+        public PostResponseModelFactory(ICreditRepository creditRepository, IPostService postService,
             IResourceAuthorizationResponseModelFactory resourceAuthorizationResponseModelFactory,
             IHttpContextAccessor httpContextAccessor)
         {
             CreditRepository = creditRepository;
-            PostRepository = postRepository;
+            PostService = postService;
             ResourceAuthorizationResponseModelFactory = resourceAuthorizationResponseModelFactory;
             HttpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<PostResponseModel> From(Post post, string apiUrl)
+        public async Task<PostResponseModel> From(Post post, Guid viewUserId, string apiUrl)
         {
-            var summary = await PostRepository.FindPostLikeSummary(post.Id, 5,post.Username);
+            var summary = await PostService.FindPostLikeSummary(post.Id,viewUserId);
 
             var credits = await CreditRepository.FindByUserId(post.UserId);
 

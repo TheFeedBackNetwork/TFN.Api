@@ -75,7 +75,7 @@ namespace TFN.Api.Controllers
             var model = new List<PostResponseModel>();
             foreach (var post in posts)
             {
-                model.Add(await PostResponseModelFactory.From(post,AbsoluteUri));
+                model.Add(await PostResponseModelFactory.From(post, UserId,AbsoluteUri));
             }
 
             if (exclude != null)
@@ -98,7 +98,7 @@ namespace TFN.Api.Controllers
                 return NotFound();
             }
             
-            var model = await PostResponseModelFactory.From(post, AbsoluteUri);
+            var model = await PostResponseModelFactory.From(post, UserId, AbsoluteUri);
 
 
             if (exclude != null)
@@ -148,7 +148,7 @@ namespace TFN.Api.Controllers
                 return NotFound();
             }
 
-            var model = await CommentResponseModelFactory.From(comment, AbsoluteUri);
+            var model = await CommentResponseModelFactory.From(comment, UserId, AbsoluteUri);
             
             if (exclude != null)
             {
@@ -182,7 +182,7 @@ namespace TFN.Api.Controllers
             var model = new List<CommentResponseModel>();
             foreach (var comment in comments)
             {
-                model.Add(await CommentResponseModelFactory.From(comment,AbsoluteUri));
+                model.Add(await CommentResponseModelFactory.From(comment, UserId,AbsoluteUri));
             }
 
 
@@ -276,7 +276,7 @@ namespace TFN.Api.Controllers
             await PostRepository.Add(entity);
             await CreditService.ReduceCredits(credits, 5);
 
-            var model = await PostResponseModelFactory.From(entity, AbsoluteUri);
+            var model = await PostResponseModelFactory.From(entity, UserId, AbsoluteUri);
             
             return CreatedAtAction("GetPost", new {postId = model.Id}, model);
         }
@@ -331,7 +331,7 @@ namespace TFN.Api.Controllers
 
             await CommentRepository.Add(entity);
             
-            var model = await CommentResponseModelFactory.From(entity, AbsoluteUri);
+            var model = await CommentResponseModelFactory.From(entity, UserId, AbsoluteUri);
 
             return CreatedAtAction("GetComment", new {postId = model.PostId, commentId = model.Id}, model);
         }
