@@ -350,7 +350,7 @@ namespace TFN.Api.Controllers
                 return NotFound();
             }
 
-            var scores = await ScoreRepository.FindAllPaginated(commentId, continuationToken);
+            var scores = await ScoreRepository.FindScoresPaginated(commentId, continuationToken);
 
             if(scores.Any(x => x.UserId == UserId))
             {
