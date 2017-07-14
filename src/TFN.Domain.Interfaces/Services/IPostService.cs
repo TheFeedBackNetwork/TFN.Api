@@ -8,7 +8,7 @@ namespace TFN.Domain.Interfaces.Services
 {
     public interface IPostService
     {
-        Task<CommentSummary>  FindCommentScoreSummary(Guid commentId, int limit, string username);
-        Task<PostSummary> FindPostLikeSummary(Guid postId, int limit, string username);
+        Task<CommentSummary> FindCommentScoreSummary(Guid commentId, Guid userId);
+        Task<PostSummary> FindPostLikeSummary(Guid postId, Guid userId);
     }
 }

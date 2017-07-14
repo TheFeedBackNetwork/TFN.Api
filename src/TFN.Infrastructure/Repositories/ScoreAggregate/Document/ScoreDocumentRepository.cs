@@ -28,7 +28,7 @@ namespace TFN.Infrastructure.Repositories.ScoreAggregate.Document
             return count;
         }
 
-        public async Task<IReadOnlyList<Score>> FindAllPaginated(Guid comentId, string continuationToken)
+        public async Task<IReadOnlyList<Score>> FindScoresPaginated(Guid comentId, string continuationToken)
         {
             var documents = await Collection.FindAllPaginated(x => x.CommentId == comentId && x.Type == Type, continuationToken);
 

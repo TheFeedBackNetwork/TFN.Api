@@ -31,6 +31,7 @@ namespace TFN.Api.Controllers
         public IPostService PostService { get; private set; }
         public IPostRepository PostRepository { get; private set; }
         public ICommentRepository CommentRepository { get; private set; }
+        public ILikeRepository LikeRepository { get; private set; }
         public IScoreRepository ScoreRepository { get; private set; }
         public ICreditService CreditService { get; private set; }
         public IPostResponseModelFactory PostResponseModelFactory { get; private set; }
@@ -42,7 +43,7 @@ namespace TFN.Api.Controllers
         
         public PostController(IPostService postService, IPostRepository postRepository,
             ICommentRepository commentRepository, IAuthorizationService authorizationService,
-            IScoreRepository scoreRepository,
+            IScoreRepository scoreRepository, ILikeRepository likeRepository,
             ICreditService creditService, IPostResponseModelFactory postResponseModelFactory,
             IPostSummaryResponseModelFactory postSummaryResponseModelFactory,
             ICommentResponseModelFactory commentResponseModelFactory,
@@ -59,6 +60,7 @@ namespace TFN.Api.Controllers
             AuthorizationService = authorizationService;
             CreditService = creditService;
             ScoreRepository = scoreRepository;
+            LikeRepository = likeRepository;
             Logger = logger;
         }
 
@@ -118,7 +120,7 @@ namespace TFN.Api.Controllers
                 return NotFound();
             }
 
-            var postSummary = await PostService.FindPostLikeSummary(postId, limit, Username);
+            var postSummary = await PostService.FindPostLikeSummary(postId, UserId);
             if (postSummary == null)
             {
                 return NotFound();
@@ -130,6 +132,7 @@ namespace TFN.Api.Controllers
 
             return Json(model);
         }
+
 
         [HttpGet("{postId:Guid}/comments/{commentId:Guid}", Name = "GetComment")]
         [Authorize("posts.read")]
@@ -172,7 +175,7 @@ namespace TFN.Api.Controllers
             var summaries = new List<CommentSummary>();
             foreach (var comment in comments)
             {
-                var summary = await PostService.FindCommentScoreSummary(comment.Id, 5, Username);
+                var summary = await PostService.FindCommentScoreSummary(comment.Id, UserId);
                 summaries.Add(summary);
             }
 
@@ -205,7 +208,7 @@ namespace TFN.Api.Controllers
                 return NotFound();
             }
 
-            var commentSummary = await PostService.FindCommentScoreSummary(commentId, limit, Username);
+            var commentSummary = await PostService.FindCommentScoreSummary(commentId, UserId);
 
             if (commentSummary == null)
             {
@@ -276,6 +279,32 @@ namespace TFN.Api.Controllers
             var model = await PostResponseModelFactory.From(entity, AbsoluteUri);
             
             return CreatedAtAction("GetPost", new {postId = model.Id}, model);
+        }
+
+        [HttpPost("{postId:Guid}/likes", Name = "PostLike")]
+        [Authorize("posts.write")]
+        public async Task<IActionResult> PostLike(Guid postId)
+        {
+            var post = await PostRepository.Find(postId);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            var liked = await LikeRepository.Exists(postId, UserId);
+
+            if (liked)
+            {
+                return BadRequest();
+            }
+
+            var like = new Like(postId,UserId,Username);
+
+            await LikeRepository.Add(like);
+
+            return NoContent();
+
         }
 
         [HttpPost("{postId:Guid}/comments", Name = "PostComment")]

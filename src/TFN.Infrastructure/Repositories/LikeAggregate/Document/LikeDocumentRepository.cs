@@ -28,7 +28,12 @@ namespace TFN.Infrastructure.Repositories.LikeAggregate.Document
             return count;
         }
 
-        public async Task<IReadOnlyList<Like>> FindAll(Guid postId, string continuationToken)
+        public async Task<bool> Exists(Guid postId, Guid userId)
+        {
+            return await Collection.Any(x => x.UserId == userId && x.PostId == postId && x.Type == Type);
+        }
+
+        public async Task<IReadOnlyList<Like>> FindLikesPaginated(Guid postId, string continuationToken)
         {
             var documents = await Collection.FindAllPaginated(x => x.PostId == postId && x.Type == Type, continuationToken);
 

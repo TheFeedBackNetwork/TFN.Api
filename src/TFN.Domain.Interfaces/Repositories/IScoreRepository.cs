@@ -8,7 +8,8 @@ namespace TFN.Domain.Interfaces.Repositories
 {
     public interface IScoreRepository : IAddableRepository<Score, Guid>, IDeleteableRepository<Score,Guid>
     {
-        Task<IReadOnlyList<Score>> FindAllPaginated(Guid comentId, string continuationToken);
+        Task<IReadOnlyList<Score>> FindScoresPaginated(Guid comentId, string continuationToken);
+        Task<bool> Exists(Guid commentId, Guid userId);
         Task<int> Count(Guid commentId); 
     }
 }
