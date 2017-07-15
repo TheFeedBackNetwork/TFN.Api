@@ -13,6 +13,11 @@ namespace TFN.Infrastructure.Repositories.LikeAggregate.Document
         {
             
         }
+
+        public LikeDocumentModel()
+        {
+            
+        }
     }
 
     public class LikeDocumentModel<TKey> : BaseDocument<TKey>
@@ -30,6 +35,11 @@ namespace TFN.Infrastructure.Repositories.LikeAggregate.Document
             : base(id,"like",created,created)
         {
             
+        }
+
+        public LikeDocumentModel()
+        {
+
         }
     }
 }

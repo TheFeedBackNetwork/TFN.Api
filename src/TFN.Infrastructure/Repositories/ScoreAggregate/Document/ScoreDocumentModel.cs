@@ -13,6 +13,11 @@ namespace TFN.Infrastructure.Repositories.ScoreAggregate.Document
         {
             
         }
+
+        public ScoreDocumentModel()
+        {
+            
+        }
     }
 
     public class ScoreDocumentModel<TKey> : BaseDocument<TKey>
@@ -30,6 +35,11 @@ namespace TFN.Infrastructure.Repositories.ScoreAggregate.Document
             : base(id, "score", created,created)
         {
             
+        }
+
+        public ScoreDocumentModel()
+        {
+
         }
     }
 }

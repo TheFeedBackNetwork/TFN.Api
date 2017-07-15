@@ -12,6 +12,11 @@ namespace TFN.Infrastructure.Repositories.CreditsAggregate.Document
     [CollectionOptions("identity", "credits")]
     public sealed class CreditsDocumentModel : CreditsDocumentModel<Guid>
     {
+        public CreditsDocumentModel()
+        {
+            
+        }
+
         public CreditsDocumentModel(Guid id, DateTime created, DateTime modified)
             : base(id, created, modified)
         {
@@ -34,6 +39,11 @@ namespace TFN.Infrastructure.Repositories.CreditsAggregate.Document
 
         [JsonProperty(PropertyName = "isActive")]
         public bool IsActive { get; set; }
+
+        public CreditsDocumentModel()
+        {
+
+        }
 
         public CreditsDocumentModel(TKey id, DateTime created, DateTime modified)
             : base(id,"credits", created,modified)

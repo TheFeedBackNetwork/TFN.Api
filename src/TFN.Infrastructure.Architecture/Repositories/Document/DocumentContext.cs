@@ -53,7 +53,7 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
         }
 
         public IDocumentCollection<TDocument> Collection<TDocument>()
-            where TDocument : class
+            where TDocument : class, new()
         {
             if (!typeof(TDocument).GetTypeInfo().IsSealed)
             {

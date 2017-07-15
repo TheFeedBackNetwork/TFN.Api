@@ -9,6 +9,10 @@ namespace TFN.Infrastructure.Repositories.TrackAggregate.Document
     [CollectionOptions("tracks", "track")]
     public sealed class TrackDocumentModel : TrackDocumentModel<Guid>
     {
+        public TrackDocumentModel()
+        {
+            
+        }
         public TrackDocumentModel(Guid id, DateTime created, DateTime modified)
             : base(id, created, modified)
         {
@@ -28,6 +32,11 @@ namespace TFN.Infrastructure.Repositories.TrackAggregate.Document
 
         [JsonProperty(PropertyName = "soundWave")]
         public ICollection<int> SoundWave { get; set; }
+
+        public TrackDocumentModel()
+        {
+            
+        }
 
         public TrackDocumentModel(TKey id, DateTime created, DateTime modified)
             : base(id, "track", created, modified)

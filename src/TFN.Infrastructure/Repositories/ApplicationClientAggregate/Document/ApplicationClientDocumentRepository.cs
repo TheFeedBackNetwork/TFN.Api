@@ -31,38 +31,7 @@ namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document
 
             var aggregate = Mapper.CreateFrom(document);
 
-            return new ApplicationClient(new Client
-            {
-                ClientId = "tfn_postman",
-                ClientName = "TFN Postman Client",
-                IncludeJwtId = true,
-                PrefixClientClaims = true,
-                AccessTokenType = AccessTokenType.Jwt,
-                AlwaysSendClientClaims = true,
-                RequireClientSecret = false,
-                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                AllowedScopes = new List<string>
-                {
-                    "openid",
-                    "profile",
-                    "biography",
-                    "profile_picture_url",
-                    "posts.write",
-                    "posts.read",
-                    "posts.edit",
-                    "posts.delete",
-                    "tracks.read",
-                    "tracks.write",
-                    "tracks.delete",
-                    "credits.read",
-                    "credits.write",
-                    "credits.delete",
-                    "users.read",
-                    "ip.read",
-                    "offline_access"
-                }
-            });
-            //return aggregate;
+            return aggregate;
         }
 
         public async Task<IReadOnlyCollection<string>> FindAllAllowedCorsOrigins()

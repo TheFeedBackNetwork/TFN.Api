@@ -9,7 +9,7 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
 {
     public class DocumentRepository<TAggregate, TDocument, TKey>
         where TAggregate : DomainEntity<TKey>, IAggregateRoot
-        where TDocument : BaseDocument<TKey>
+        where TDocument : BaseDocument<TKey>, new()
     {
         protected IAggregateMapper<TAggregate, TDocument, TKey> Mapper { get; }
         protected DocumentContext Context { get; }

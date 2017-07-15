@@ -13,6 +13,11 @@ namespace TFN.Infrastructure.Repositories.ListenAggregate.Document
         {
             
         }
+
+        public ListenDocumentModel()
+        {
+            
+        }
     }
 
     public class ListenDocumentModel<TKey> : BaseDocument<TKey>
@@ -28,10 +33,16 @@ namespace TFN.Infrastructure.Repositories.ListenAggregate.Document
 
         [JsonProperty(PropertyName = "iPaddress")]
         public string IPAddress { get; set; }
+
         public ListenDocumentModel(TKey id, DateTime created)
             : base(id,"listen",created,created)
         {
             
+        }
+
+        public ListenDocumentModel()
+        {
+
         }
     }
 }

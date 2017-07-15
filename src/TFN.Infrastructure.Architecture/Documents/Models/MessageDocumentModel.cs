@@ -5,6 +5,11 @@ namespace TFN.Infrastructure.Architecture.Documents.Models
 {
     public class MessageDocumentModel : MessageDocumentModel<Guid>
     {
+        public MessageDocumentModel()
+        {
+            
+        }
+
         public MessageDocumentModel(Guid id, Guid userId, string username, string text, bool isActive, string type,
             DateTime created, DateTime modified)
             : base(id,userId,username,text,isActive,type,created,modified)
@@ -25,6 +30,11 @@ namespace TFN.Infrastructure.Architecture.Documents.Models
 
         [JsonProperty(PropertyName = "isActive")]
         public bool IsActive { get; set; }
+
+        public MessageDocumentModel()
+        {
+
+        }
 
         public MessageDocumentModel(TKey id, Guid userId, string username,string text,bool isActive,string type, DateTime created, DateTime modified)
             : base(id, type,created,modified)

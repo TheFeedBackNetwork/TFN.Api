@@ -15,6 +15,11 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
         {
             
         }
+
+        public PostDocumentModel()
+        {
+            
+        }
     }
 
     public class PostDocumentModel<TKey> : MessageDocumentModel<TKey>
@@ -34,6 +39,11 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
             : base(id,userId,username,text,isActive,"post",created,modified)
         {
             
+        }
+
+        public PostDocumentModel()
+        {
+
         }
     }
 }

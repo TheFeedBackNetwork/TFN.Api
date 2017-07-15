@@ -13,6 +13,11 @@ namespace TFN.Infrastructure.Repositories.TransientUserAccountAggregate.Document
         {
 
         }
+
+        public TransientUserAccountDocumentModel()
+        {
+            
+        }
     }
 
     public class TransientUserAccountDocumentModel<TKey> : BaseDocument<TKey>
@@ -36,6 +41,11 @@ namespace TFN.Infrastructure.Repositories.TransientUserAccountAggregate.Document
             : base(id,"transientUserAccount",created,modified)
         {
             
+        }
+
+        public TransientUserAccountDocumentModel()
+        {
+
         }
     }
 }

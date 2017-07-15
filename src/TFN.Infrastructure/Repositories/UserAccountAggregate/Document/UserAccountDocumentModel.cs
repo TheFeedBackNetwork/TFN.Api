@@ -13,6 +13,11 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.Document
         {
 
         }
+
+        public UserAccountDocumentModel()
+        {
+            
+        }
     }
     public class UserAccountDocumentModel<TKey> : BaseDocument<TKey>
     {
@@ -50,6 +55,11 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.Document
             : base(id, "userAccount", created, modified)
         {
             
+        }
+
+        public UserAccountDocumentModel()
+        {
+
         }
     }
 

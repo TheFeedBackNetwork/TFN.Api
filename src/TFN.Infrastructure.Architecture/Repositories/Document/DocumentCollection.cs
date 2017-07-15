@@ -13,7 +13,7 @@ using TFN.Infrastructure.Interfaces.Components;
 namespace TFN.Infrastructure.Architecture.Repositories.Document
 {
     public class DocumentCollection<TDocument> : IDocumentCollection<TDocument>
-        where TDocument : class
+        where TDocument : class, new()
     {
         public const int maxItems = 20;
         public DocumentClient DocumentClient { get; private set; }
@@ -75,14 +75,10 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
         public async Task<TDocument> Find(string id)
         {
 
-            //I hardly comment however I think the generic arity needs to be changed for this so that
-            //TDocument can be figured out during  compile time... for now this will do. It cheats 
-            //the documentdb query but does not cheat the repository since the type at runtime is known.
-
             try
             {
-                var query = await DocumentClient.ReadDocumentAsync<dynamic>(GetDocumentLink(id));
-                var document = query.Document as TDocument;
+                var query = await DocumentClient.ReadDocumentAsync<TDocument>(GetDocumentLink(id));
+                var document = query.Document;
 
                 return document;
             }
