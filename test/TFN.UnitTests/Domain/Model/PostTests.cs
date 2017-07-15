@@ -24,24 +24,24 @@ namespace TFN.UnitTests.Domain.Model
         private static DateTime CreatedDefault = new DateTime(2016, 4, 4, 5, 4, 4);
         private static DateTime ModifiedDefault = new DateTime(2016, 4, 4, 5, 5, 5);
 
-        public Post make_Post(Guid id, Guid userId,string username, string trackUrl, string text, int likes, Genre genre, IReadOnlyList<string> tags,IReadOnlyList<Comment> comments,bool isActive,DateTime created, DateTime modified)
+        public Post make_Post(Guid id, Guid userId,string username, string trackUrl, string text, Genre genre, IReadOnlyList<string> tags,IReadOnlyList<Comment> comments,bool isActive,DateTime created, DateTime modified)
         {
             return Post.Hydrate(id, userId,username, trackUrl, text, genre, tags,isActive, created, modified);
         }
 
         public Post make_PostByTrackUrl(string trackUrl)
         {
-            return Post.Hydrate(PostIdDefault, UserIdDefault,PostUserNameDefault, trackUrl, TextDefault, GenreDefault, TagsDefault,IsActiveDefault, CreatedDefault, ModifiedDefault);
+            return make_Post(PostIdDefault, UserIdDefault,PostUserNameDefault, trackUrl, TextDefault, GenreDefault, TagsDefault,CommentsDefault,IsActiveDefault, CreatedDefault, ModifiedDefault);
         }
 
         public Post make_PostByText(string text)
         {
-            return Post.Hydrate(PostIdDefault, UserIdDefault, PostUserNameDefault, TrackUrlDefault, text, GenreDefault, TagsDefault, IsActiveDefault, CreatedDefault, ModifiedDefault);
+            return make_Post(PostIdDefault, UserIdDefault, PostUserNameDefault, TrackUrlDefault, text, GenreDefault, TagsDefault, CommentsDefault, IsActiveDefault, CreatedDefault, ModifiedDefault);
         }
 
         public Post make_Post(int likes)
         {
-            return Post.Hydrate(PostIdDefault, UserIdDefault, PostUserNameDefault, TrackUrlDefault, TextDefault, GenreDefault, TagsDefault, IsActiveDefault, CreatedDefault, ModifiedDefault);
+            return make_Post(PostIdDefault, UserIdDefault, PostUserNameDefault, TrackUrlDefault, TextDefault, GenreDefault, TagsDefault, CommentsDefault, IsActiveDefault, CreatedDefault, ModifiedDefault);
         }
 
         public Post make_Post(DateTime created)

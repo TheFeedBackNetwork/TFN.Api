@@ -15,14 +15,29 @@ namespace TFN.Api.Authorization.Handlers
             {
                 if (context.User.HasClaim("sub", resource.CommentOwnerId.ToString()))
                 {
+                    context.Fail();
                     return noOp;
                 }
+
+                if (context.User.HasClaim("sub", resource.OwnerId.ToString()))
+                {
+                    context.Succeed(requirement);
+                    return noOp;
+                }
+
             }
 
             if (requirement.Name == "ScoreDelete")
             {
                 if (context.User.HasClaim("sub", resource.CommentOwnerId.ToString()))
                 {
+                    context.Fail();
+                    return noOp;
+                }
+
+                if (context.User.HasClaim("sub", resource.OwnerId.ToString()))
+                {
+                    context.Succeed(requirement);
                     return noOp;
                 }
             }
