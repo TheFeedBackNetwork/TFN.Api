@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using TFN.Api.Extensions;
 using TFN.Api.Models.Interfaces;
 using TFN.Api.Models.ResponseModels;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Interfaces.Services;
 using TFN.Domain.Models.Entities;
-using TFN.Domain.Models.ValueObjects;
 
 namespace TFN.Api.Models.Factories
 {

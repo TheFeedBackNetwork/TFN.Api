@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using TFN.Sts.Extensions;
-using TFN.Mvc.Constants;
 
 namespace TFN.Sts.UI.Base
 {

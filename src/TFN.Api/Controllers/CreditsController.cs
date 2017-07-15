@@ -6,7 +6,6 @@ using TFN.Api.Authorization.Models.Resource;
 using TFN.Api.Authorization.Operations;
 using TFN.Api.Controllers.Base;
 using TFN.Api.Models.Interfaces;
-using TFN.Api.Models.ResponseModels;
 using TFN.Domain.Interfaces.Services;
 using TFN.Mvc.HttpResults;
 

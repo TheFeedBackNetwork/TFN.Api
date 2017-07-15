@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.Services;
 using TFN.Domain.Interfaces.Repositories;
-using TFN.Domain.Models.Extensions;
 
 namespace TFN.Domain.Services.IdentityServer.Services
 {

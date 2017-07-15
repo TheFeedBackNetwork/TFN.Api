@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using IdentityServer4;
 using IdentityServer4.Models;
 using TFN.Domain.Models.Entities.IdentityServer;
 

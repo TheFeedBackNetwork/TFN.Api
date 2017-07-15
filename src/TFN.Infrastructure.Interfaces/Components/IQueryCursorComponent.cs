@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TFN.Infrastructure.Interfaces.Components
+﻿namespace TFN.Infrastructure.Interfaces.Components
 {
     public interface IQueryCursorComponent
     {

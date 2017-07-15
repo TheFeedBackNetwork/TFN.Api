@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities;
-using TFN.Domain.Models.ValueObjects;
 using TFN.Infrastructure.Architecture.Mapping;
 using TFN.Infrastructure.Architecture.Repositories.Document;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TFN.Domain.Models.ValueObjects
+﻿namespace TFN.Domain.Models.ValueObjects
 {
     public class ListenSummary
     {

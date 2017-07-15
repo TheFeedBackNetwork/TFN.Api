@@ -5,7 +5,6 @@ using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities;
 using TFN.Infrastructure.Architecture.Mapping;
 using TFN.Infrastructure.Architecture.Repositories.Document;
-using TFN.Infrastructure.Repositories.LikeAggregate.Document;
 
 namespace TFN.Infrastructure.Repositories.ListenAggregate.Document
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using TFN.Api.Models.Interfaces;
+﻿using TFN.Api.Models.Interfaces;
 using TFN.Api.Models.ResponseModels;
 using TFN.Domain.Models.Entities;
 

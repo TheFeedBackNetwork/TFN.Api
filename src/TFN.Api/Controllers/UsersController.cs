@@ -6,7 +6,6 @@ using TFN.Api.Controllers.Base;
 using TFN.Api.Extensions;
 using TFN.Api.Models.Interfaces;
 using TFN.Api.Models.ModelBinders;
-using TFN.Api.Models.ResponseModels;
 using TFN.Domain.Interfaces.Services;
 
 namespace TFN.Api.Controllers

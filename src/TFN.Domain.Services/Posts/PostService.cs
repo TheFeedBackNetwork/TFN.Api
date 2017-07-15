@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Interfaces.Services;
-using TFN.Domain.Models.Entities;
 using TFN.Domain.Models.ValueObjects;
 
 namespace TFN.Domain.Services.Posts
