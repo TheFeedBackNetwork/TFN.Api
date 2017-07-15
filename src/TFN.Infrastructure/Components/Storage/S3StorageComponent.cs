@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using TFN.Domain.Interfaces.Components;
+using TFN.Infrastructure.Interfaces.Components;
 
 namespace TFN.Infrastructure.Components.Storage
 {

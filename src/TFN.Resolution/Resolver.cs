@@ -39,8 +39,6 @@ using TFN.Infrastructure.Repositories.TransientUserAccountAggregate.Document;
 using TFN.Infrastructure.Repositories.UserAccountAggregate.Document;
 using TFN.Infrastructure.Repositories.UserIdentityResourceAggregate.Document;
 using TFN.Mvc.Extensions;
-using IBlobStorageComponent = TFN.Domain.Interfaces.Components.IBlobStorageComponent;
-using IS3StorageComponent = TFN.Domain.Interfaces.Components.IS3StorageComponent;
 
 namespace TFN.Resolution
 {
@@ -72,7 +70,6 @@ namespace TFN.Resolution
             services.AddTransient<IAggregateMapper<UserAccount, UserAccountDocumentModel, Guid>, UserAccountDocumentMapper>();
             services.AddTransient<IAggregateMapper<UserIdentityResource, UserIdentityResourceDocumentModel, Guid>,UserIdentityResourceDocumentMapper>();
 
-
             //repositories
             services.AddTransient<IApplicationClientRepository, ApplicationClientDocumentRepository>();
             services.AddTransient<ICommentRepository, CommentDocumentRepository>();
@@ -94,8 +91,6 @@ namespace TFN.Resolution
             services.AddTransient<ICorsPolicyService, CorsPolicyService>();
             services.AddTransient<IProfileService, ProfileService>();
             services.AddTransient<IPasswordService, PasswordService>();
-            services.AddTransient<ITrackProcessingService, TrackProcessingService>();
-            services.AddTransient<ITrackStorageService, TrackStorageService>();
             services.AddTransient<IKeyService, KeyService>();
             services.AddTransient<ITransientUserService, TransientUserService>();
             services.AddTransient<ICreditService, CreditService>();
@@ -103,8 +98,10 @@ namespace TFN.Resolution
 
             //validators
             services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
-            
+
             //components
+            services.AddTransient<ITrackProcessingComponent, TrackProcessingComponent>();
+            services.AddTransient<ITrackStorageComponent, TrackStorageComponent>();
             services.AddTransient<IS3StorageComponent, S3StorageComponent>();
             services.AddTransient<IBlobStorageComponent, BlobStorageComponent>();
             services.AddScoped<IQueryCursorComponent, QueryCursorComponent>();

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
-using TFN.Domain.Interfaces.Components;
+using TFN.Infrastructure.Interfaces.Components;
 
 namespace TFN.Infrastructure.Components.Storage
 {

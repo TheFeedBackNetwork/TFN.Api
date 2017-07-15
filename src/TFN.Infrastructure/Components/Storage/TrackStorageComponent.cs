@@ -1,18 +1,17 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using TFN.Domain.Interfaces.Components;
-using TFN.Domain.Interfaces.Services;
+using TFN.Infrastructure.Interfaces.Components;
 
 namespace TFN.Infrastructure.Components.Storage
 {
-    public class TrackStorageService : ITrackStorageService
+    public class TrackStorageComponent : ITrackStorageComponent
     {
         public IBlobStorageComponent BlobStorageComponent { get; private set; }
         public IS3StorageComponent S3StorageComponent { get; private set; }
         const string UnprocessedContainer = "unprocessedtracks";
         const string ProcessedContainer = "processedtracks";
-        public TrackStorageService(IBlobStorageComponent blobStorageComponent, IS3StorageComponent s3StorageComponent)
+        public TrackStorageComponent(IBlobStorageComponent blobStorageComponent, IS3StorageComponent s3StorageComponent)
         {
             BlobStorageComponent = blobStorageComponent;
             S3StorageComponent = s3StorageComponent;

@@ -18,6 +18,7 @@ using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Interfaces.Services;
 using TFN.Domain.Models.Entities;
 using TFN.Domain.Models.ValueObjects;
+using TFN.Infrastructure.Interfaces.Components;
 using TFN.Mvc.Helpers;
 using TFN.Mvc.HttpResults;
 
@@ -29,8 +30,8 @@ namespace TFN.Api.Controllers
         public IHostingEnvironment Environment { get; private set; }
         public IAuthorizationService AuthorizationService { get; private set; }
         public IConfiguration Configuration { get; private set; }
-        public ITrackStorageService TrackStorageService { get; private set; }
-        public ITrackProcessingService TrackProcessingService { get; private set; }
+        public ITrackStorageComponent TrackStorageComponent { get; private set; }
+        public ITrackProcessingComponent TrackProcessingComponent { get; private set; }
         public ITrackRepository TrackRepository { get; private set; }
         public ITrackResponseModelFactory TrackResponseModelFactory { get; private set; }
         public ILogger Logger { get; private set; }
@@ -38,15 +39,15 @@ namespace TFN.Api.Controllers
         // request body data
         private static readonly FormOptions DefaultFormOptions = new FormOptions();
 
-        public TracksController(IHostingEnvironment environment, IAuthorizationService authorizationService, ITrackProcessingService trackProcessingService,
-            ITrackStorageService trackStorageService, ILogger<TracksController> logger, IConfiguration configuration,
+        public TracksController(IHostingEnvironment environment, IAuthorizationService authorizationService, ITrackProcessingComponent trackProcessingComponent,
+            ITrackStorageComponent trackStorageComponent, ILogger<TracksController> logger, IConfiguration configuration,
             ITrackRepository trackRepository, ITrackResponseModelFactory trackResponseModelFactory)
         {
             Environment = environment;
             AuthorizationService = authorizationService;
             Configuration = configuration;
-            TrackStorageService = trackStorageService;
-            TrackProcessingService = trackProcessingService;
+            TrackStorageComponent = trackStorageComponent;
+            TrackProcessingComponent = trackProcessingComponent;
             TrackRepository = trackRepository;
             TrackResponseModelFactory = trackResponseModelFactory;
             Logger = logger;
@@ -70,7 +71,7 @@ namespace TFN.Api.Controllers
         }
 
         [HttpPost(Name = "PostTrack")]
-        //[Authorize("tracks.write")]
+        [Authorize("tracks.write")]
         public async Task<IActionResult> PostTrack()
         {
             if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
@@ -133,25 +134,25 @@ namespace TFN.Api.Controllers
                         Logger.LogInformation($"{DateTime.UtcNow} processing track [{unprocessedFileName}]");
 
 
-                        await TrackProcessingService.TranscodeAudio(unprocessedFilePath, processedFilePath);
+                        await TrackProcessingComponent.TranscodeAudio(unprocessedFilePath, processedFilePath);
 
                         var metaData = TagLib.File.Create(unprocessedFilePath);
 
-                        var waveFormData = await TrackProcessingService.GetWaveform(processedFilePath,waveformFilePath);
+                        var waveFormData = await TrackProcessingComponent.GetWaveform(processedFilePath,waveformFilePath);
 
                         Logger.LogInformation($"{DateTime.UtcNow} processed track with name [{processedFileName}] to be stored in storage.");
 
                         var processedUri =
-                            await TrackStorageService.UploadProcessed(processedFilePath, processedFileName);
+                            await TrackStorageComponent.UploadProcessed(processedFilePath, processedFileName);
 
                         Logger.LogInformation($"processed track is stored at [{processedUri}]");
 
 
                         Logger.LogInformation("deleting processed and unprocessed tracks in wwwroot.");
 
-                        await TrackStorageService.DeleteLocal(unprocessedFilePath);
-                        await TrackStorageService.DeleteLocal(processedFilePath);
-                        await TrackStorageService.DeleteLocal(waveformFilePath);
+                        await TrackStorageComponent.DeleteLocal(unprocessedFilePath);
+                        await TrackStorageComponent.DeleteLocal(processedFilePath);
+                        await TrackStorageComponent.DeleteLocal(waveformFilePath);
 
                         var trackMetaData = TrackMetaData.From(metaData.Properties.Duration.Hours,
                             metaData.Properties.Duration.Minutes, metaData.Properties.Duration.Seconds,

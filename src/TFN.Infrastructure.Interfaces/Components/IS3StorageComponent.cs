@@ -1,6 +1,6 @@
 ﻿namespace TFN.Infrastructure.Interfaces.Components
 {
-    public interface IS3StorageComponent
+    public interface IS3StorageComponent : IStorageComponent
     {
         
     }

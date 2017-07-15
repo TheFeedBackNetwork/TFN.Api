@@ -10,6 +10,7 @@ namespace TFN.Api.Models.ResponseModels
     {
         public Guid PostId { get; private set; }
         public IReadOnlyList<LikesResponseModel> Likes { get; private set; }
+        public int ListenCount { get; private set; }
         public int LikeCount { get; private set; }
         public bool AlreadyLiked { get; private set; }
         public CreditsResponseModel UserWhoPosted { get; private set; }

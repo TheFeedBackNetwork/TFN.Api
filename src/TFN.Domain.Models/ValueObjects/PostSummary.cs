@@ -8,10 +8,11 @@ namespace TFN.Domain.Models.ValueObjects
     {
         public Guid PostId { get; private set; }
         public IReadOnlyList<Like> Likes { get; private set; }
+        public int ListenCount { get; private set; }
         public int LikeCount { get; private set; }
         public bool AlreadyLiked { get; private set; }
 
-        private PostSummary(Guid postId, IReadOnlyList<Like> likes, int likeCount, bool alreadyLiked)
+        private PostSummary(Guid postId, IReadOnlyList<Like> likes, int listenCount, int likeCount, bool alreadyLiked)
         {
             if (likes.Count > likeCount)
             {
@@ -20,13 +21,14 @@ namespace TFN.Domain.Models.ValueObjects
 
             PostId = postId;
             Likes = likes;
+            ListenCount = listenCount;
             LikeCount = likeCount;
             AlreadyLiked = alreadyLiked;
         }
 
-        public static PostSummary From(Guid postId, IReadOnlyList<Like> likes, int likeCount, bool alreadyLiked)
+        public static PostSummary From(Guid postId, IReadOnlyList<Like> likes,int listenCount, int likeCount, bool alreadyLiked)
         {
-            return new PostSummary(postId,likes,likeCount,alreadyLiked);
+            return new PostSummary(postId,likes,listenCount,likeCount,alreadyLiked);
         }
     }
 }

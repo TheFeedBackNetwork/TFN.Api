@@ -1,6 +1,6 @@
 ﻿namespace TFN.Infrastructure.Interfaces.Components
 {
-    public interface IBlobStorageComponent
+    public interface IBlobStorageComponent : IStorageComponent
     {
         
     }

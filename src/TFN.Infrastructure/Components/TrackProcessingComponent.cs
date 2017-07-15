@@ -9,15 +9,16 @@ using TFN.Domain.Interfaces.Services;
 using TFN.Infrastructure.Audio;
 using TFN.Infrastructure.Audio.Model;
 using TFN.Infrastructure.Audio.Options;
+using TFN.Infrastructure.Interfaces.Components;
 
 namespace TFN.Infrastructure.Components
 {
-    public class TrackProcessingService : ITrackProcessingService
+    public class TrackProcessingComponent : ITrackProcessingComponent
     {
         public IHostingEnvironment Environment { get; private set; }
         public ILogger Logger { get; private set; }
         public int Bitrate { get; private set; }
-        public TrackProcessingService(ILogger<TrackProcessingService> logger, IConfiguration configuration, IHostingEnvironment environment)
+        public TrackProcessingComponent(ILogger<TrackProcessingComponent> logger, IConfiguration configuration, IHostingEnvironment environment)
         {
             Environment = environment;
             Logger = logger;
