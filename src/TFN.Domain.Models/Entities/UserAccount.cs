@@ -70,6 +70,7 @@ namespace TFN.Domain.Models.Entities
             HashedPassword = hashedPassword;
             ChangePasswordKey = changePasswordKey;
             Created = created;
+            Modified = modified;
             IsActive = isActive;
         }
 

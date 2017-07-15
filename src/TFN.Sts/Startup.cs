@@ -216,6 +216,8 @@ namespace TFN.Sts
                 var clientRepository = provider.GetRequiredService<IApplicationClientRepository>();
                 var productApiRepository = provider.GetRequiredService<IProductApiResourceRepository>();
                 var userIdentityRepository = provider.GetRequiredService<IUserIdentityResourceRepository>();
+                var creditsRepository = provider.GetRequiredService<ICreditRepository>();
+                var userAccountRepository = provider.GetRequiredService<IUserAccountRepository>();
 
                 if (!await context.Collection<ApplicationClientDocumentModel>().Any(x => x.Type == "applicationClient"))
                 {
@@ -239,6 +241,22 @@ namespace TFN.Sts
                     foreach (var identityResource in UserIdentityResources.IdentityResources)
                     {
                         await userIdentityRepository.Add(identityResource);
+                    }
+                }
+
+                if (!await context.Collection<CreditsDocumentModel>().Any(x => x.Type == "credits"))
+                {
+                    foreach (var credits in Credits.Credit)
+                    {
+                        await creditsRepository.Add(credits);
+                    }
+                }
+
+                if (!await context.Collection<UserAccountDocumentModel>().Any(x => x.Type == "userAccount"))
+                {
+                    foreach (var user in UserAccounts.Users)
+                    {
+                        await userAccountRepository.Add(user);
                     }
                 }
 

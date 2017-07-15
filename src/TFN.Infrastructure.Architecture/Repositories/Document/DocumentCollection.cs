@@ -82,9 +82,9 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             try
             {
                 var query = await DocumentClient.ReadDocumentAsync<dynamic>(GetDocumentLink(id));
-                var document = query.Document;
+                var document = query.Document as TDocument;
 
-                return document as TDocument;
+                return document;
             }
             catch (Exception)
             {

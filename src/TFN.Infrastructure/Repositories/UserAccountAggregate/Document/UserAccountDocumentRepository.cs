@@ -21,14 +21,14 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.Document
 
         public async Task<bool> ChangePasswordKeyExists(string changePasswordKey)
         {
-            var any = await Collection.Any(x => x.ChangePasswordKey == changePasswordKey);
+            var any = await Collection.Any(x => x.ChangePasswordKey == changePasswordKey && x.Type == Type);
 
             return any;
         }
 
         public async Task<UserAccount> FindByChangePasswordKey(string changePasswordKey)
         {
-            var document = await Collection.Find(x => x.ChangePasswordKey == changePasswordKey);
+            var document = await Collection.Find(x => x.ChangePasswordKey == changePasswordKey && x.Type == Type);
 
             if (document == null)
             {
@@ -42,7 +42,7 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.Document
 
         public async Task<UserAccount> FindByEmail(string email)
         {
-            var document = await Collection.Find(x => x.NormalizedEmail == email.ToUpperInvariant());
+            var document = await Collection.Find(x => x.NormalizedEmail == email.ToUpperInvariant() && x.Type == Type);
 
             if (document == null)
             {
@@ -56,7 +56,7 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.Document
 
         public async Task<UserAccount> FindByUsername(string username)
         {
-            var document = await Collection.Find(x => x.Username == username.ToUpperInvariant());
+            var document = await Collection.Find(x => x.NormalizedUsername == username.ToUpperInvariant() && x.Type == Type);
 
             if (document == null)
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4.Models;
 using Microsoft.Extensions.Logging;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities.IdentityServer;
@@ -21,7 +22,7 @@ namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document
         }
         public async Task<ApplicationClient> Find(string clientId)
         {
-            var document = await Collection.Find(x => x.ClientId == clientId);
+            var document = await Collection.Find(x => x.ClientId == clientId && x.Type == Type);
 
             if (document == null)
             {
@@ -30,13 +31,44 @@ namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document
 
             var aggregate = Mapper.CreateFrom(document);
 
-            return aggregate;
+            return new ApplicationClient(new Client
+            {
+                ClientId = "tfn_postman",
+                ClientName = "TFN Postman Client",
+                IncludeJwtId = true,
+                PrefixClientClaims = true,
+                AccessTokenType = AccessTokenType.Jwt,
+                AlwaysSendClientClaims = true,
+                RequireClientSecret = false,
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                AllowedScopes = new List<string>
+                {
+                    "openid",
+                    "profile",
+                    "biography",
+                    "profile_picture_url",
+                    "posts.write",
+                    "posts.read",
+                    "posts.edit",
+                    "posts.delete",
+                    "tracks.read",
+                    "tracks.write",
+                    "tracks.delete",
+                    "credits.read",
+                    "credits.write",
+                    "credits.delete",
+                    "users.read",
+                    "ip.read",
+                    "offline_access"
+                }
+            });
+            //return aggregate;
         }
 
         public async Task<IReadOnlyCollection<string>> FindAllAllowedCorsOrigins()
         {
             //might want to limit the findall to only internal clients
-            var documents = await Collection.FindAll();
+            var documents = await Collection.FindAll(x => x.Type == Type);
 
             if (documents == null)
             {

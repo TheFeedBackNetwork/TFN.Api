@@ -41,35 +41,6 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.Document
 
             return count;
         }
-
-
-        //SCORE
-
-        public Task Add(Score entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Delete(Guid commentId, Guid scoreId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Score> Find(Guid commentId, Guid scoreId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IReadOnlyList<Score>> FindAllScores(Guid comentId, string continuationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<CommentSummary> FindCommentScoreSummary(Guid commentId, int limit, string username)
-        {
-            throw new NotImplementedException();
-        }
-
         
     }
 }

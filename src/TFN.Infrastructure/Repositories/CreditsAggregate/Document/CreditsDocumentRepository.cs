@@ -22,7 +22,7 @@ namespace TFN.Infrastructure.Repositories.CreditsAggregate.Document
 
         public async Task<Credits> FindByUserId(Guid userId)
         {
-            var document = await Collection.Find(x => x.UserId == userId);
+            var document = await Collection.Find(x => x.UserId == userId && x.Type == Type);
 
             if (document == null)
             {
@@ -36,7 +36,7 @@ namespace TFN.Infrastructure.Repositories.CreditsAggregate.Document
 
         public async Task<Credits> FindByUsername(string username)
         {
-            var document = await Collection.Find(x => x.NormalizedUsername == username.ToUpperInvariant());
+            var document = await Collection.Find(x => x.NormalizedUsername == username.ToUpperInvariant() && x.Type == Type);
 
             if (document == null)
             {
@@ -64,7 +64,7 @@ namespace TFN.Infrastructure.Repositories.CreditsAggregate.Document
 
         public async Task<IReadOnlyList<Credits>> FindUsers(string searchToken, string continuationToken)
         {
-            var documents = await Collection.FindAllPaginated(x => x.NormalizedUsername.Contains(searchToken.ToUpperInvariant()), continuationToken);
+            var documents = await Collection.FindAllPaginated(x => x.Type == Type && x.NormalizedUsername.Contains(searchToken.ToUpperInvariant()), continuationToken);
 
             if (documents == null)
             {

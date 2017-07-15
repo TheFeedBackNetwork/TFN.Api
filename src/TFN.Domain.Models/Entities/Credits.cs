@@ -43,6 +43,8 @@ namespace TFN.Domain.Models.Entities
             NormalizedUsername = normalizedUsername;
             TotalCredits = totalCredits;
             IsActive = isActive;
+            Created = created;
+            Modified = modified;
         }
 
         public Credits(Guid userId, string userName)

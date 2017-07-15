@@ -21,7 +21,7 @@ namespace TFN.Infrastructure.Repositories.TransientUserAccountAggregate.Document
 
         public async Task<TransientUserAccount> FindByEmail(string email)
         {
-            var document = await Collection.Find(x => x.NormalizedEmail == email.ToUpperInvariant());
+            var document = await Collection.Find(x => x.NormalizedEmail == email.ToUpperInvariant() && x.Type == Type);
 
             if (document == null)
             {
@@ -35,7 +35,7 @@ namespace TFN.Infrastructure.Repositories.TransientUserAccountAggregate.Document
 
         public async Task<TransientUserAccount> FindByUsername(string username)
         {
-            var document = await Collection.Find(x => x.NormalizedUsername == username.ToUpperInvariant());
+            var document = await Collection.Find(x => x.NormalizedUsername == username.ToUpperInvariant() && x.Type == Type);
 
             if (document == null)
             {
@@ -49,7 +49,7 @@ namespace TFN.Infrastructure.Repositories.TransientUserAccountAggregate.Document
 
         public async Task<TransientUserAccount> FindByVerificationKey(string verificationKey)
         {
-            var document = await Collection.Find(x => x.VerificationKey == verificationKey);
+            var document = await Collection.Find(x => x.VerificationKey == verificationKey && x.Type == Type);
 
             if (document == null)
             {

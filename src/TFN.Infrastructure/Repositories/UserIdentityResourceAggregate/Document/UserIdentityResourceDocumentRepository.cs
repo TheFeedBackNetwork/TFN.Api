@@ -36,7 +36,7 @@ namespace TFN.Infrastructure.Repositories.UserIdentityResourceAggregate.Document
 
         public async Task<IReadOnlyCollection<UserIdentityResource>> FindAll(IReadOnlyCollection<string> scopeNames)
         {
-            var documents = await Collection.FindAll(x => scopeNames.Contains(x.Name));
+            var documents = await Collection.FindAll(x => scopeNames.Contains(x.Name) && x.Type == Type);
 
             if (documents == null)
             {

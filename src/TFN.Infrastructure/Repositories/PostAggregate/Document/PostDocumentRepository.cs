@@ -49,27 +49,5 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
 
             return aggregates?.ToList();
         }
-
-        public Task DeleteLike(Guid postId, Guid likeId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IReadOnlyList<Like>> FindAllLikes(Guid postId, string continuationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-
-
-        public Task<PostSummary> FindPostLikeSummary(Guid postId, int limit, string username)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Like> GetLikeAsync(Guid postId, Guid likeId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

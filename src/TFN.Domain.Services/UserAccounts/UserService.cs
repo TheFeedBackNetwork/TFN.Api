@@ -80,6 +80,11 @@ namespace TFN.Domain.Services.UserAccounts
                 user = await UserAccountRepository.FindByUsername(usernameOrEmail);
             }
 
+            if (user == null)
+            {
+                return null;
+            }
+
             if (PasswordService.VerifyHashedPassword(user.HashedPassword, password))
             {
                 return user;
