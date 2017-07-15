@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace TFN.Domain.Interfaces.Components
+namespace TFN.Infrastructure.Interfaces.Components
 {
     public interface IStorageComponent
     {
