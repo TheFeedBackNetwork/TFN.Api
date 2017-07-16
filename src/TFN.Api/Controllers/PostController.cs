@@ -131,6 +131,32 @@ namespace TFN.Api.Controllers
             return Json(model);
         }
 
+        [HttpGet("{postId:Guid}/likes/{likeId:Guid}", Name = "GetLike")]
+        [Authorize("posts.read")]
+        public async Task<IActionResult> GetLikes(
+            Guid postId, Guid likeId)
+        {
+            var post = await PostRepository.Find(postId);
+            var like = await LikeRepository.Find(likeId);
+            if (post == null || like == null)
+            {
+                return NotFound();
+            }
+
+
+            var postSummary = await PostService.FindPostLikeSummary(postId, UserId);
+            if (postSummary == null)
+            {
+                return NotFound();
+            }
+
+            var credits = await CreditService.FindByUserId(post.UserId);
+
+            var model = PostSummaryResponseModelFactory.From(postSummary, credits, AbsoluteUri);
+
+            return Json(model);
+        }
+
 
         [HttpGet("{postId:Guid}/comments/{commentId:Guid}", Name = "GetComment")]
         [Authorize("posts.read")]
@@ -298,9 +324,18 @@ namespace TFN.Api.Controllers
 
             var like = new Like(postId,UserId,Username);
 
+            var authZModel = LikeAuthorizationModel.From(like, UserId);
+
+            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, LikeOperations.Write))
+            {
+                return new HttpForbiddenResult("A POST request for adding a new like resource was attempted, but the authorization policy challenged the request.");
+            }
+
             await LikeRepository.Add(like);
 
-            return NoContent();
+            var model = LikesResponseModel.From(like, AbsoluteUri);
+
+            return CreatedAtAction("GetLike", new {postId = post.Id, likeId = like.Id}, model);
 
         }
 
@@ -453,6 +488,29 @@ namespace TFN.Api.Controllers
             }
 
             await PostRepository.Delete(postId);
+
+            return Ok();
+        }
+
+        [HttpDelete("{postId:Guid}", Name = "DeleteLike")]
+        public async Task<IActionResult> DeleteLike(Guid postId, Guid likeId)
+        {
+            var post = await PostRepository.Find(postId);
+            var like = await LikeRepository.Find(likeId);
+
+            if (post == null || like?.PostId != postId)
+            {
+                return NotFound();
+            }
+
+            var authZModel = LikeAuthorizationModel.From(like,post.UserId);
+
+            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, LikeOperations.Delete))
+            {
+                return new HttpForbiddenResult("A DELETE request for deleting a post resource was attempted, but the authorization policy challenged the request.");
+            }
+
+            await LikeRepository.Delete(postId);
 
             return Ok();
         }

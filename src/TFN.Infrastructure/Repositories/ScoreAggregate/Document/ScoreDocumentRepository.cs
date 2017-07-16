@@ -33,6 +33,20 @@ namespace TFN.Infrastructure.Repositories.ScoreAggregate.Document
             return await Collection.Any(x => x.UserId == userId && x.CommentId == commentId && x.Type == Type);
         }
 
+        public async Task<Score> Find(Guid commentId, Guid userId)
+        {
+            var document = await Collection.Find(x => x.CommentId == commentId && x.UserId == userId && x.Type == Type);
+
+            if (document == null)
+            {
+                return null;
+            }
+
+            var aggregate = Mapper.CreateFrom(document);
+
+            return aggregate;
+        }
+
         public async Task<IReadOnlyList<Score>> FindScoresPaginated(Guid comentId, string continuationToken)
         {
             var documents = await Collection.FindAllPaginated(x => x.CommentId == comentId && x.Type == Type, continuationToken);

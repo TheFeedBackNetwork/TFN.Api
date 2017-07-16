@@ -10,6 +10,7 @@ namespace TFN.Domain.Interfaces.Repositories
     {
         Task<IReadOnlyList<Score>> FindScoresPaginated(Guid comentId, string continuationToken);
         Task<bool> Exists(Guid commentId, Guid userId);
+        Task<Score> Find(Guid commentId, Guid userId);
         Task<int> Count(Guid commentId); 
     }
 }

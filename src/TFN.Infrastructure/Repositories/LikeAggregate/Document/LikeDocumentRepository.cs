@@ -33,6 +33,20 @@ namespace TFN.Infrastructure.Repositories.LikeAggregate.Document
             return await Collection.Any(x => x.UserId == userId && x.PostId == postId && x.Type == Type);
         }
 
+        public async Task<Like> Find(Guid postId, Guid userId)
+        {
+            var document = await Collection.Find(x => x.PostId == postId && x.UserId == userId && x.Type == Type);
+
+            if (document == null)
+            {
+                return null;
+            }
+
+            var aggregate = Mapper.CreateFrom(document);
+
+            return aggregate;
+        }
+
         public async Task<IReadOnlyList<Like>> FindLikesPaginated(Guid postId, string continuationToken)
         {
             var documents = await Collection.FindAllPaginated(x => x.PostId == postId && x.Type == Type, continuationToken);
