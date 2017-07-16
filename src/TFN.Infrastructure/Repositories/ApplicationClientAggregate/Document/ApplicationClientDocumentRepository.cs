@@ -6,17 +6,20 @@ using Microsoft.Extensions.Logging;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities.IdentityServer;
 using TFN.Infrastructure.Architecture.Mapping;
+using TFN.Infrastructure.Architecture.Repositories.Cache;
 using TFN.Infrastructure.Architecture.Repositories.Document;
+using TFN.Infrastructure.Interfaces.Modules;
 
 namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document
 {
-    public class ApplicationClientDocumentRepository : DocumentRepository<ApplicationClient, ApplicationClientDocumentModel, Guid>, IApplicationClientRepository
+    public class ApplicationClientDocumentRepository : CachedDocumentRepository<ApplicationClient, ApplicationClientDocumentModel, Guid>, IApplicationClientRepository
     {
         public ApplicationClientDocumentRepository(
             IAggregateMapper<ApplicationClient, ApplicationClientDocumentModel, Guid> mapper, 
             DocumentContext context,
-            ILogger<ApplicationClientDocumentRepository> logger)
-            : base(mapper,context,logger)
+            ILogger<ApplicationClientDocumentRepository> logger,
+            IAggregateCache<ApplicationClient> cache)
+            : base(mapper, cache, context, logger)
         {
         }
         public async Task<ApplicationClient> Find(string clientId)

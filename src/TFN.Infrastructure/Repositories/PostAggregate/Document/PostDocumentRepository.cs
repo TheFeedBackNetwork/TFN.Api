@@ -16,10 +16,10 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
     {
         public PostDocumentRepository(
             IAggregateMapper<Post, PostDocumentModel, Guid> mapper,
-            IAggregateCache<Post> cache,
             DocumentContext context,
-            ILogger<PostDocumentRepository> logger)
-            : base(mapper,cache, context, logger)
+            ILogger<PostDocumentRepository> logger,
+            IAggregateCache<Post> cache)
+            : base(mapper, cache, context, logger)
         {
             
         }

@@ -95,6 +95,7 @@ namespace TFN.Api
             services.AddSingleton<IAggregateCache<Comment>, AggregateCache<Comment>>();
             services.AddSingleton<IAggregateCache<Credits>, AggregateCache<Credits>>();
             services.AddSingleton<IAggregateCache<Like>, AggregateCache<Like>>();
+            services.AddSingleton<IAggregateCache<Listen>, AggregateCache<Listen>>();
             services.AddSingleton<IAggregateCache<Post>, AggregateCache<Post>>();
             services.AddSingleton<IAggregateCache<Track>, AggregateCache<Track>>();
             services.AddSingleton<IAggregateCache<Score>, AggregateCache<Score>>();

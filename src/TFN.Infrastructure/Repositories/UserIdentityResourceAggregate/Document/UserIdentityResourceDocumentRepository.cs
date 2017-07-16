@@ -6,16 +6,19 @@ using Microsoft.Extensions.Logging;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities.IdentityServer;
 using TFN.Infrastructure.Architecture.Mapping;
+using TFN.Infrastructure.Architecture.Repositories.Cache;
 using TFN.Infrastructure.Architecture.Repositories.Document;
+using TFN.Infrastructure.Interfaces.Modules;
 
 namespace TFN.Infrastructure.Repositories.UserIdentityResourceAggregate.Document
 {
-    public class UserIdentityResourceDocumentRepository : DocumentRepository<UserIdentityResource, UserIdentityResourceDocumentModel, Guid>, IUserIdentityResourceRepository
+    public class UserIdentityResourceDocumentRepository : CachedDocumentRepository<UserIdentityResource, UserIdentityResourceDocumentModel, Guid>, IUserIdentityResourceRepository
     {
         public UserIdentityResourceDocumentRepository(
             IAggregateMapper<UserIdentityResource, UserIdentityResourceDocumentModel, Guid> mapper,
-            DocumentContext context, ILogger<UserIdentityResourceDocumentRepository> logger)
-            : base(mapper, context, logger)
+            DocumentContext context, ILogger<UserIdentityResourceDocumentRepository> logger,
+            IAggregateCache<UserIdentityResource> cache)
+            : base(mapper, cache, context, logger)
         {
 
         }

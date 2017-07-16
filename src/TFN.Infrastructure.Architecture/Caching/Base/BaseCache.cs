@@ -123,7 +123,9 @@ namespace TFN.Infrastructure.Architecture.Caching.Base
         {
             key = GenerateVersionedKey(key, Version);
 
-            CacheManager.Remove(key);
+
+            CacheManager.Remove(key,Region);
+            
         }
 
         protected string GenerateVersionedKey(string key, int version)

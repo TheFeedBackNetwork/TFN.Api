@@ -98,6 +98,14 @@ namespace TFN.Sts
             services.AddSingleton<IAggregateCache<TransientUserAccount>, AggregateCache<TransientUserAccount>>();
             services.AddSingleton<IAggregateCache<UserAccount>, AggregateCache<UserAccount>>();
 
+            //
+            services.AddSingleton<IAggregateCache<Comment>, AggregateCache<Comment>>();
+            services.AddSingleton<IAggregateCache<TFN.Domain.Models.Entities.Credits>, AggregateCache<TFN.Domain.Models.Entities.Credits>>();
+            services.AddSingleton<IAggregateCache<Like>, AggregateCache<Like>>();
+            services.AddSingleton<IAggregateCache<Post>, AggregateCache<Post>>();
+            services.AddSingleton<IAggregateCache<Track>, AggregateCache<Track>>();
+            services.AddSingleton<IAggregateCache<Score>, AggregateCache<Score>>();
+
             if (HostingEnvironment.IsLocal())
             {
                 PrimarySigningCredentials = new X509Certificate2(Path.Combine(HostingEnvironment.ContentRootPath, "TFNCertificate.pfx"), Configuration["CertificateThumbprints:CertificateKey"]);

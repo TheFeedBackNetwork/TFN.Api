@@ -6,17 +6,20 @@ using Microsoft.Extensions.Logging;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities;
 using TFN.Infrastructure.Architecture.Mapping;
+using TFN.Infrastructure.Architecture.Repositories.Cache;
 using TFN.Infrastructure.Architecture.Repositories.Document;
+using TFN.Infrastructure.Interfaces.Modules;
 
 namespace TFN.Infrastructure.Repositories.ScoreAggregate.Document
 {
-    public class ScoreDocumentRepository : DocumentRepository<Score,ScoreDocumentModel,Guid>, IScoreRepository
+    public class ScoreDocumentRepository : CachedDocumentRepository<Score,ScoreDocumentModel,Guid>, IScoreRepository
     {
         public ScoreDocumentRepository(
             IAggregateMapper<Score, ScoreDocumentModel, Guid> mapper,
             DocumentContext context,
-            ILogger<ScoreDocumentRepository> logger)
-            : base(mapper, context, logger)
+            ILogger<ScoreDocumentRepository> logger,
+            IAggregateCache<Score> cache)
+            : base(mapper, cache, context, logger)
         {
             
         }

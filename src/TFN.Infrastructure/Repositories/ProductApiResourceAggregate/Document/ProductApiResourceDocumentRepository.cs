@@ -6,17 +6,20 @@ using Microsoft.Extensions.Logging;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities.IdentityServer;
 using TFN.Infrastructure.Architecture.Mapping;
+using TFN.Infrastructure.Architecture.Repositories.Cache;
 using TFN.Infrastructure.Architecture.Repositories.Document;
+using TFN.Infrastructure.Interfaces.Modules;
 
 namespace TFN.Infrastructure.Repositories.ProductApiResourceAggregate.Document
 {
-    public class ProductApiResourceDocumentRepository : DocumentRepository<ProductApiResource, ProductApiResourceDocumentModel, Guid>, IProductApiResourceRepository
+    public class ProductApiResourceDocumentRepository : CachedDocumentRepository<ProductApiResource, ProductApiResourceDocumentModel, Guid>, IProductApiResourceRepository
     {
         public ProductApiResourceDocumentRepository(
             IAggregateMapper<ProductApiResource, ProductApiResourceDocumentModel, Guid> mapper,
             DocumentContext context,
-            ILogger<ProductApiResourceDocumentRepository> logger)
-            : base(mapper, context, logger)
+            ILogger<ProductApiResourceDocumentRepository> logger,
+            IAggregateCache<ProductApiResource> cache)
+            : base(mapper, cache, context, logger)
         {
 
         }
