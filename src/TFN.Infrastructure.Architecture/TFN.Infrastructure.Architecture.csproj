@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CacheManager.Core" Version="1.1.1" />
+    <PackageReference Include="CacheManager.Serialization.Json" Version="1.1.1" />
+    <PackageReference Include="CacheManager.StackExchange.Redis" Version="1.1.1" />
+    <PackageReference Include="CacheManager.SystemRuntimeCaching" Version="1.1.1" />
     <PackageReference Include="IdentityServer4" Version="1.5.2" />
     <PackageReference Include="Microsoft.Azure.DocumentDB" Version="1.15.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="8.2.0" />

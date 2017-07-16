@@ -14,7 +14,12 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using TFN.Domain.Interfaces.Repositories;
+using TFN.Domain.Models.Entities;
+using TFN.Domain.Models.Entities.IdentityServer;
+using TFN.Infrastructure.Architecture.Caching.Aggregate;
+using TFN.Infrastructure.Architecture.Caching.Base;
 using TFN.Infrastructure.Architecture.Repositories.Document;
+using TFN.Infrastructure.Interfaces.Modules;
 using TFN.Infrastructure.Modules.Logging;
 using TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document;
 using TFN.Infrastructure.Repositories.CreditsAggregate.Document;
@@ -26,6 +31,7 @@ using TFN.Mvc.Extensions;
 using TFN.Resolution;
 using TFN.StaticData;
 using TFN.Sts.UI;
+using Credits = TFN.StaticData.Credits;
 
 namespace TFN.Sts
 {
@@ -81,6 +87,16 @@ namespace TFN.Sts
         {
             Resolver.RegisterDbContext(services, Configuration);
             Resolver.RegisterTypes(services, Configuration);
+
+            services
+                .AddOptions()
+                .Configure<RedisSettings>(Configuration.GetSection("Redis"));
+
+            services.AddSingleton<IAggregateCache<ApplicationClient>, AggregateCache<ApplicationClient>>();
+            services.AddSingleton<IAggregateCache<ProductApiResource>, AggregateCache<ProductApiResource>>();
+            services.AddSingleton<IAggregateCache<UserIdentityResource>, AggregateCache<UserIdentityResource>>();
+            services.AddSingleton<IAggregateCache<TransientUserAccount>, AggregateCache<TransientUserAccount>>();
+            services.AddSingleton<IAggregateCache<UserAccount>, AggregateCache<UserAccount>>();
 
             if (HostingEnvironment.IsLocal())
             {
