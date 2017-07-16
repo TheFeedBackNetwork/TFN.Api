@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using TFN.Domain.Interfaces.Services;
 using TFN.Infrastructure.Audio;
 using TFN.Infrastructure.Audio.Model;
@@ -18,11 +19,11 @@ namespace TFN.Infrastructure.Components
         public IHostingEnvironment Environment { get; private set; }
         public ILogger Logger { get; private set; }
         public int Bitrate { get; private set; }
-        public TrackProcessingComponent(ILogger<TrackProcessingComponent> logger, IConfiguration configuration, IHostingEnvironment environment)
+        public TrackProcessingComponent(ILogger<TrackProcessingComponent> logger, IOptions<TrackProcessingSettings> settings, IHostingEnvironment environment)
         {
             Environment = environment;
             Logger = logger;
-            Bitrate = int.Parse(configuration["TranscodeBitrate"]);
+            Bitrate = settings.Value.Bitrate;
         }
 
         public Task TranscodeAudio(string sourceFilePath, string destinationFilePath)

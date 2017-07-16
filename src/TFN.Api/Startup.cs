@@ -19,6 +19,7 @@ using TFN.Domain.Models.Entities;
 using TFN.Infrastructure.Architecture.Caching.Aggregate;
 using TFN.Infrastructure.Architecture.Caching.Base;
 using TFN.Infrastructure.Architecture.Repositories.Document;
+using TFN.Infrastructure.Components;
 using TFN.Infrastructure.Interfaces.Modules;
 using TFN.Infrastructure.Modules.Logging;
 using TFN.Infrastructure.Repositories.CreditsAggregate.Document;
@@ -50,6 +51,8 @@ namespace TFN.Api
                     .AddDebug();
             }
 
+            Configuration = builder.Build();
+
             if (!env.IsLocal())
             {
                 loggerFactory.AddAzureWebAppDiagnostics();
@@ -65,7 +68,6 @@ namespace TFN.Api
                      LogLevel.Error);
             }
 
-            Configuration = builder.Build();
             HostingEnvironment = env;
 
             var logger = loggerFactory.CreateLogger<Startup>();
@@ -90,7 +92,8 @@ namespace TFN.Api
 
             services
                 .AddOptions()
-                .Configure<RedisSettings>(Configuration.GetSection("Redis"));
+                .Configure<RedisSettings>(Configuration.GetSection("Redis"))
+                .Configure<TrackProcessingSettings>(Configuration.GetSection("Transcoding"));
 
             services.AddSingleton<IAggregateCache<Comment>, AggregateCache<Comment>>();
             services.AddSingleton<IAggregateCache<Credits>, AggregateCache<Credits>>();
