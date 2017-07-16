@@ -28,7 +28,7 @@ namespace TFN.Api.Controllers
         [Authorize("credits.read")]
         public async Task<IActionResult> GetCredits()
         {
-            var credit = await CreditService.GetByUserIdAsync(UserId);
+            var credit = await CreditService.FindByUserId(UserId);
 
             if (credit == null)
             {
@@ -51,7 +51,7 @@ namespace TFN.Api.Controllers
         [Authorize("credits.read")]
         public async Task<IActionResult> GetCredits(Guid creditId)
         {
-            var credit = await CreditService.GetAsync(creditId);
+            var credit = await CreditService.Find(creditId);
 
             if (credit == null)
             {
@@ -74,7 +74,7 @@ namespace TFN.Api.Controllers
         [Authorize("credits.read")]
         public async Task<IActionResult> GetCreditsByUserId(Guid userId)
         {
-            var credit = await CreditService.GetByUserIdAsync(userId);
+            var credit = await CreditService.FindByUserId(userId);
 
             if (credit == null)
             {

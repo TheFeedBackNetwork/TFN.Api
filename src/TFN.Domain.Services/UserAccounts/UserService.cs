@@ -39,7 +39,7 @@ namespace TFN.Domain.Services.UserAccounts
             }
 
             var credit = new Models.Entities.Credits(user.Id,user.Username);
-            await CreditService.AddAsync(credit);
+            await CreditService.Add(credit);
 
             var hash = PasswordService.HashPassword(password);
 
@@ -208,7 +208,7 @@ namespace TFN.Domain.Services.UserAccounts
 
         public async Task<Models.Entities.Credits> FindCredits(string username)
         {
-            var credits = await CreditService.GetByUsernameAsync(username);
+            var credits = await CreditService.FindByUsername(username);
 
             return credits;
         }

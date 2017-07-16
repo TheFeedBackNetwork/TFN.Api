@@ -37,22 +37,22 @@ namespace TFN.Domain.Services.Credits
             return await CreditRepository.FindHighestCredits(continuationToken);
         }
 
-        public async Task<Models.Entities.Credits> GetAsync(Guid id)
+        public async Task<Models.Entities.Credits> Find(Guid id)
         {
             return await CreditRepository.Find(id);
         }
 
-        public async Task<Models.Entities.Credits> GetByUserIdAsync(Guid userId)
+        public async Task<Models.Entities.Credits> FindByUserId(Guid userId)
         {
             return await CreditRepository.FindByUserId(userId);
         }
 
-        public async Task<Models.Entities.Credits> GetByUsernameAsync(string username)
+        public async Task<Models.Entities.Credits> FindByUsername(string username)
         {
             return await CreditRepository.FindByUsername(username);
         }
 
-        public async Task AddAsync(Models.Entities.Credits credits)
+        public async Task Add(Models.Entities.Credits credits)
         {
             await CreditRepository.Add(credits);
         }

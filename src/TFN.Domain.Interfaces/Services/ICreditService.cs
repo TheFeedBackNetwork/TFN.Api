@@ -10,10 +10,10 @@ namespace TFN.Domain.Interfaces.Services
         Task AwardCredits(Guid fromUser, Guid toUser, int amount);
         Task ReduceCredits(Credits credits, int amount);
         Task<IReadOnlyList<Credits>> FindLeaderBoard(string continuationToken);
-        Task<Credits> GetAsync(Guid id);
-        Task<Credits> GetByUserIdAsync(Guid userId);
-        Task<Credits> GetByUsernameAsync(string username);
-        Task AddAsync(Credits credits);
+        Task<Credits> Find(Guid id);
+        Task<Credits> FindByUserId(Guid userId);
+        Task<Credits> FindByUsername(string username);
+        Task Add(Credits credits);
         Task<IReadOnlyList<Credits>> SearchUsers(string searchToken, string continuationToken);
     }
 }

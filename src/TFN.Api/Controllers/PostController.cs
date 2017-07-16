@@ -110,8 +110,7 @@ namespace TFN.Api.Controllers
         [HttpGet("{postId:Guid}/likes", Name = "GetPostSummary")]
         [Authorize("posts.read")]
         public async Task<IActionResult> GetPostLikesSummary(
-            Guid postId,
-            [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]int limit = 7)
+            Guid postId)
         {
             var post = await PostRepository.Find(postId);
             if (post == null)
@@ -125,7 +124,7 @@ namespace TFN.Api.Controllers
                 return NotFound();
             }
 
-            var credits = await CreditService.GetByUserIdAsync(post.UserId);
+            var credits = await CreditService.FindByUserId(post.UserId);
 
             var model = PostSummaryResponseModelFactory.From(postSummary, credits, AbsoluteUri);
 
@@ -197,8 +196,7 @@ namespace TFN.Api.Controllers
         [Authorize("posts.read")]
         public async Task<IActionResult> GetCommentScoreSummary(
             Guid postId,
-            Guid commentId,
-            [ModelBinder(BinderType = typeof(LimitQueryModelBinder))]int limit = 7)
+            Guid commentId)
         {
             var comment = await CommentRepository.Find(commentId);
 
@@ -214,7 +212,7 @@ namespace TFN.Api.Controllers
                 return NotFound();
             }
 
-            var credits = await CreditService.GetByUserIdAsync(comment.UserId);
+            var credits = await CreditService.FindByUserId(comment.UserId);
             
             var model = CommentSummaryResponseModelFactory.From(commentSummary, credits, postId, AbsoluteUri);
 
@@ -251,7 +249,7 @@ namespace TFN.Api.Controllers
             }
             var entity = new Post(UserId, Username, post.TrackUrl, post.Text,genre,post.Tags);
 
-            var credits = await CreditService.GetByUserIdAsync(UserId);
+            var credits = await CreditService.FindByUserId(UserId);
             if (credits == null)
             {
                 //something really wrong happened

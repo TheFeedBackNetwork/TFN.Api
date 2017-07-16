@@ -146,6 +146,7 @@ namespace TFN.Resolution
             services.AddTransient<IAuthorizationHandler, PostAuthorizationHandler>();
             services.AddTransient<IAuthorizationHandler, CommentAuthorizationHandler>();
             services.AddTransient<IAuthorizationHandler, ScoreAuthorizationHandler>();
+            services.AddTransient<IAuthorizationHandler, LikeAuthorizationHandler>();
             services.AddTransient<IAuthorizationHandler, CreditsAuthorizationHandler>();
             services.AddTransient<IAuthorizationHandler, TrackAuthorizationHandler>();
         }
