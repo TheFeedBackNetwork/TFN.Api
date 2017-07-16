@@ -4,17 +4,20 @@ using Microsoft.Extensions.Logging;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities;
 using TFN.Infrastructure.Architecture.Mapping;
+using TFN.Infrastructure.Architecture.Repositories.Cache;
 using TFN.Infrastructure.Architecture.Repositories.Document;
+using TFN.Infrastructure.Interfaces.Modules;
 
 namespace TFN.Infrastructure.Repositories.UserAccountAggregate.Document
 {
-    public class UserAccountDocumentRepository : DocumentRepository<UserAccount, UserAccountDocumentModel, Guid>, IUserAccountRepository
+    public class UserAccountDocumentRepository : CachedDocumentRepository<UserAccount, UserAccountDocumentModel, Guid>, IUserAccountRepository
     {
         public UserAccountDocumentRepository(
             IAggregateMapper<UserAccount, UserAccountDocumentModel, Guid> mapper,
             DocumentContext context,
-            ILogger<UserAccountDocumentRepository> logger)
-            : base(mapper,context,logger)
+            ILogger<UserAccountDocumentRepository> logger,
+            IAggregateCache<UserAccount> cache)
+            : base(mapper, cache,context,logger)
         {
             
         }

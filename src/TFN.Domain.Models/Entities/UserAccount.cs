@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using IdentityModel;
+using Newtonsoft.Json;
+using TFN.Domain.Architecture.Attributes;
 using TFN.Domain.Architecture.Models;
 using TFN.Domain.Models.ValueObjects;
 using TFN.Domain.Models.Extensions;
 
 namespace TFN.Domain.Models.Entities
 {
+    [CacheVersion(0)]
     public class UserAccount : DomainEntity<Guid> , IAggregateRoot
     {
         public string Username { get; private set; }
@@ -28,6 +31,8 @@ namespace TFN.Domain.Models.Entities
         {
 
         }
+
+        [JsonConstructor]
         private UserAccount(Guid id, string username, string normalizedUsername, string hashedPassword, string changePasswordKey, string profilePictureUrl, string email, string normalizedEmail, string fullName, Biography biography, DateTime created, DateTime modified, bool isActive)
             : base(id)
         {

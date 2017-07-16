@@ -1,9 +1,12 @@
 ﻿using System;
+using Newtonsoft.Json;
+using TFN.Domain.Architecture.Attributes;
 using TFN.Domain.Architecture.Models;
 using TFN.Domain.Models.Extensions;
 
 namespace TFN.Domain.Models.Entities
 {
+    [CacheVersion(0)]
     public class TransientUserAccount : DomainEntity<Guid>, IAggregateRoot
     {
         public string Username { get; private set; }
@@ -20,6 +23,7 @@ namespace TFN.Domain.Models.Entities
             
         }
 
+        [JsonConstructor]
         private TransientUserAccount(Guid id, string username, string normalizedUsername, string email, string normalizedEmail, string verificationKey, DateTime created, DateTime modified)
             : base(id)
         {

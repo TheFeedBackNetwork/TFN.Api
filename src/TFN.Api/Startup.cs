@@ -15,13 +15,16 @@ using TFN.Api.Filters.ActionFilters;
 using TFN.Api.Models.Factories;
 using TFN.Api.Models.Interfaces;
 using TFN.Domain.Interfaces.Repositories;
+using TFN.Domain.Models.Entities;
+using TFN.Infrastructure.Architecture.Caching.Aggregate;
+using TFN.Infrastructure.Architecture.Caching.Base;
 using TFN.Infrastructure.Architecture.Repositories.Document;
+using TFN.Infrastructure.Interfaces.Modules;
 using TFN.Infrastructure.Modules.Logging;
 using TFN.Infrastructure.Repositories.CreditsAggregate.Document;
 using TFN.Infrastructure.Repositories.UserAccountAggregate.Document;
 using TFN.Mvc.Extensions;
 using TFN.Resolution;
-using TFN.StaticData;
 
 namespace TFN.Api
 {
@@ -85,6 +88,19 @@ namespace TFN.Api
             services.AddTransient<ITrackResponseModelFactory, TrackResponseModelFactory>();
             services.AddTransient<IUsersResponseModelFactory, UsersResponseModelFactory>();
 
+            services
+                .AddOptions()
+                .Configure<RedisSettings>(Configuration.GetSection("Redis"));
+
+            services.AddSingleton<IAggregateCache<Comment>, AggregateCache<Comment>>();
+            services.AddSingleton<IAggregateCache<Credits>, AggregateCache<Credits>>();
+            services.AddSingleton<IAggregateCache<Like>, AggregateCache<Like>>();
+            services.AddSingleton<IAggregateCache<Listen>, AggregateCache<Listen>>();
+            services.AddSingleton<IAggregateCache<Post>, AggregateCache<Post>>();
+            services.AddSingleton<IAggregateCache<Track>, AggregateCache<Track>>();
+            services.AddSingleton<IAggregateCache<Score>, AggregateCache<Score>>();
+
+
             services.AddMvc()
                 .AddMvcOptions(options =>
                 {
@@ -132,9 +148,6 @@ namespace TFN.Api
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceScopeFactory scopeFactory)
         {
-            //seed
-            //EnsureSeeded(scopeFactory).Wait();
-
             app.UseCors("CorsPolicy");
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -166,34 +179,6 @@ namespace TFN.Api
 
             var logger = loggerFactory.CreateLogger<Startup>();
             logger.LogInformation("Tfn.Api startup is complete.");
-        }
-
-        public async Task EnsureSeeded(IServiceScopeFactory scopeFactory)
-        {
-            using (var scope = scopeFactory.CreateScope())
-            {
-                var provider = scope.ServiceProvider;
-                var context = provider.GetRequiredService<DocumentContext>();
-
-                var creditsRepository = provider.GetRequiredService<ICreditRepository>();
-                var userAccountRepository = provider.GetRequiredService<IUserAccountRepository>();
-
-                if (!await context.Collection<CreditsDocumentModel>().Any(x => x.Type == "credits"))
-                {
-                    foreach (var credits in Credits.Credit)
-                    {
-                        await creditsRepository.Add(credits);
-                    }
-                }
-
-                if (!await context.Collection<UserAccountDocumentModel>().Any(x => x.Type == "userAccount"))
-                {
-                    foreach (var user in UserAccounts.Users)
-                    {
-                        await userAccountRepository.Add(user);
-                    }
-                }
-            }
         }
     }
 }

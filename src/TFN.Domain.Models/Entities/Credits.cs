@@ -1,8 +1,11 @@
 ﻿using System;
+using Newtonsoft.Json;
+using TFN.Domain.Architecture.Attributes;
 using TFN.Domain.Architecture.Models;
 
 namespace TFN.Domain.Models.Entities
 {
+    [CacheVersion(0)]
     public class Credits : DomainEntity<Guid> , IAggregateRoot
     {
         public Guid UserId { get; private set; }
@@ -13,6 +16,7 @@ namespace TFN.Domain.Models.Entities
         public DateTime Created { get; private set; }
         public DateTime Modified { get; private set; }
 
+        [JsonConstructor]
         private Credits(Guid id, Guid userId, string username,string normalizedUsername, int totalCredits,DateTime created, DateTime modified, bool isActive)
             : base(id)
         {

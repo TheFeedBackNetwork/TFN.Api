@@ -6,16 +6,19 @@ using Microsoft.Extensions.Logging;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities;
 using TFN.Infrastructure.Architecture.Mapping;
+using TFN.Infrastructure.Architecture.Repositories.Cache;
 using TFN.Infrastructure.Architecture.Repositories.Document;
+using TFN.Infrastructure.Interfaces.Modules;
 
 namespace TFN.Infrastructure.Repositories.CreditsAggregate.Document
 {
-    public class CreditsDocumentRepository : DocumentRepository<Credits, CreditsDocumentModel, Guid>, ICreditRepository
+    public class CreditsDocumentRepository : CachedDocumentRepository<Credits, CreditsDocumentModel, Guid>, ICreditRepository
     {
         public CreditsDocumentRepository(
             IAggregateMapper<Credits, CreditsDocumentModel, Guid> mapper, DocumentContext context,
-            ILogger<CreditsDocumentRepository> logger)
-            : base(mapper, context, logger)
+            ILogger<CreditsDocumentRepository> logger,
+            IAggregateCache<Credits> cache)
+            : base(mapper, cache, context, logger)
         {
             
         }

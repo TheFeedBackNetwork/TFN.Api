@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using TFN.Domain.Architecture.Attributes;
 using TFN.Domain.Architecture.Models;
 using TFN.Domain.Models.ValueObjects;
 
 namespace TFN.Domain.Models.Entities
 {
+    [CacheVersion(0)]
     public class Track : DomainEntity<Guid>, IAggregateRoot
     {
         public Uri Location { get; private set; }
@@ -13,6 +16,7 @@ namespace TFN.Domain.Models.Entities
         public IReadOnlyList<int> SoundWave { get; private set; }
         public DateTime Created { get; private set; }
 
+        [JsonConstructor]
         public Track(Guid id, Guid userId, Uri location, IReadOnlyList<int> soundWave,TrackMetaData metaData, DateTime created)
             : base(id)
         {

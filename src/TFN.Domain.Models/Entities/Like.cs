@@ -1,8 +1,11 @@
 ﻿using System;
+using Newtonsoft.Json;
+using TFN.Domain.Architecture.Attributes;
 using TFN.Domain.Architecture.Models;
 
 namespace TFN.Domain.Models.Entities
 {
+    [CacheVersion(0)]
     public class Like : DomainEntity<Guid>, IAggregateRoot
     {
         public Guid PostId { get; private set; }
@@ -10,6 +13,7 @@ namespace TFN.Domain.Models.Entities
         public string Username { get; private set; }
         public DateTime Created { get; private set; }
 
+        [JsonConstructor]
         private Like(Guid id, Guid postId, Guid userId, string username, DateTime created)
             : base(id)
         {
