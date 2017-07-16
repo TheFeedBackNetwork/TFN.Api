@@ -1,9 +1,12 @@
 ﻿using System;
+using Newtonsoft.Json;
+using TFN.Domain.Architecture.Attributes;
 using TFN.Domain.Architecture.Models;
 using TFN.Domain.Models.Enums;
 
 namespace TFN.Domain.Models.Entities
 {
+    [CacheVersion(0)]
     public class Listen : DomainEntity<Guid>, IAggregateRoot
     {
         public Guid PostId { get; private set; }
@@ -12,6 +15,7 @@ namespace TFN.Domain.Models.Entities
         public string IPAddress { get; private set; }   
         public DateTime Created { get; private set; }
 
+        [JsonConstructor]
         private Listen(Guid id, Guid postId, Listener listener, string username, string ipAddress, DateTime created)
             : base(id)
         {

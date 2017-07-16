@@ -6,17 +6,20 @@ using Microsoft.Extensions.Logging;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities;
 using TFN.Infrastructure.Architecture.Mapping;
+using TFN.Infrastructure.Architecture.Repositories.Cache;
 using TFN.Infrastructure.Architecture.Repositories.Document;
+using TFN.Infrastructure.Interfaces.Modules;
 
 namespace TFN.Infrastructure.Repositories.PostAggregate.Document
 {
-    public class PostDocumentRepository : DocumentRepository<Post, PostDocumentModel, Guid>, IPostRepository
+    public class PostDocumentRepository : CachedDocumentRepository<Post, PostDocumentModel, Guid>, IPostRepository
     {
         public PostDocumentRepository(
             IAggregateMapper<Post, PostDocumentModel, Guid> mapper,
+            IAggregateCache<Post> cache,
             DocumentContext context,
             ILogger<PostDocumentRepository> logger)
-            : base(mapper, context, logger)
+            : base(mapper,cache, context, logger)
         {
             
         }

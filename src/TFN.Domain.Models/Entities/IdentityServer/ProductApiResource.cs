@@ -1,15 +1,19 @@
 ﻿using System;
 using IdentityServer4.Models;
+using Newtonsoft.Json;
+using TFN.Domain.Architecture.Attributes;
 using TFN.Domain.Architecture.Models;
 
 namespace TFN.Domain.Models.Entities.IdentityServer
 {
+    [CacheVersion(0)]
     public class ProductApiResource : DomainEntity<Guid>, IAggregateRoot
     {
         public DateTime Created { get; private set; }
         public DateTime Modified { get; private set; }
         public ApiResource ApiResource { get; private set; }
 
+        [JsonConstructor]
         private ProductApiResource(Guid id, DateTime created, DateTime modified, ApiResource apiResource)
             : base(id)
         {

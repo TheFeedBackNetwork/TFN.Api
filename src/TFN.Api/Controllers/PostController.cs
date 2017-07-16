@@ -19,6 +19,7 @@ using TFN.Domain.Interfaces.Services;
 using TFN.Domain.Models.Entities;
 using TFN.Domain.Models.Enums;
 using TFN.Domain.Models.ValueObjects;
+using TFN.Infrastructure.Interfaces.Modules;
 using TFN.Mvc.HttpResults;
 
 namespace TFN.Api.Controllers
@@ -96,7 +97,7 @@ namespace TFN.Api.Controllers
             {
                 return NotFound();
             }
-            
+
             var model = await PostResponseModelFactory.From(post, UserId, AbsoluteUri);
 
 

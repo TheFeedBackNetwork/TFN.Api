@@ -67,9 +67,14 @@ namespace TFN.Infrastructure.Architecture.Caching.Aggregate
             Add(aggregate.Id.ToString(),aggregate);
         }
 
-        public TAggregate Find(Guid id)
+        public TAggregate Find(string id)
         {
-            return Find(id.ToString());
+            return Get(id);
+        }
+
+        public void Delete(string id)
+        {
+            Remove(id);
         }
     }
 }

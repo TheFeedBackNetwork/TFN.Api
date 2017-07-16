@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using TFN.Domain.Architecture.Attributes;
 using TFN.Domain.Architecture.Models;
 using TFN.Domain.Models.Extensions;
 using TFN.Domain.Models.Enums;
 
 namespace TFN.Domain.Models.Entities
 {
+    [CacheVersion(0)]
     public class Post : MessageDomainEntity ,IAggregateRoot
     {
         public string TrackUrl { get; private set; }
         public IReadOnlyList<string> Tags { get; private set; }
         public Genre Genre { get; private set; }
+
+        [JsonConstructor]
         private Post(Guid id, Guid userId, string username, string trackurl, string text, Genre genre, IReadOnlyList<string> tags, bool isActive, DateTime created, DateTime modified)
             : base(id,userId,username,text,isActive,created,modified)
         {

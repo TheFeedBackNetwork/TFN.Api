@@ -98,7 +98,7 @@ namespace TFN.Infrastructure.Architecture.Caching.Base
             };
         }
 
-        protected T Find(string key)
+        protected T Get(string key)
         {
             key = GenerateVersionedKey(key, Version);
 
@@ -117,6 +117,13 @@ namespace TFN.Infrastructure.Architecture.Caching.Base
                 DefaultExpiration);
 
             CacheManager.AddOrUpdate(cacheItem, v => v);
+        }
+
+        protected void Remove(string key)
+        {
+            key = GenerateVersionedKey(key, Version);
+
+            CacheManager.Remove(key);
         }
 
         protected string GenerateVersionedKey(string key, int version)
