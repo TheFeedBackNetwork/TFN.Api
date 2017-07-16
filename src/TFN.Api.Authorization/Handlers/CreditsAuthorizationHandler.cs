@@ -18,6 +18,12 @@ namespace TFN.Api.Authorization.Handlers
                 return noOp;
             }
 
+            if (requirement.Name == "CreditsEdit")
+            {
+                context.Succeed(requirement);
+                return noOp;
+            }
+
             if (requirement.Name == "CreditsDelete")
             {
                 if (context.User.HasClaim("sub", resource.OwnerId.ToString()))

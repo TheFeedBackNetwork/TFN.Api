@@ -35,7 +35,7 @@ namespace TFN.StaticData
                         "tracks.write",
                         "tracks.delete",
                         "credits.read",
-                        "credits.write",
+                        "credits.edit",
                         "credits.delete",
                         "users.read",
                         "ip.read",

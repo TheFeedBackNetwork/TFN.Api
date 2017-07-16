@@ -65,5 +65,15 @@ namespace TFN.Domain.Models.Entities
             }
             return Hydrate(Id,UserId,Username,NormalizedUsername,newCredits,Created,Modified, IsActive);
         }
+
+        public Credits SetTotalCredits(int amount)
+        {
+            if (amount < 0)
+            {
+                throw new InvalidOperationException("Credits will result in a negative score");
+            }
+
+            return Hydrate(Id, UserId, Username, NormalizedUsername, amount, Created, Modified, IsActive);
+        }
     }
 }

@@ -133,7 +133,7 @@ namespace TFN.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceScopeFactory scopeFactory)
         {
             //seed
-            EnsureSeeded(scopeFactory).Wait();
+            //EnsureSeeded(scopeFactory).Wait();
 
             app.UseCors("CorsPolicy");
 

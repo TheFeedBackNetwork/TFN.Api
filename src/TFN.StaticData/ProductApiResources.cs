@@ -50,6 +50,10 @@ namespace TFN.StaticData
                         },
                         new Scope
                         {
+                            Name = "credits.edit"
+                        },
+                        new Scope
+                        {
                             Name = "credits.delete"
                         },
                         new Scope
