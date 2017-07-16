@@ -492,7 +492,7 @@ namespace TFN.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete("{postId:Guid}", Name = "DeleteLike")]
+        [HttpDelete("{postId:Guid}/likes/{likeId:Guid}", Name = "DeleteLike")]
         public async Task<IActionResult> DeleteLike(Guid postId, Guid likeId)
         {
             var post = await PostRepository.Find(postId);
