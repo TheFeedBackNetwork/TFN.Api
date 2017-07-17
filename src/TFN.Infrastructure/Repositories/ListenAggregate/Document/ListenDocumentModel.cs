@@ -28,9 +28,6 @@ namespace TFN.Infrastructure.Repositories.ListenAggregate.Document
         [JsonProperty(PropertyName = "listener")]
         public string Listener { get; set; }
 
-        [JsonProperty(PropertyName = "username")]
-        public string Username { get; set; }
-
         [JsonProperty(PropertyName = "iPaddress")]
         public string IPAddress { get; set; }
 

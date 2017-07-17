@@ -19,12 +19,11 @@ namespace TFN.UnitTests.Libraries.Authorization
         private static Guid InvalidUserIdDefault => new Guid("38c6ba6a-ac08-4389-8112-727a7825b159");
         private static Guid PostIdDefault = new Guid("86bcf89b-6847-4c5d-bcc5-87b69d775e3f");
         private static string PostUserNameDefault = "FooBar";
-        private static string CommentUserNameDefault = "BarBaz";
         private static string TrackUrlDefault = "http://soundcloud.com/foo/bar";
         private static IReadOnlyList<string> TagsDefault = new List<string> { "foo", "bar" };
         private static Genre GenreDefault = Genre.Ambient;
         private static Guid UserIdDefault = new Guid("799dca00-ef0f-4f8e-9bd3-5a4cff9ee07e");
-        private static IReadOnlyList<Comment> CommentsDefault = new List<Comment> { Comment.Hydrate(new Guid("60a7686c-b775-4508-b273-5e6d2cb09080"), new Guid("799dca00-ef0f-4f8e-9bd3-5a4cff9ee07e"), PostIdDefault, CommentUserNameDefault, "foo bar baz", true, new DateTime(2016, 5, 5, 5, 5, 5), new DateTime(2016, 5, 5, 5, 5, 5)) };
+        private static IReadOnlyList<Comment> CommentsDefault = new List<Comment> { Comment.Hydrate(new Guid("60a7686c-b775-4508-b273-5e6d2cb09080"), new Guid("799dca00-ef0f-4f8e-9bd3-5a4cff9ee07e"), PostIdDefault, "foo bar baz", true, new DateTime(2016, 5, 5, 5, 5, 5), new DateTime(2016, 5, 5, 5, 5, 5)) };
         private static string TextDefault = "This bar is my foo.";
         private static bool IsActiveDefault = true;
         private static DateTime CreatedDefault = new DateTime(2016, 4, 4, 5, 4, 4);
@@ -32,7 +31,7 @@ namespace TFN.UnitTests.Libraries.Authorization
 
         public Post make_Post(Guid id, Guid userId, string username, string trackUrl, string text, Genre genre, IReadOnlyList<string> tags, IReadOnlyList<Comment> comments, bool isActive, DateTime created, DateTime modified)
         {
-            return Post.Hydrate(id, userId, username, trackUrl, text, genre, tags, isActive, created, modified);
+            return Post.Hydrate(id, userId, trackUrl, text, genre, tags, isActive, created, modified);
         }
 
         public Post make_PostDefault()

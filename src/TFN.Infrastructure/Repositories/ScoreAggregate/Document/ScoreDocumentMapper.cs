@@ -12,7 +12,6 @@ namespace TFN.Infrastructure.Repositories.ScoreAggregate.Document
                 dataEntity.Id,
                 dataEntity.CommentId,
                 dataEntity.UserId,
-                dataEntity.Username,
                 dataEntity.Created);
         }
 
@@ -22,7 +21,6 @@ namespace TFN.Infrastructure.Repositories.ScoreAggregate.Document
             {
                 CommentId = domainEntity.CommentId,
                 UserId = domainEntity.UserId,
-                Username = domainEntity.Username
             };
         }
     }

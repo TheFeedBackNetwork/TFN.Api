@@ -10,9 +10,8 @@ namespace TFN.Infrastructure.Architecture.Documents.Models
             
         }
 
-        public MessageDocumentModel(Guid id, Guid userId, string username, string text, bool isActive, string type,
-            DateTime created, DateTime modified)
-            : base(id,userId,username,text,isActive,type,created,modified)
+        public MessageDocumentModel(Guid id, Guid userId, string text, bool isActive, string type, DateTime created, DateTime modified)
+            : base(id,userId,text,isActive,type,created,modified)
         {
             
         }
@@ -21,9 +20,6 @@ namespace TFN.Infrastructure.Architecture.Documents.Models
     {
         [JsonProperty(PropertyName = "userId")]
         public Guid UserId { get; set; }
-
-        [JsonProperty(PropertyName = "username")]
-        public string Username { get; set; }
 
         [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
@@ -36,11 +32,10 @@ namespace TFN.Infrastructure.Architecture.Documents.Models
 
         }
 
-        public MessageDocumentModel(TKey id, Guid userId, string username,string text,bool isActive,string type, DateTime created, DateTime modified)
+        public MessageDocumentModel(TKey id, Guid userId, string text, bool isActive, string type, DateTime created, DateTime modified)
             : base(id, type,created,modified)
         {
             UserId = userId;
-            Username = username;
             Text = text;
             IsActive = isActive;
         }

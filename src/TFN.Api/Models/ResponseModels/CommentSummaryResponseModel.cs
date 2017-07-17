@@ -29,7 +29,7 @@ namespace TFN.Api.Models.ResponseModels
         public static CommentSummaryResponseModel From(CommentSummary commentSummary,Credits credits, Guid postId, string apiUrl)
         {
             IReadOnlyList<ScoreResponseModel> scores =
-                commentSummary.Scores.Select(x => ScoreResponseModel.From(x, apiUrl, postId)).ToList();
+                commentSummary.Scores.Select(x => ScoreResponseModel.From(x, credits, apiUrl, postId)).ToList();
             var creditsSummary = CreditsResponseModel.From(credits, apiUrl);
 
             return new CommentSummaryResponseModel(

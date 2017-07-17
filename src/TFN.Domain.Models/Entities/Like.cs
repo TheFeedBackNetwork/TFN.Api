@@ -10,29 +10,27 @@ namespace TFN.Domain.Models.Entities
     {
         public Guid PostId { get; private set; }
         public Guid UserId { get; private set; }
-        public string Username { get; private set; }
         public DateTime Created { get; private set; }
 
         [JsonConstructor]
-        private Like(Guid id, Guid postId, Guid userId, string username, DateTime created)
+        private Like(Guid id, Guid postId, Guid userId, DateTime created)
             : base(id)
         {
 
             PostId = postId;
             UserId = userId;
-            Username = username;
             Created = created;
         }
 
-        public Like(Guid postId, Guid userId, string username)
-            : this(Guid.NewGuid(),postId,userId,username, DateTime.UtcNow)
+        public Like(Guid postId, Guid userId)
+            : this(Guid.NewGuid(),postId,userId, DateTime.UtcNow)
         {
             
         }
 
-        public static Like Hydrate(Guid id, Guid postId, Guid userId, string username, DateTime created)
+        public static Like Hydrate(Guid id, Guid postId, Guid userId, DateTime created)
         {
-            return new Like(id,postId,userId,username,created);
+            return new Like(id,postId,userId,created);
         }
     }
 }

@@ -28,9 +28,6 @@ namespace TFN.Infrastructure.Repositories.ScoreAggregate.Document
         [JsonProperty(PropertyName = "userId")]
         public Guid UserId { get; set; }
 
-        [JsonProperty(PropertyName = "username")]
-        public string Username { get; set; }
-
         public ScoreDocumentModel(TKey id, DateTime created)
             : base(id, "score", created,created)
         {

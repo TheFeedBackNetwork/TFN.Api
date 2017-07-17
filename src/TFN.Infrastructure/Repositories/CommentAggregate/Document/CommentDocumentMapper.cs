@@ -12,7 +12,6 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.Document
                 dataEntity.Id,
                 dataEntity.UserId,
                 dataEntity.PostId,
-                dataEntity.Username,
                 dataEntity.Text,
                 dataEntity.IsActive,
                 dataEntity.Created,
@@ -21,7 +20,7 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.Document
 
         public CommentDocumentModel CreateFrom(Comment domainEntity)
         {
-            return new CommentDocumentModel(domainEntity.Id, domainEntity.UserId, domainEntity.Username,
+            return new CommentDocumentModel(domainEntity.Id, domainEntity.UserId,
                 domainEntity.Text,
                 domainEntity.IsActive, domainEntity.Created, domainEntity.Modified)
             {

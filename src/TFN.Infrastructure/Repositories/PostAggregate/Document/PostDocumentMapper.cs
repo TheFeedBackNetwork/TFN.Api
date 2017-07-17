@@ -13,7 +13,6 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
             return Post.Hydrate(
                 dataEntity.Id,
                 dataEntity.UserId,
-                dataEntity.Username,
                 dataEntity.TrackUrl,
                 dataEntity.Text,
                 (Genre)Enum.Parse(typeof(Genre), dataEntity.Genre),
@@ -25,7 +24,7 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
 
         public PostDocumentModel CreateFrom(Post domainEntity)
         {
-            return new PostDocumentModel(domainEntity.Id, domainEntity.UserId, domainEntity.Username, domainEntity.Text,
+            return new PostDocumentModel(domainEntity.Id, domainEntity.UserId, domainEntity.Text,
                 domainEntity.IsActive, domainEntity.Created, domainEntity.Modified)
             {
                 TrackUrl = domainEntity.TrackUrl,

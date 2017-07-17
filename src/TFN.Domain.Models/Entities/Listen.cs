@@ -11,50 +11,38 @@ namespace TFN.Domain.Models.Entities
     {
         public Guid PostId { get; private set; }
         public Listener Listener { get; private set; }
-        public string Username { get; private set; }
+        public Guid? UserId { get; private set; }
         public string IPAddress { get; private set; }   
         public DateTime Created { get; private set; }
 
         [JsonConstructor]
-        private Listen(Guid id, Guid postId, Listener listener, string username, string ipAddress, DateTime created)
+        private Listen(Guid id, Guid postId, Listener listener, string ipAddress, DateTime created)
             : base(id)
         {
             if (listener.Equals(Listener.User))
             {
-                if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))
-                {
-                    throw new ArgumentNullException($"The username [{nameof(username)}] is either null or empty.");
-                }
-                if (username.Length < 3)
-                {
-                    throw new ArgumentException($"The username [{nameof(username)}] is too short.");
-                }
-                if (username.Length > 16)
-                {
-                    throw new ArgumentException($"The username [{nameof(username)}] is too long.");
-                }
+
             }
             else
             {
-                username = null;
+
             }
 
             PostId = postId;
-            Username = username;
             Listener = listener;
             IPAddress = ipAddress;
             Created = created;
         }
 
-        public Listen(Guid postId,Listener listener, string username, string ipAddress)
-            : this(Guid.NewGuid(), postId,listener,username,ipAddress,DateTime.UtcNow)
+        public Listen(Guid postId, Listener listener, string ipAddress)
+            : this(Guid.NewGuid(), postId,listener,ipAddress,DateTime.UtcNow)
         {
             
         }
 
-        public static Listen Hydrate(Guid id, Guid postId,Listener listener, string username, string ipAddress, DateTime created)
+        public static Listen Hydrate(Guid id, Guid postId, Listener listener, string ipAddress, DateTime created)
         {
-            return new Listen(id,postId,listener,username,ipAddress,created);
+            return new Listen(id,postId,listener,ipAddress,created);
         }
     }
 }
