@@ -22,7 +22,7 @@ namespace TFN.Api.Models.ResponseModels
 
         private static Uri GetHref(Guid postId, Guid likeId,string apiUrl)
         {
-            return new Uri($"{apiUrl}/api/posts/{postId}/likes/likeId");
+            return new Uri($"{apiUrl}/api/posts/{postId}/likes/{likeId}");
         }
 
         public static LikesResponseModel From(Like like, Credits credits, string apiUrl)

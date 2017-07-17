@@ -325,7 +325,7 @@ namespace TFN.Api.Controllers
 
             var like = new Like(postId,UserId);
 
-            var authZModel = LikeAuthorizationModel.From(like, UserId);
+            var authZModel = LikeAuthorizationModel.From(like, post.UserId);
 
             if (!await AuthorizationService.AuthorizeAsync(User, authZModel, LikeOperations.Write))
             {
