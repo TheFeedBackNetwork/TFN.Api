@@ -9,9 +9,9 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
     [CollectionOptions("messages", "post")]
     public sealed class PostDocumentModel : PostDocumentModel<Guid>
     {
-        public PostDocumentModel(Guid id, Guid userId, string username, string text, bool isActive, DateTime created,
+        public PostDocumentModel(Guid id, Guid userId,string text, bool isActive, DateTime created,
             DateTime modified)
-            : base(id,userId, username, text, isActive, created, modified)
+            : base(id,userId,text, isActive, created, modified)
         {
             
         }
@@ -34,9 +34,9 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
         public string Genre { get; set; }
 
 
-        public PostDocumentModel(TKey id, Guid userId, string username, string text, bool isActive, DateTime created,
+        public PostDocumentModel(TKey id, Guid userId, string text, bool isActive, DateTime created,
             DateTime modified)
-            : base(id,userId,username,text,isActive,"post",created,modified)
+            : base(id,userId,text,isActive,"post",created,modified)
         {
             
         }

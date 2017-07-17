@@ -24,7 +24,7 @@ namespace TFN.UnitTests.Libraries.Authorization
 
         public Like make_Like(Guid id, Guid postId, Guid userId, string username, DateTime created)
         {
-            return Like.Hydrate(id, postId, userId, username, created);
+            return Like.Hydrate(id, postId, userId, created);
         }
 
         public Like make_LikeDefault()

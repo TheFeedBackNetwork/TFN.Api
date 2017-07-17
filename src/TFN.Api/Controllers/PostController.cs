@@ -256,8 +256,8 @@ namespace TFN.Api.Controllers
             {
                 return NotFound();
             }
-
-            var model = ScoreResponseModel.From(score, AbsoluteUri, postId);
+            var credits = await CreditService.FindByUserId(score.UserId);
+            var model = ScoreResponseModel.From(score, credits, AbsoluteUri, postId);
 
             return Json(model);
         }
@@ -274,7 +274,7 @@ namespace TFN.Api.Controllers
             {
                 return BadRequest();
             }
-            var entity = new Post(UserId, Username, post.TrackUrl, post.Text,genre,post.Tags);
+            var entity = new Post(UserId, post.TrackUrl, post.Text,genre,post.Tags);
 
             var credits = await CreditService.FindByUserId(UserId);
             if (credits == null)
@@ -323,9 +323,9 @@ namespace TFN.Api.Controllers
                 return BadRequest();
             }
 
-            var like = new Like(postId,UserId,Username);
+            var like = new Like(postId,UserId);
 
-            var authZModel = LikeAuthorizationModel.From(like, UserId);
+            var authZModel = LikeAuthorizationModel.From(like, post.UserId);
 
             if (!await AuthorizationService.AuthorizeAsync(User, authZModel, LikeOperations.Write))
             {
@@ -333,8 +333,8 @@ namespace TFN.Api.Controllers
             }
 
             await LikeRepository.Add(like);
-
-            var model = LikesResponseModel.From(like, AbsoluteUri);
+            var credits = await CreditService.FindByUserId(like.UserId);
+            var model = LikesResponseModel.From(like, credits, AbsoluteUri);
 
             return CreatedAtAction("GetLike", new {postId = post.Id, likeId = like.Id}, model);
 
@@ -353,7 +353,7 @@ namespace TFN.Api.Controllers
                 return NotFound();
             }
 
-            var entity = new Comment(UserId,postId,Username,comment.Text);
+            var entity = new Comment(UserId,postId,comment.Text);
 
             var authZModel = CommentAuthorizationModel.From(entity);
 
@@ -390,7 +390,7 @@ namespace TFN.Api.Controllers
                 return BadRequest();
             }
 
-            var entity = new Score(commentId, UserId, Username);
+            var entity = new Score(commentId, UserId);
 
             var authZModel = ScoreAuthorizationModel.From(entity, comment.UserId);
 
@@ -401,9 +401,8 @@ namespace TFN.Api.Controllers
 
             await ScoreRepository.Add(entity);
             await CreditService.AwardCredits(UserId, comment.UserId, 1);
-
-            var model = ScoreResponseModel.From(entity, AbsoluteUri, postId);
-
+            var credits = await CreditService.FindByUserId(entity.UserId);
+            var model = ScoreResponseModel.From(entity, credits, AbsoluteUri, postId);
 
             return CreatedAtAction("GetScore", new { postId = comment.PostId, commentId = model.CommentId, scoreId = model.Id }, model);
         }

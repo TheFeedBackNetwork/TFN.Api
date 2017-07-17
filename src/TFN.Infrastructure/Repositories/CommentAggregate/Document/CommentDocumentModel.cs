@@ -13,9 +13,9 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.Document
 
         }
 
-        public CommentDocumentModel(Guid id, Guid userId, string username, string text, bool isActive, DateTime created,
+        public CommentDocumentModel(Guid id, Guid userId, string text, bool isActive, DateTime created,
             DateTime modified)
-            : base(id,userId, username, text, isActive, created, modified)
+            : base(id,userId, text, isActive, created, modified)
         {
 
         }
@@ -31,9 +31,9 @@ namespace TFN.Infrastructure.Repositories.CommentAggregate.Document
             
         }
 
-        public CommentDocumentModel(TKey id, Guid userId, string username, string text, bool isActive, DateTime created,
+        public CommentDocumentModel(TKey id, Guid userId, string text, bool isActive, DateTime created,
             DateTime modified)
-            : base(id,userId,username,text,isActive,"comment",created,modified)
+            : base(id,userId,text,isActive,"comment",created,modified)
         {
 
         }

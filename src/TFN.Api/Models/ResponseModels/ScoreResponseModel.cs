@@ -24,7 +24,7 @@ namespace TFN.Api.Models.ResponseModels
             return new Uri($"{apiUrl}/comments/{commentId}/scores/{scoreId}");
         }
 
-        public static ScoreResponseModel From(Score score, string apiUrl, Guid postId)
+        public static ScoreResponseModel From(Score score, Credits credits, string apiUrl, Guid postId)
         {
             string postApiurl = new Uri($"{apiUrl}/api/posts/{postId}").AbsoluteUri;
 
@@ -32,7 +32,7 @@ namespace TFN.Api.Models.ResponseModels
                 score.Id,
                 score.CommentId,
                 score.UserId,
-                score.Username,
+                credits.Username,
                 score.Created,
                 postApiurl
                 );

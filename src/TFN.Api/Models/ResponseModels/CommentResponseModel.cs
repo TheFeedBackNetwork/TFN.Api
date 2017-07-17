@@ -46,7 +46,7 @@ namespace TFN.Api.Models.ResponseModels
                 comment.PostId,
                 comment.UserId,
                 comment.Text,
-                comment.Username,
+                credits.Username,
                 comment.Created,
                 comment.Modified,
                 CommentSummaryResponseModel.From(summary,credits, comment.PostId, apiUrl), 

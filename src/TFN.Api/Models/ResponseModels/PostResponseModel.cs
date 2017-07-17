@@ -46,13 +46,11 @@ namespace TFN.Api.Models.ResponseModels
         } 
 
         internal static PostResponseModel From(Post post, PostSummary summary,Credits credits, ResourceAuthorizationResponseModel authZmodel, string apiUrl)
-        {
-            //string commentApiurl = GetHref(post.Id, apiUrl).AbsoluteUri;
-
+        {  
             return new PostResponseModel(
                 post.Id,
                 post.UserId,
-                post.Username,
+                credits.Username,
                 post.Text,
                 post.TrackUrl,
                 post.Tags,

@@ -28,9 +28,6 @@ namespace TFN.Infrastructure.Repositories.LikeAggregate.Document
         [JsonProperty(PropertyName = "userId")]
         public Guid UserId { get; set; }
 
-        [JsonProperty(PropertyName = "username")]
-        public string Username { get; set; }
-
         public LikeDocumentModel(TKey id, DateTime created)
             : base(id,"like",created,created)
         {

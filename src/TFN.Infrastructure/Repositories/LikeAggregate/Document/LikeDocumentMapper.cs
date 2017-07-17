@@ -12,7 +12,6 @@ namespace TFN.Infrastructure.Repositories.LikeAggregate.Document
                 dataEntity.Id,
                 dataEntity.PostId,
                 dataEntity.UserId,
-                dataEntity.Username,
                 dataEntity.Created);
         }
 
@@ -21,7 +20,6 @@ namespace TFN.Infrastructure.Repositories.LikeAggregate.Document
             return new LikeDocumentModel(domainEntity.Id, domainEntity.Created)
             {
                 PostId = domainEntity.PostId,
-                Username = domainEntity.Username,
                 UserId = domainEntity.UserId,
             };
         }

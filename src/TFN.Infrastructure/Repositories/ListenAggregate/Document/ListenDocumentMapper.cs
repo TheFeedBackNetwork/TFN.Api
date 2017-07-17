@@ -13,7 +13,6 @@ namespace TFN.Infrastructure.Repositories.ListenAggregate.Document
                 dataEntity.Id,
                 dataEntity.PostId,
                 (Listener)Enum.Parse(typeof(Listener), dataEntity.Listener),
-                dataEntity.Username,
                 dataEntity.IPAddress,
                 dataEntity.Created);
         }
@@ -24,7 +23,6 @@ namespace TFN.Infrastructure.Repositories.ListenAggregate.Document
             {
                 PostId = domainEntity.PostId,
                 Listener = domainEntity.Listener.ToString(),
-                Username = domainEntity.Username,
                 IPAddress = domainEntity.IPAddress,
             };
         }

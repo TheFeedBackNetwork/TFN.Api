@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Interfaces.Services;
+using TFN.Domain.Models.Entities;
 using TFN.Domain.Models.ValueObjects;
 
 namespace TFN.Domain.Services.Posts
@@ -27,23 +30,40 @@ namespace TFN.Domain.Services.Posts
 
         public async Task<CommentSummary> FindCommentScoreSummary(Guid commentId, Guid userId)
         {
-            var hasScored = await ScoreRepository.Exists(commentId, userId);
             var count = await ScoreRepository.Count(commentId);
-            var someScores = await ScoreRepository.FindScoresPaginated(commentId, null);
 
-            var summary = CommentSummary.From(commentId, someScores, count, hasScored);
+            var viewUserScore = await ScoreRepository.Find(commentId, userId);
+            var hasScored = viewUserScore != null;
+
+            var someScores = await ScoreRepository.FindScoresPaginated(commentId, null);
+            var list = someScores.Where(x => x.UserId != userId).ToList();
+
+            if (hasScored)
+            {
+                list.Add(viewUserScore);
+            }
+
+            var summary = CommentSummary.From(commentId, list, count, hasScored);
 
             return summary;
         }
 
         public async Task<PostSummary> FindPostLikeSummary(Guid postId, Guid userId)
         {
-            var hasLiked = await LikeRepository.Exists(postId, userId);
+            var viewUserLiked = await LikeRepository.Find(postId, userId);
+            var hasLiked = viewUserLiked != null;
+
             var listens = await ListenRepository.Count(postId);
             var count = await LikeRepository.Count(postId);
             var someLikes = await LikeRepository.FindLikesPaginated(postId, null);
+            var list = someLikes.Where(x => x.UserId != userId).ToList();
 
-            var summary = PostSummary.From(postId, someLikes,listens, count, hasLiked);
+            if (hasLiked)
+            {
+                list.Add(viewUserLiked);
+            }
+
+            var summary = PostSummary.From(postId, list,listens, count, hasLiked);
 
             return summary;
         }

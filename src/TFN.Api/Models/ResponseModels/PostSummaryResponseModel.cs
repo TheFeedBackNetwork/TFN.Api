@@ -27,7 +27,7 @@ namespace TFN.Api.Models.ResponseModels
 
         public static PostSummaryResponseModel From(PostSummary postSummary,Credits credits, string apiUrl)
         {
-            IReadOnlyList<LikesResponseModel> likes = postSummary.Likes.Select(x => LikesResponseModel.From(x, apiUrl)).ToList();
+            IReadOnlyList<LikesResponseModel> likes = postSummary.Likes.Select(x => LikesResponseModel.From(x, credits, apiUrl)).ToList();
             var creditsSummary = CreditsResponseModel.From(credits, apiUrl);
 
             return new PostSummaryResponseModel(

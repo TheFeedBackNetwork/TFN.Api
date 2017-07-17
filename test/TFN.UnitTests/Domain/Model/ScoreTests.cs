@@ -17,7 +17,7 @@ namespace TFN.UnitTests.Domain.Model
 
         public Score make_Score(Guid id, Guid commentId, Guid userId, string username, DateTime created)
         {
-            return Score.Hydrate(id, commentId, userId,username,created);
+            return Score.Hydrate(id, commentId, userId,created);
         }
 
         public Score make_Score(string username)
