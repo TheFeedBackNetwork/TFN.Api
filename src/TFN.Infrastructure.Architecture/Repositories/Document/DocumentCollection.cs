@@ -131,7 +131,6 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
                 {
                     var result = await query.ExecuteNextAsync<TDocument>();
                     nextCursor = result.ResponseContinuation;
-                    QueryCursorComponent.SetCursor(nextCursor);
                     list.AddRange(result);
                 }
 
@@ -165,8 +164,6 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
                 if (query.HasMoreResults)
                 {
                     var result = await query.ExecuteNextAsync<TDocument>();
-                    nextCursor = result.ResponseContinuation;
-                    QueryCursorComponent.SetCursor(nextCursor);
                     list.AddRange(result);
                 }
 
@@ -193,7 +190,10 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             {
                 var result = await query.ExecuteNextAsync<TDocument>();
                 var nextCursor = result.ResponseContinuation;
-                QueryCursorComponent.SetCursor(nextCursor);
+                if (!QueryCursorComponent.HasResponseCursor())
+                {
+                    QueryCursorComponent.SetResponseCursor(nextCursor);
+                }
                 list.AddRange(result);
             }
 
@@ -221,7 +221,11 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             {
                 var result = await query.ExecuteNextAsync<TDocument>();
                 var nextCursor = result.ResponseContinuation;
-                QueryCursorComponent.SetCursor(nextCursor);
+                if (!QueryCursorComponent.HasResponseCursor())
+                {
+                    var doc = typeof(TDocument).Name;
+                    QueryCursorComponent.SetResponseCursor(nextCursor);
+                }
                 list.AddRange(result);
             }
 
@@ -250,7 +254,10 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             {
                 var result = await query.ExecuteNextAsync<TDocument>();
                 var nextCursor = result.ResponseContinuation;
-                QueryCursorComponent.SetCursor(nextCursor);
+                if (!QueryCursorComponent.HasResponseCursor())
+                {
+                    QueryCursorComponent.SetResponseCursor(nextCursor);
+                }
                 list.AddRange(result);
             }
 
@@ -290,8 +297,6 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             if (query.HasMoreResults)
             {
                 var result = await query.ExecuteNextAsync<TDocument>();
-                var nextCursor = result.ResponseContinuation;
-                QueryCursorComponent.SetCursor(nextCursor);
                 list.AddRange(result);
             }
 
@@ -317,8 +322,6 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             if (query.HasMoreResults)
             {
                 var result = await query.ExecuteNextAsync<TDocument>();
-                var nextCursor = result.ResponseContinuation;
-                QueryCursorComponent.SetCursor(nextCursor);
                 list.AddRange(result);
             }
 

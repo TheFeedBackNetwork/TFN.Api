@@ -19,6 +19,7 @@ using TFN.Domain.Interfaces.Services;
 using TFN.Domain.Models.Entities;
 using TFN.Domain.Models.Enums;
 using TFN.Domain.Models.ValueObjects;
+using TFN.Infrastructure.Interfaces.Components;
 using TFN.Infrastructure.Interfaces.Modules;
 using TFN.Mvc.HttpResults;
 
@@ -39,6 +40,7 @@ namespace TFN.Api.Controllers
         public ICommentResponseModelFactory CommentResponseModelFactory { get; private set; }
         public ICommentSummaryResponseModelFactory CommentSummaryResponseModelFactory { get; private set; }
         public IAuthorizationService AuthorizationService { get; private set; }
+        public IQueryCursorComponent QueryCursorComponent { get; private set; }
         public ILogger<PostController> Logger { get; private set; }
         
         public PostController(IPostService postService, IPostRepository postRepository,
@@ -48,7 +50,7 @@ namespace TFN.Api.Controllers
             IPostSummaryResponseModelFactory postSummaryResponseModelFactory,
             ICommentResponseModelFactory commentResponseModelFactory,
             ICommentSummaryResponseModelFactory commentSummaryResponseModelFactory,
-            ILogger<PostController> logger) 
+            IQueryCursorComponent queryCursor, ILogger<PostController> logger) 
         {
             PostService = postService;
             PostRepository = postRepository;
@@ -61,6 +63,7 @@ namespace TFN.Api.Controllers
             CreditService = creditService;
             ScoreRepository = scoreRepository;
             LikeRepository = likeRepository;
+            QueryCursorComponent = queryCursor;
             Logger = logger;
         }
 
@@ -68,8 +71,14 @@ namespace TFN.Api.Controllers
         [Authorize("posts.read")]
         public async Task<IActionResult> GetAll(
             [FromQuery]ExcludeQueryModel exclude,
-            [ModelBinder(BinderType = typeof(ContinuationTokenModelBinder))]string continuationToken = null)
+            [ModelBinder(BinderType = typeof(ContinuationTokenModelBinder))]string continuationTokenH = null,
+            [FromHeader]string continuationToken = null)
         {
+            if (!QueryCursorComponent.HasRequestCursor())
+            {
+                QueryCursorComponent.SetRequestCursor(continuationToken);
+                continuationToken = QueryCursorComponent.GetRequestCursor();
+            }
             var posts = await PostRepository.FindAllPostsPaginated(continuationToken);
             
             var model = new List<PostResponseModel>();
@@ -82,6 +91,12 @@ namespace TFN.Api.Controllers
             {
                 return this.Json(model,exclude.Attributes);
             }
+            
+            if (QueryCursorComponent.HasResponseCursor())
+            {
+                HttpContext.Response.Headers.Add("ContinuationToken", QueryCursorComponent.GetResponseCursor());
+            }
+
             return Json(model);
         }
 

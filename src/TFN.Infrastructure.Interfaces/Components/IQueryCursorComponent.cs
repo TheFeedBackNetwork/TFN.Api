@@ -2,8 +2,12 @@
 {
     public interface IQueryCursorComponent
     {
-        bool HasCursor();
-        string GetCursor();
-        void SetCursor(string cursor);       
+        bool HasResponseCursor();
+        string GetResponseCursor();
+        void SetResponseCursor(string cursor);
+
+        bool HasRequestCursor();
+        string GetRequestCursor();
+        void SetRequestCursor(string cursor);
     }
 }
