@@ -71,7 +71,6 @@ namespace TFN.Api.Controllers
         [Authorize("posts.read")]
         public async Task<IActionResult> GetAll(
             [FromQuery]ExcludeQueryModel exclude,
-            [ModelBinder(BinderType = typeof(ContinuationTokenModelBinder))]string continuationTokenH = null,
             [FromHeader]string continuationToken = null)
         {
             if (!QueryCursorComponent.HasRequestCursor())
@@ -203,7 +202,7 @@ namespace TFN.Api.Controllers
         public async Task<IActionResult> GetComments(
             Guid postId,
             [FromQuery]ExcludeQueryModel exclude,
-            [ModelBinder(BinderType = typeof(ContinuationTokenModelBinder))]string continuationToken = null)
+            [FromHeader]string continuationToken = null)
         {
             var comments = await CommentRepository.FindCommentsPaginated(postId, continuationToken);
 
@@ -389,7 +388,7 @@ namespace TFN.Api.Controllers
         public async Task<IActionResult> PostScore(
             Guid postId,
             Guid commentId,
-            [ModelBinder(BinderType = typeof(ContinuationTokenModelBinder))]string continuationToken = null)
+            [FromHeader]string continuationToken = null)
         {
             var comment = await CommentRepository.Find(commentId);
 

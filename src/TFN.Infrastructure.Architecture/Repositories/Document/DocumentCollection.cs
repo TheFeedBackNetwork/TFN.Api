@@ -244,7 +244,7 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
                 .CreateDocumentQuery<TDocument>(CollectionUri, options)
                 .Where(wherePredicate)
                 .Select(x => x)
-                .OrderBy(orderPredicate)
+                .OrderByDescending(orderPredicate)
                 .AsDocumentQuery();
 
 

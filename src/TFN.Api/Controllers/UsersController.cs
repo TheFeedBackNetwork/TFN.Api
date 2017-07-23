@@ -28,7 +28,7 @@ namespace TFN.Api.Controllers
         [Authorize("users.read")]
         public async Task<IActionResult> GetUsers(
             [ModelBinder(BinderType = typeof(UsernameQueryModelBinder))] string username,
-            [ModelBinder(BinderType = typeof(ContinuationTokenModelBinder))]string continuationToken = null)
+            [FromHeader]string continuationToken = null)
         {
             
             var users = await UserService.SearchUsers(username, continuationToken);
