@@ -96,6 +96,10 @@ namespace TFN.StaticData
                         },
                         new Scope
                         {
+                            Name = "tracks.edit"
+                        },
+                        new Scope
+                        {
                             Name = "tracks.write"
                         },
                         new Scope

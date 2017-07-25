@@ -11,6 +11,7 @@ namespace TFN.Api.Models.ResponseModels
     {
         public Guid UserId { get; private set; }
         public Uri Location { get; private set; }
+        public string TrackName { get; private set; }
         public TrackMetaDataResponseModel TrackMetaData { get; private set; }
         [Excludable]
         public IReadOnlyList<int> SoundWave100 { get; private set; }
@@ -20,11 +21,12 @@ namespace TFN.Api.Models.ResponseModels
         public IReadOnlyList<int> SoundWave4000 { get; private set; }
         public DateTime Created { get; private set; }
 
-        private TrackResponseModel(Guid id, Guid userId, Uri location,TrackMetaDataResponseModel trackMetaData, IReadOnlyList<int> soundWave, DateTime created, string apiUrl)
+        private TrackResponseModel(Guid id, Guid userId, Uri location, string trackName,TrackMetaDataResponseModel trackMetaData, IReadOnlyList<int> soundWave, DateTime created, string apiUrl)
             : base(GetHref(id,apiUrl), id)
         {
             UserId = userId;
             Location = location;
+            TrackName = trackName;
             TrackMetaData = trackMetaData;
             SoundWave4000 = soundWave;
             SoundWave300 = soundWave.DownSampleTo(300);
@@ -44,6 +46,7 @@ namespace TFN.Api.Models.ResponseModels
                 track.Id,
                 track.UserId,
                 track.Location,
+                track.TrackName,
                 TrackMetaDataResponseModel.From(track.TrackMetaData), 
                 track.SoundWave,
                 track.Created,

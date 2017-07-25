@@ -16,7 +16,7 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
                 dataEntity.TrackUrl,
                 dataEntity.Text,
                 (Genre)Enum.Parse(typeof(Genre), dataEntity.Genre),
-                dataEntity.Tags.ToList().AsReadOnly(),
+                dataEntity.Tags?.ToList().AsReadOnly(),
                 dataEntity.IsActive,
                 dataEntity.Created,
                 dataEntity.Modified);
@@ -28,7 +28,7 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
                 domainEntity.IsActive, domainEntity.Created, domainEntity.Modified)
             {
                 TrackUrl = domainEntity.TrackUrl,
-                Tags = domainEntity.Tags.ToList(),
+                Tags = domainEntity.Tags?.ToList(),
                 Genre = domainEntity.Genre.ToString(),
             };
         }

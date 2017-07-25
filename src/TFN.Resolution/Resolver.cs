@@ -135,6 +135,7 @@ namespace TFN.Resolution
                     .AddScopePolicy("posts.delete")
                     .AddScopePolicy("tracks.read")
                     .AddScopePolicy("tracks.write")
+                    .AddScopePolicy("tracks.edit")
                     .AddScopePolicy("tracks.delete")
                     .AddScopePolicy("credits.write")
                     .AddScopePolicy("credits.edit")

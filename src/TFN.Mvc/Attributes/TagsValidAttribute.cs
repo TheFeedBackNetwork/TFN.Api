@@ -12,7 +12,7 @@ namespace TFN.Mvc.Attributes
 
             if (tags == null)
             {
-                return false;
+                return true;
             }
 
             if (tags.Any(x => !IsUrlSafe(x)))
