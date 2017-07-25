@@ -20,20 +20,21 @@ namespace TFN.UnitTests.Libraries.Authorization
         private static Guid InvalidUserIdDefault => new Guid("38c6ba6a-ac08-4389-8112-727a7825b159");
         private static Uri LocationDefault = new Uri("http://lol.com/lol");
         private static Guid TrackIdDefault = new Guid("ff169f0f-b9e6-446d-a0e8-54db590d3836");
+        private static string TrackNameDefault = "foo";
         private static Guid UserIdDefault = new Guid("2a2c9a98-1853-4405-b41e-ca589a7c243e");
         public static TrackMetaData TrackMetaDataDefault = TrackMetaData.From(1, 1, 1, 1, 1, 1, 1);
         private static IReadOnlyList<int> SoundWaveDefault = Enumerable.Range(1, 4000).ToList();
         private static DateTime CreatedDefault = new DateTime(2016, 4, 4, 5, 4, 4);
 
-        public Track make_Track(Guid id, Guid userId, Uri location, IReadOnlyList<int> soundWave, TrackMetaData metaData,
+        public Track make_Track(Guid id, Guid userId, Uri location, string trackName, IReadOnlyList<int> soundWave, TrackMetaData metaData,
             DateTime created)
         {
-            return Track.Hydrate(id, userId, location, soundWave, metaData, created);
+            return Track.Hydrate(id, userId, location, trackName, soundWave, metaData, created);
         }
 
         public Track make_TrackDefault()
         {
-            return make_Track(TrackIdDefault, UserIdDefault, LocationDefault, SoundWaveDefault, TrackMetaDataDefault,
+            return make_Track(TrackIdDefault, UserIdDefault, LocationDefault, TrackNameDefault, SoundWaveDefault, TrackMetaDataDefault,
                 CreatedDefault);
         }
 

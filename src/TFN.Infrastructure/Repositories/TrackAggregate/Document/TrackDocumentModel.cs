@@ -24,6 +24,9 @@ namespace TFN.Infrastructure.Repositories.TrackAggregate.Document
         [JsonProperty(PropertyName = "location")]
         public string Location { get; set; }
 
+        [JsonProperty(PropertyName = "trackName")]
+        public string TrackName { get; set; }
+
         [JsonProperty(PropertyName = "userId")]
         public Guid UserId { get; set; }
 

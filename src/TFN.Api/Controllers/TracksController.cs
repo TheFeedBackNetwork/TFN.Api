@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using TFN.Api.Controllers.Base;
+using TFN.Api.Models.InputModels;
 using TFN.Api.Models.Interfaces;
 using TFN.Api.Models.ResponseModels;
 using TFN.Domain.Interfaces.Repositories;
@@ -65,9 +66,28 @@ namespace TFN.Api.Controllers
                 return NotFound();
             }
 
-            var model = TrackResponseModel.From(track, AbsoluteUri);
+
+            var model = TrackResponseModelFactory.From(track, AbsoluteUri);
 
             return Json(model);
+        }
+
+        [HttpGet("{trackId:Guid}", Name = "GetTrack")]
+        [Authorize("tracks.edit")]
+        public async Task<IActionResult> PatchTrack(Guid trackId,[FromBody]TrackInputModel input)
+        {
+            var track = await TrackRepository.Find(trackId);
+
+            if (track == null)
+            {
+                return NotFound();
+            }
+
+            track.ChangeTrackName(input.TrackName);
+
+            await TrackRepository.Update(track);
+
+            return NoContent();
         }
 
         [HttpPost(Name = "PostTrack")]
@@ -103,7 +123,7 @@ namespace TFN.Api.Controllers
                     {
                         var supportedTypes = Configuration["SupportedMedia"].Split(' ');
                         var format = fileName.Split('.').Last();
-
+                        var trackName = fileName.Split('.').First();
                         if (supportedTypes.All(x => x != format))
                         {
                             return BadRequest($"Expected media types {supportedTypes} but got '{format}'.");
@@ -159,8 +179,8 @@ namespace TFN.Api.Controllers
                             metaData.Properties.Duration.TotalHours, metaData.Properties.Duration.TotalMinutes,
                             metaData.Properties.Duration.TotalMilliseconds, metaData.Properties.Duration.Ticks);
 
-                        var track = new Track(resourceId,UserId,processedUri,waveFormData,trackMetaData, DateTime.UtcNow);
-
+                        var track = new Track(resourceId,UserId,processedUri,trackName,waveFormData,trackMetaData, DateTime.UtcNow);
+                           
                         await TrackRepository.Add(track);
 
                         var model = TrackResponseModelFactory.From(track, AbsoluteUri);
