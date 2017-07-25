@@ -43,6 +43,7 @@ namespace TFN.Infrastructure.Repositories.UserAccountAggregate.Document
                 NormalizedUsername = domainEntity.NormalizedUsername,
                 Email = domainEntity.Email,
                 NormalizedEmail = domainEntity.NormalizedEmail,
+                ProfilePictureUrl = domainEntity.ProfilePictureUrl,
                 FullName = domainEntity.FullName,
                 HashedPassword = domainEntity.HashedPassword,
                 ChangePasswordKey = domainEntity.ChangePasswordKey,

@@ -103,7 +103,8 @@ namespace TFN.Api
             services.AddSingleton<IAggregateCache<Track>, AggregateCache<Track>>();
             services.AddSingleton<IAggregateCache<Score>, AggregateCache<Score>>();
 
-
+            services.AddSingleton<IAggregateCache<UserAccount>, AggregateCache<UserAccount>>();
+            
             services.AddMvc()
                 .AddMvcOptions(options =>
                 {
