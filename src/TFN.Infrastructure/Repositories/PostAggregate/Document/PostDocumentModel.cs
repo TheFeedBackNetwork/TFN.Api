@@ -27,6 +27,9 @@ namespace TFN.Infrastructure.Repositories.PostAggregate.Document
         [JsonProperty(PropertyName = "trackUrl")]
         public string TrackUrl { get; set; }
 
+        [JsonProperty(PropertyName = "trackName")]
+        public string TrackName { get; set; }
+
         [JsonProperty(PropertyName = "tags")]
         public ICollection<string> Tags { get; set; }
 

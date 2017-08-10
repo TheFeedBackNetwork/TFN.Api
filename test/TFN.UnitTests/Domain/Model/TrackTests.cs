@@ -23,7 +23,7 @@ namespace TFN.UnitTests.Domain.Model
         public Track make_Track(Guid id, Guid userId, Uri location, string trackName, IReadOnlyList<int> soundWave, TrackMetaData metaData,
             DateTime created)
         {
-            return Track.Hydrate(id, userId, location, trackName, soundWave, metaData, created);
+            return Track.Hydrate(id, userId, location, soundWave, metaData, created);
         }
 
         public Track make_Track(IReadOnlyList<int> waveForm)

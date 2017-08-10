@@ -14,7 +14,6 @@ namespace TFN.Infrastructure.Repositories.TrackAggregate.Document
                 dataEntity.Id,
                 dataEntity.UserId,
                 new Uri(dataEntity.Location),
-                dataEntity.TrackName,
                 dataEntity.SoundWave.ToList().AsReadOnly(),
                 CreatePartialFrom(dataEntity.TrackMetaData),
                 dataEntity.Created
@@ -27,7 +26,6 @@ namespace TFN.Infrastructure.Repositories.TrackAggregate.Document
             {
                 Location = domainEntity.Location.OriginalString,
                 SoundWave = domainEntity.SoundWave.ToList(),
-                TrackName = domainEntity.TrackName,
                 TrackMetaData = new TrackMetaDataDocumentModel
                 {
                     Hours = domainEntity.TrackMetaData.Hours,

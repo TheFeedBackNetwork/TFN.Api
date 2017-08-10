@@ -20,6 +20,7 @@ namespace TFN.UnitTests.Libraries.Authorization
         private static Guid PostIdDefault = new Guid("86bcf89b-6847-4c5d-bcc5-87b69d775e3f");
         private static string PostUserNameDefault = "FooBar";
         private static string TrackUrlDefault = "http://soundcloud.com/foo/bar";
+        private static string TrackNameDefault = "foo";
         private static IReadOnlyList<string> TagsDefault = new List<string> { "foo", "bar" };
         private static Genre GenreDefault = Genre.Ambient;
         private static Guid UserIdDefault = new Guid("799dca00-ef0f-4f8e-9bd3-5a4cff9ee07e");
@@ -29,14 +30,14 @@ namespace TFN.UnitTests.Libraries.Authorization
         private static DateTime CreatedDefault = new DateTime(2016, 4, 4, 5, 4, 4);
         private static DateTime ModifiedDefault = new DateTime(2016, 4, 4, 5, 5, 5);
 
-        public Post make_Post(Guid id, Guid userId, string username, string trackUrl, string text, Genre genre, IReadOnlyList<string> tags, IReadOnlyList<Comment> comments, bool isActive, DateTime created, DateTime modified)
+        public Post make_Post(Guid id, Guid userId, string username, string trackUrl, string trackName, string text, Genre genre, IReadOnlyList<string> tags, IReadOnlyList<Comment> comments, bool isActive, DateTime created, DateTime modified)
         {
-            return Post.Hydrate(id, userId, trackUrl, text, genre, tags, isActive, created, modified);
+            return Post.Hydrate(id, userId, trackUrl, trackName, text, genre, tags, isActive, created, modified);
         }
 
         public Post make_PostDefault()
         {
-            return make_Post(PostIdDefault, UserIdDefault, PostUserNameDefault, TrackUrlDefault, TextDefault,
+            return make_Post(PostIdDefault, UserIdDefault, PostUserNameDefault, TrackUrlDefault, TrackNameDefault, TextDefault,
                 GenreDefault, TagsDefault, CommentsDefault, IsActiveDefault, CreatedDefault, ModifiedDefault);
         }
 

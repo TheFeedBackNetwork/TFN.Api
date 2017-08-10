@@ -288,7 +288,7 @@ namespace TFN.Api.Controllers
             {
                 return BadRequest();
             }
-            var entity = new Post(UserId, post.TrackUrl, post.Text,genre,post.Tags);
+            var entity = new Post(UserId, post.TrackUrl, post.TrackName, post.Text,genre,post.Tags);
 
             var credits = await CreditService.FindByUserId(UserId);
             if (credits == null)
@@ -449,7 +449,7 @@ namespace TFN.Api.Controllers
                 return new HttpForbiddenResult("A PATCH request for ammending a post resource was attempted, but the authorization policy challenged the request.");
             }
 
-            var editedPost = Post.EditPost(post, model.Text, model.TrackUrl, model.Tags, genre);
+            var editedPost = Post.EditPost(post, model.Text, model.TrackUrl, model.TrackName, model.Tags, genre);
 
             await PostRepository.Update(editedPost);
 

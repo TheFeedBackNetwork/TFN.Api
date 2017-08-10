@@ -14,6 +14,10 @@ namespace TFN.Api.Models.InputModels
         [MinLength(10)]
         public string TrackUrl { get; set; }
 
+        [Required]
+        [MinLength(2)]
+        public string TrackName { get; set; }
+
         [TagsValid(ErrorMessage = "One or more of tags specified are not URL safe.")]
         public IReadOnlyList<string> Tags { get; set; }
 
