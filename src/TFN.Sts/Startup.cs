@@ -104,7 +104,7 @@ namespace TFN.Sts
             services.AddSingleton<IAggregateCache<Like>, AggregateCache<Like>>();
             services.AddSingleton<IAggregateCache<Post>, AggregateCache<Post>>();
             services.AddSingleton<IAggregateCache<Track>, AggregateCache<Track>>();
-            services.AddSingleton<IAggregateCache<Score>, AggregateCache<Score>>();
+             services.AddSingleton<IAggregateCache<Score>, AggregateCache<Score>>();
 
             if (HostingEnvironment.IsLocal())
             {

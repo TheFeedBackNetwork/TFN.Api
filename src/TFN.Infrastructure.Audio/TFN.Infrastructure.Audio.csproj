@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.DocumentDB" Version="1.19.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Resources\ffmpeg.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
