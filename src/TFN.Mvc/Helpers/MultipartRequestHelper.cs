@@ -9,7 +9,7 @@ namespace TFN.Mvc.Helpers
         public static string GetBoundary(MediaTypeHeaderValue contentType, int lengthLimit)
         {
             var boundary = HeaderUtilities.RemoveQuotes(contentType.Boundary);
-            if (string.IsNullOrWhiteSpace(boundary))
+            if (string.IsNullOrWhiteSpace(boundary.Value))
             {
                 throw new InvalidDataException("Missing content-type boundary.");
             }
@@ -20,7 +20,7 @@ namespace TFN.Mvc.Helpers
                     $"Multipart boundary length limit {lengthLimit} exceeded.");
             }
 
-            return boundary;
+            return boundary.Value;
         }
 
         public static bool IsMultipartContentType(string contentType)
@@ -33,16 +33,16 @@ namespace TFN.Mvc.Helpers
         {
             return contentDisposition != null
                 && contentDisposition.DispositionType.Equals("form-data")
-                && string.IsNullOrEmpty(contentDisposition.FileName)
-                && string.IsNullOrEmpty(contentDisposition.FileNameStar);
+                && string.IsNullOrEmpty(contentDisposition.FileName.Value)
+                && string.IsNullOrEmpty(contentDisposition.FileNameStar.Value);
         }
 
         public static bool HasFileContentDisposition(ContentDispositionHeaderValue contentDisposition)
         {
             return contentDisposition != null
                 && contentDisposition.DispositionType.Equals("form-data")
-                && (!string.IsNullOrEmpty(contentDisposition.FileName)
-                || !string.IsNullOrEmpty(contentDisposition.FileNameStar));
+                && (!string.IsNullOrEmpty(contentDisposition.FileName.Value)
+                || !string.IsNullOrEmpty(contentDisposition.FileNameStar.Value));
         }
     }
 }

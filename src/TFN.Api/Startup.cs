@@ -57,10 +57,12 @@ namespace TFN.Api
                      env.EnvironmentName,
                      LogLevel.Error);
             }
-            
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+
             var logger = loggerFactory.CreateLogger<Startup>();
             logger.LogInformation("TFN.Api application is starting.");
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            
         }
 
         

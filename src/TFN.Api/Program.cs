@@ -13,6 +13,7 @@ namespace TFN.Api
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseWebRoot(Directory.GetCurrentDirectory() + "/wwwroot")
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()

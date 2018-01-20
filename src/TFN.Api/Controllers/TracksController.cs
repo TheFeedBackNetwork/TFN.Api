@@ -35,7 +35,7 @@ namespace TFN.Api.Controllers
         public ITrackProcessingComponent TrackProcessingComponent { get; private set; }
         public ITrackRepository TrackRepository { get; private set; }
         public ITrackResponseModelFactory TrackResponseModelFactory { get; private set; }
-        public ILogger Logger { get; private set; }
+        public ILogger<TracksController> Logger { get; private set; }
         // Get the default form options so that we can use them to set the default limits for
         // request body data
         private static readonly FormOptions DefaultFormOptions = new FormOptions();
@@ -98,8 +98,8 @@ namespace TFN.Api.Controllers
 
                 if (MultipartRequestHelper.HasFileContentDisposition(contentDisposition))
                 {
-                    /*var name = HeaderUtilities.RemoveQuotes(contentDisposition.Name) ?? string.Empty;
-                    var fileName = HeaderUtilities.RemoveQuotes(contentDisposition.FileName) ?? string.Empty;
+                    var name = HeaderUtilities.RemoveQuotes(contentDisposition.Name).Value ?? string.Empty;
+                    var fileName = HeaderUtilities.RemoveQuotes(contentDisposition.FileName).Value ?? string.Empty;
 
                     if (name.Equals("track", StringComparison.CurrentCultureIgnoreCase))
                     {
@@ -167,7 +167,7 @@ namespace TFN.Api.Controllers
                         var model = TrackResponseModelFactory.From(track, AbsoluteUri);
 
                         return CreatedAtAction("GetTrack", new {trackId = model.Id}, model);
-                    }*/
+                    }
 
                 }
                 else if (MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition))
