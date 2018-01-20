@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using TFN.Mvc.Constants;
@@ -35,7 +36,7 @@ namespace TFN.Sts.UI.SignOut
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignOut(SignOutViewModel model)
         {
-            await HttpContext.Authentication.SignOutAsync();
+            await HttpContext.SignOutAsync();
 
             HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
 

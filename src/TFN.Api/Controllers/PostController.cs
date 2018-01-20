@@ -282,7 +282,7 @@ namespace TFN.Api.Controllers
         {
             var genre = Genre.Other;
             var parsed = Enum.TryParse(post.Genre.ToString(), out genre);
-
+            AuthorizationResult authZResult = null;
 
             if (!parsed)
             {
@@ -299,14 +299,18 @@ namespace TFN.Api.Controllers
 
             var creditAuthZModel = CreditsAuthorizationModel.From(credits);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, creditAuthZModel, CreditsOperations.Delete))
+            authZResult =
+                await AuthorizationService.AuthorizeAsync(User, creditAuthZModel, CreditsOperations.Delete);
+
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("An attempt to use up credits was attempted, but the authorization policy challenged the request");
             }
 
             var authZModel = PostAuthorizationModel.From(entity);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, PostOperations.Write))
+            authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, PostOperations.Write);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("A POST request for adding a new post resource was attempted, but the authorization policy challenged the request.");
             }
@@ -341,7 +345,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = LikeAuthorizationModel.From(like, post.UserId);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, LikeOperations.Write))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, LikeOperations.Write);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("A POST request for adding a new like resource was attempted, but the authorization policy challenged the request.");
             }
@@ -371,7 +376,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = CommentAuthorizationModel.From(entity);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, CommentOperations.Write))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, CommentOperations.Write);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("A POST request for adding a new post comment resource was attempted, but the authorization policy challenged the request.");
             }
@@ -408,7 +414,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = ScoreAuthorizationModel.From(entity, comment.UserId);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, ScoreOperations.Write))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, ScoreOperations.Write);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("A POST request for adding a new comment score resource was attempted, but the authorization policy challenged the request.");
             }
@@ -444,7 +451,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = PostAuthorizationModel.From(post);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, PostOperations.Edit))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, PostOperations.Edit);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("A PATCH request for ammending a post resource was attempted, but the authorization policy challenged the request.");
             }
@@ -473,7 +481,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = CommentAuthorizationModel.From(comment);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, CommentOperations.Edit))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, CommentOperations.Edit);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("A PATCH request for ammending a comment resource was attempted, but the authorization policy challenged the request.");
             }
@@ -496,7 +505,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = PostAuthorizationModel.From(post);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, PostOperations.Delete))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, PostOperations.Delete);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("A DELETE request for deleting a post resource was attempted, but the authorization policy challenged the request.");
             }
@@ -519,7 +529,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = LikeAuthorizationModel.From(like,post.UserId);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, LikeOperations.Delete))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, LikeOperations.Delete);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("A DELETE request for deleting a post resource was attempted, but the authorization policy challenged the request.");
             }
@@ -541,7 +552,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = CommentAuthorizationModel.From(comment);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, CommentOperations.Delete))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, CommentOperations.Delete);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("A DELETE request for deleting a post's comment resource was attempted, but the authorization policy challenged the request.");
             }
@@ -563,7 +575,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = ScoreAuthorizationModel.From(score,score.CommentId);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, ScoreOperations.Delete))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, ScoreOperations.Delete);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("A DELETE request for deleting a score resource was attempted, but the authorization policy challenged the request.");
             }

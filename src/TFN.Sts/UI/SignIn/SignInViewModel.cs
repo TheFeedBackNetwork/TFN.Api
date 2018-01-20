@@ -8,12 +8,12 @@ namespace TFN.Sts.UI.SignIn
     {
         public SignInViewModel(HttpContext httpContext)
         {
-            ExternalProviders = httpContext.Authentication.GetAuthenticationSchemes()
+            /*ExternalProviders = httpContext.Authentication.GetAuthenticationSchemes()
                 .Where(x => x.DisplayName != null)
                 .Select(x => new ExternalProvider {
                     DisplayName = x.DisplayName,
                     AuthenticationScheme = x.AuthenticationScheme
-                });
+                });*/
         }
 
         public SignInViewModel(HttpContext httpContext, SignInInputModel other)

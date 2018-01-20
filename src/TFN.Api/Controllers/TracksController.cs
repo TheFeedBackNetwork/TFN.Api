@@ -98,7 +98,7 @@ namespace TFN.Api.Controllers
 
                 if (MultipartRequestHelper.HasFileContentDisposition(contentDisposition))
                 {
-                    var name = HeaderUtilities.RemoveQuotes(contentDisposition.Name) ?? string.Empty;
+                    /*var name = HeaderUtilities.RemoveQuotes(contentDisposition.Name) ?? string.Empty;
                     var fileName = HeaderUtilities.RemoveQuotes(contentDisposition.FileName) ?? string.Empty;
 
                     if (name.Equals("track", StringComparison.CurrentCultureIgnoreCase))
@@ -167,7 +167,7 @@ namespace TFN.Api.Controllers
                         var model = TrackResponseModelFactory.From(track, AbsoluteUri);
 
                         return CreatedAtAction("GetTrack", new {trackId = model.Id}, model);
-                    }
+                    }*/
 
                 }
                 else if (MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition))
@@ -191,7 +191,7 @@ namespace TFN.Api.Controllers
                     {
                         // The value length limit is enforced by MultipartBodyLengthLimit
                         var value = await streamReader.ReadToEndAsync();
-                        formAccumulator.Append(key, value);
+                        formAccumulator.Append(key.ToString(), value);
 
                         if (formAccumulator.ValueCount > DefaultFormOptions.ValueCountLimit)
                         {

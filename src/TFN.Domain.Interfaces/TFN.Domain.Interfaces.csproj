@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net471</TargetFramework>
     <AssemblyName>TFN.Domain.Interfaces</AssemblyName>
     <PackageId>TFN.Domain.Interfaces</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityServer4" Version="1.5.2" />
+    <PackageReference Include="IdentityServer4" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using TFN.Sts.UI.Base;
@@ -58,7 +60,8 @@ namespace TFN.Sts.UI.SignIn
                 if (await UserService.ValidateCredentials(model.Username, model.Password))
                 {
                     var user = await UserService.Find(model.Username, model.Password);
-                    await HttpContext.Authentication.SignInAsync(user.Id.ToString(), user.Username);
+
+                    await HttpContext.SignInAsync(user.Id.ToString(), user.Username);
 
                     if (Interaction.IsValidReturnUrl(model.ReturnUrl))
                     {
@@ -77,7 +80,7 @@ namespace TFN.Sts.UI.SignIn
         }
 
         //was account/external && returnUrl was /account/externalcallback?
-        [HttpGet]
+        /*[HttpGet]
         [Route(RoutePaths.SignInUrl + "/external", Name = "ExternalSignIn")]
         public IActionResult External(string provider, string returnUrl)
         {
@@ -92,7 +95,7 @@ namespace TFN.Sts.UI.SignIn
             {
                 RedirectUri = returnUrl
             });
-        }
+        }*/
 
         /// <summary>
         /// Post processing of external authentication
@@ -102,14 +105,15 @@ namespace TFN.Sts.UI.SignIn
         public async Task<IActionResult> ExternalCallback(string returnUrl)
         {
             // read external identity from the temporary cookie
-            var tempUser = await HttpContext.Authentication.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
-            if (tempUser == null)
+            var tempUser = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
+            if (!tempUser.Succeeded)
             {
                 throw new Exception("External authentication error");
             }
+            
 
             // retrieve claims of the external user
-            var claims = tempUser.Claims.ToList();
+            var claims = tempUser.Principal.Claims.ToList();
 
             // try to determine the unique id of the external user - the most common claim type for that are the sub claim and the NameIdentifier
             // depending on the external provider, some other claim type might be used
@@ -148,10 +152,11 @@ namespace TFN.Sts.UI.SignIn
             }
 
             // issue authentication cookie for user
-            await HttpContext.Authentication.SignInAsync(user.Id.ToString(), user.Username, provider, additionalClaims.ToArray());
+            //await HttpContext.Authentication.SignInAsync(user.Id.ToString(), user.Username, provider, additionalClaims.ToArray());
+            await HttpContext.SignInAsync(user.Id.ToString(), user.Username, provider, additionalClaims.ToArray());
 
             // delete temporary cookie used during external authentication
-            await HttpContext.Authentication.SignOutAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
+            await HttpContext.SignOutAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
 
             // validate return URL and redirect back to authorization endpoint
             if (Interaction.IsValidReturnUrl(returnUrl))

@@ -41,7 +41,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = CreditsAuthorizationModel.From(credit);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, CreditsOperations.Read))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, CreditsOperations.Read);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("An attempt to read credits was attempted, but the authorization policy challenged the request");
             }
@@ -64,7 +65,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = CreditsAuthorizationModel.From(credit);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, CreditsOperations.Read))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, CreditsOperations.Read);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("An attempt to read credits was attempted, but the authorization policy challenged the request");
             }
@@ -87,7 +89,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = CreditsAuthorizationModel.From(credit);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, CreditsOperations.Read))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, CreditsOperations.Read);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("An attempt to read credits was attempted, but the authorization policy challenged the request");
             }
@@ -110,7 +113,8 @@ namespace TFN.Api.Controllers
 
             var authZModel = CreditsAuthorizationModel.From(credit);
 
-            if (!await AuthorizationService.AuthorizeAsync(User, authZModel, CreditsOperations.Edit))
+            var authZResult = await AuthorizationService.AuthorizeAsync(User, authZModel, CreditsOperations.Edit);
+            if (!authZResult.Succeeded)
             {
                 return new HttpForbiddenResult("An attempt to read credits was attempted, but the authorization policy challenged the request");
             }

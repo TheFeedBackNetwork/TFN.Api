@@ -34,9 +34,7 @@ namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document
 
         [JsonProperty(PropertyName = "logoUri")]
         public string LogoUri { get; set; }
-
-        [JsonProperty(PropertyName = "logoutUri")]
-        public string LogoutUri { get; set; }
+        
 
         [JsonProperty(PropertyName = "protocolType")]
         public string ProtocolType { get; set; } = IdentityServer4.IdentityServerConstants.ProtocolTypes.OpenIdConnect;
@@ -46,6 +44,9 @@ namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document
 
         [JsonProperty(PropertyName = "requireConsent")]
         public bool RequireConsent { get; set; } = false;
+
+        [JsonProperty(PropertyName = "consentLifeTime")]
+        public int? ConsentLifetime { get; set; } = null;
 
         [JsonProperty(PropertyName = "requireClientSecret")]
         public bool RequireClientSecret { get; set; }
@@ -59,9 +60,18 @@ namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document
         [JsonProperty(PropertyName = "allowAccessTokenViaBrowser")]
         public bool AllowAccessTokensViaBrowser { get; set; } = true;
 
-        [JsonProperty(PropertyName = "logoutSessionRequired")]
-        public bool LogoutSessionRequired { get; set; } = true;
+        [JsonProperty(PropertyName = "frontChannelLogoutUri")]
+        public string FrontChannelLogoutUri { get; set; }
 
+        [JsonProperty(PropertyName = "frontChannelogoutSessionRequired")]
+        public bool FrontChannelLogoutSessionRequired { get; set; } = true;
+
+        [JsonProperty(PropertyName = "backChannelLogoutUri")]
+        public string BackChannelLogoutUri { get; set; }
+
+        [JsonProperty(PropertyName = "backChannelLogoutSessionRequired")]
+        public bool BackChannelLogoutSessionRequired { get; set; } = true;
+        
         [JsonProperty(PropertyName = "allowRememberConsent")]
         public bool AllowRememberConsent { get; set; } = true;
 
@@ -69,7 +79,7 @@ namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document
         public bool AllowOfflineAccess { get; set; }
 
         [JsonProperty(PropertyName = "updateAccessTokenClaimsOnRefresh")]
-        public bool UpdateAccessTokenClaimsOnRefresh { get; set; }
+        public bool UpdateAccessTokenClaimsOnRefresh { get; set; } = true;
 
         [JsonProperty(PropertyName = "enableLocalLogin")]
         public bool EnableLocalLogin { get; set; }
@@ -80,8 +90,14 @@ namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document
         [JsonProperty(PropertyName = "alwaysSendClientClaims")]
         public bool AlwaysSendClientClaims { get; set; } = true;
 
-        [JsonProperty(PropertyName = "prefixClientClaims")]
-        public bool PrefixClientClaims { get; set; } = true;
+        [JsonProperty(PropertyName = "clientClaimsPrefix")]
+        public string ClientClaimsPrefix { get; set; } = "client_";
+
+        [JsonProperty(PropertyName = "alwaysIncludeUserClaimsInIdToken")]
+        public bool AlwaysIncludeUserClaimsInIdToken { get; set; } = false;
+
+        [JsonProperty(PropertyName = "pairWiseSubjectSalt")]
+        public string PairWiseSubjectSalt { get; set; }
 
         [JsonProperty(PropertyName = "identityTokenLifetime")]
         public int IdentityTokenLifetime { get; set; } = 300;
@@ -118,7 +134,7 @@ namespace TFN.Infrastructure.Repositories.ApplicationClientAggregate.Document
 
         [JsonProperty(PropertyName = "postLogoutRedirectUris")]
         public ICollection<string> PostLogoutRedirectUris { get; set; }
-
+        
         [JsonProperty(PropertyName = "allowedScopes")]
         public ICollection<string> AllowedScopes { get; set; } = new List<string>();
 
