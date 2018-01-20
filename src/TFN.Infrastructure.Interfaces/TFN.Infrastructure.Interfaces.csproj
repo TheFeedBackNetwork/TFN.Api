@@ -4,4 +4,8 @@
     <TargetFramework>net471</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="CSCore.Ffmpeg" Version="1.2.0-beta1" />
+  </ItemGroup>
+
 </Project>

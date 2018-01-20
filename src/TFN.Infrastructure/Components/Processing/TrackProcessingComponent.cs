@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
+using CSCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -110,6 +112,35 @@ namespace TFN.Infrastructure.Components
                 }
             }
             return bmp;
+        }
+
+
+
+
+
+        public Task<IWaveSource> GetWaveSourceAsync(Uri trackUri)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IWaveSource> GetWaveSourceAsync(Stream trackStream)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IReadOnlyList<int>> GetSoundWaveAsync(IWaveSource track)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Stream> TranscodeAudioAsync(IWaveSource track)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> TranscodeAudioAsync(IWaveSource track, string fileName)
+        {
+            throw new NotImplementedException();
         }
     }
 }
