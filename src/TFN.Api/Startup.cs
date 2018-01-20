@@ -28,6 +28,7 @@ namespace TFN.Api
 {
     public class Startup
     {
+        
         public IConfiguration Configuration { get; }
         public IHostingEnvironment HostingEnvironment { get; set; }
 
@@ -38,17 +39,9 @@ namespace TFN.Api
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-
-            if (env.IsLocal())
-            {
-                builder.AddUserSecrets("tfn-local");
-
-                loggerFactory
-                    .AddConsole()
-                    .AddDebug();
-            }
-
+            
             Configuration = builder.Build();
+            HostingEnvironment = env;
 
             if (!env.IsLocal())
             {
@@ -64,11 +57,10 @@ namespace TFN.Api
                      env.EnvironmentName,
                      LogLevel.Error);
             }
-
-            HostingEnvironment = env;
-
+            
             var logger = loggerFactory.CreateLogger<Startup>();
             logger.LogInformation("TFN.Api application is starting.");
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         
@@ -130,11 +122,12 @@ namespace TFN.Api
 
             services
                 .AddAuthentication("Bearer")
-                .AddJwtBearer(options =>
+                .AddJwtBearer("Bearer", options =>
                 {
                     options.Authority = Configuration["Authorization:Authority"];
                     options.Audience = Configuration["Authorization:Audience"];
                     options.RequireHttpsMetadata = false;
+                    
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         NameClaimType = JwtClaimTypes.PreferredUserName,
@@ -165,6 +158,7 @@ namespace TFN.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceScopeFactory scopeFactory)
         {
             app.UseCors("CorsPolicy");
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             app.UseAuthentication();
             
 
