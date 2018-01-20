@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Threading.Tasks;
 using IdentityModel;
+using IdentityServer4;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,16 +15,12 @@ using Newtonsoft.Json.Serialization;
 using TFN.Api.Filters.ActionFilters;
 using TFN.Api.Models.Factories;
 using TFN.Api.Models.Interfaces;
-using TFN.Domain.Interfaces.Repositories;
 using TFN.Domain.Models.Entities;
 using TFN.Infrastructure.Architecture.Caching.Aggregate;
 using TFN.Infrastructure.Architecture.Caching.Base;
-using TFN.Infrastructure.Architecture.Repositories.Document;
 using TFN.Infrastructure.Components;
 using TFN.Infrastructure.Interfaces.Modules;
 using TFN.Infrastructure.Modules.Logging;
-using TFN.Infrastructure.Repositories.CreditsAggregate.Document;
-using TFN.Infrastructure.Repositories.UserAccountAggregate.Document;
 using TFN.Mvc.Extensions;
 using TFN.Resolution;
 
@@ -31,6 +28,7 @@ namespace TFN.Api
 {
     public class Startup
     {
+        
         public IConfiguration Configuration { get; }
         public IHostingEnvironment HostingEnvironment { get; set; }
 
@@ -41,17 +39,9 @@ namespace TFN.Api
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-
-            if (env.IsLocal())
-            {
-                builder.AddUserSecrets("tfn-local");
-
-                loggerFactory
-                    .AddConsole()
-                    .AddDebug();
-            }
-
+            
             Configuration = builder.Build();
+            HostingEnvironment = env;
 
             if (!env.IsLocal())
             {
@@ -67,11 +57,10 @@ namespace TFN.Api
                      env.EnvironmentName,
                      LogLevel.Error);
             }
-
-            HostingEnvironment = env;
-
+            
             var logger = loggerFactory.CreateLogger<Startup>();
             logger.LogInformation("TFN.Api application is starting.");
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         
@@ -105,7 +94,8 @@ namespace TFN.Api
 
             services.AddSingleton<IAggregateCache<UserAccount>, AggregateCache<UserAccount>>();
             
-            services.AddMvc()
+            services
+                .AddMvc()
                 .AddMvcOptions(options =>
                 {
                     options.Filters.Add(typeof(ValidateModelFilterAttribute));
@@ -130,6 +120,21 @@ namespace TFN.Api
                 });
             });
 
+            services
+                .AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = Configuration["Authorization:Authority"];
+                    options.Audience = Configuration["Authorization:Audience"];
+                    options.RequireHttpsMetadata = false;
+                    
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = JwtClaimTypes.PreferredUserName,
+                        RoleClaimType = JwtClaimTypes.Role,
+                    };
+                });
+            
             if (!HostingEnvironment.IsLocal())
             {
                 TelemetryConfiguration.Active.DisableTelemetry = false;
@@ -153,22 +158,10 @@ namespace TFN.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceScopeFactory scopeFactory)
         {
             app.UseCors("CorsPolicy");
-
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
-            {
-                Authority = Configuration["Authorization:Authority"],
-                Audience = Configuration["Authorization:Audience"],
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                RequireHttpsMetadata = false,
+            app.UseAuthentication();
+            
 
-                TokenValidationParameters = new TokenValidationParameters
-                {
-                    NameClaimType = JwtClaimTypes.PreferredUserName,
-                    RoleClaimType = JwtClaimTypes.Role,
-                }
-            });
 
             app.Map("/api", api =>
             {

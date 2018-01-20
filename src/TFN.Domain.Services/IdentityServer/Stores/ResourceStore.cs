@@ -44,7 +44,7 @@ namespace TFN.Domain.Services.IdentityServer.Stores
             return identityResources;
         }
 
-        public async Task<Resources> GetAllResources()
+        public async Task<Resources> GetAllResourcesAsync()
         {
             var productIdentityResources = await ProductIdentityResourceRepository.FindAll();
             var productApiResources = await ProductApiResourceRepository.FindAll();

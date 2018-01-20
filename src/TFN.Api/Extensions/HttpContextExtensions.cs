@@ -71,7 +71,6 @@ namespace TFN.Api.Extensions
                 http = "https://";
             }
             return $"{http}localhost:5001";
-            //return $"{http}{context.Request.Host.Value}";
         }
 
         public static UserAgent GetUserAgent(this HttpContext context)

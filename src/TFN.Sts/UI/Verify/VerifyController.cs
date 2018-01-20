@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TFN.Sts.UI.Base;
@@ -80,7 +81,7 @@ namespace TFN.Sts.UI.Verify
             ci.AddClaim(new Claim(JwtClaimTypes.Name,user.Username));
             var cp = new ClaimsPrincipal(ci);
 
-            await HttpContext.Authentication.SignInAsync(
+            await HttpContext.SignInAsync(
                 IdentityServer4.IdentityServerConstants.DefaultCookieAuthenticationScheme, cp);
             
             Logger.LogInformation("User Verified and Logged in");

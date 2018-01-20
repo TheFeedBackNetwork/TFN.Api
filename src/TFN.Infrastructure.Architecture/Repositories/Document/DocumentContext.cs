@@ -22,12 +22,14 @@ namespace TFN.Infrastructure.Architecture.Repositories.Document
             DatabaseName = settings.Value.DatabaseName;
             QueryCursorComponent = queryCursorComponent;
             Logger = logger;
-            DocumentClient = new DocumentClient(settings.Value.DatabaseUri, settings.Value.DatabaseKey, new ConnectionPolicy
+            var productionConnectionPolicy = new ConnectionPolicy
             {
                 MaxConnectionLimit = 100,
                 ConnectionMode = ConnectionMode.Direct,
                 ConnectionProtocol = Protocol.Tcp
-            });
+            };
+            var localConnectionPolicy = new ConnectionPolicy {UserAgentSuffix = "tfn-sts"};
+            DocumentClient = new DocumentClient(settings.Value.DatabaseUri, settings.Value.DatabaseKey, localConnectionPolicy);
 
             DocumentClient.OpenAsync().Wait();
             CreateDatabaseIdNotExist().Wait();

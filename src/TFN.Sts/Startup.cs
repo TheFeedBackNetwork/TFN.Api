@@ -50,19 +50,14 @@ namespace TFN.Sts
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            if (env.IsLocal())
-            {
-                builder.AddUserSecrets("tfn-local");
-
-                loggerFactory
-                    .AddConsole()
-                    .AddDebug();
-            }
+            Configuration = builder.Build();
+            HostingEnvironment = env;
 
             if (!env.IsLocal())
             {
                 loggerFactory.AddAzureWebAppDiagnostics();
 
+                //Need to test this!
                 loggerFactory.AddEmail(
                     Configuration["Logging:Email:SupportEmail"],
                     Configuration["Logging:Email:Username"],
@@ -74,9 +69,7 @@ namespace TFN.Sts
                      LogLevel.Error);
             }
 
-            Configuration = builder.Build();
-            HostingEnvironment = env;
-
+            
             var logger = loggerFactory.CreateLogger<Startup>();
             logger.LogInformation("TFN.Sts application configuration is starting.");
         }
@@ -85,6 +78,7 @@ namespace TFN.Sts
 
         public void ConfigureServices(IServiceCollection services)
         {
+            
             Resolver.RegisterDbContext(services, Configuration);
             Resolver.RegisterTypes(services, Configuration);
 
@@ -97,14 +91,13 @@ namespace TFN.Sts
             services.AddSingleton<IAggregateCache<UserIdentityResource>, AggregateCache<UserIdentityResource>>();
             services.AddSingleton<IAggregateCache<TransientUserAccount>, AggregateCache<TransientUserAccount>>();
             services.AddSingleton<IAggregateCache<UserAccount>, AggregateCache<UserAccount>>();
-
-            //
+            
             services.AddSingleton<IAggregateCache<Comment>, AggregateCache<Comment>>();
             services.AddSingleton<IAggregateCache<TFN.Domain.Models.Entities.Credits>, AggregateCache<TFN.Domain.Models.Entities.Credits>>();
             services.AddSingleton<IAggregateCache<Like>, AggregateCache<Like>>();
             services.AddSingleton<IAggregateCache<Post>, AggregateCache<Post>>();
             services.AddSingleton<IAggregateCache<Track>, AggregateCache<Track>>();
-            services.AddSingleton<IAggregateCache<Score>, AggregateCache<Score>>();
+             services.AddSingleton<IAggregateCache<Score>, AggregateCache<Score>>();
 
             if (HostingEnvironment.IsLocal())
             {

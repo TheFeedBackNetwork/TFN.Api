@@ -7,7 +7,7 @@ namespace TFN.UnitTests.Domain.Model
 {
     public class ScoreTests
     {
-        const string Category = "Score";
+        /*const string Category = "Score";
 
         private static Guid ScoreIdDefault = new Guid("3d17d22b-9b76-4b2a-aecd-5937f018cda6");
         private static Guid CommentIdDefault = new Guid("ff169f0f-b9e6-446d-a0e8-54db590d3836");
@@ -44,6 +44,8 @@ namespace TFN.UnitTests.Domain.Model
         {
             this.Invoking(x => x.make_Score(text))
                 .ShouldThrow<ArgumentException>();
-        }
+        }*/
+
+
     }
 }
